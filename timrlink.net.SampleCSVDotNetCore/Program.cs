@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
@@ -14,6 +15,7 @@ namespace timrlink.net.SampleCSVDotNetCore
 {
     class Program
     {
+        // call with SampleData.csv as argument
         static void Main(string[] args)
         {
             Application application = new ApplicationImpl(args);
@@ -39,6 +41,13 @@ namespace timrlink.net.SampleCSVDotNetCore
 
         public override IConfigurationRoot SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {
+            /*
+            configurationBuilder.AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"timrSync:identifier", "<identifier>"},
+                {"timrSync:token", "<token>"}
+            });
+            */
             configurationBuilder.AddJsonFile("config.json");
 
             var configuration = base.SetupConfiguration(configurationBuilder);
@@ -97,8 +106,8 @@ namespace timrlink.net.SampleCSVDotNetCore
                     {
                         ExternalTaskId = record.Task,
                         ExternalUserId = record.User,
-                        StartTime = DateTime.Parse($"{record.Date} {record.Start}"),
-                        EndTime = DateTime.Parse($"{record.Date} {record.End}"),
+                        StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
+                        EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
                         BreakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
                         Description = record.Notes
                     };

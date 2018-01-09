@@ -1,4 +1,4 @@
-namespace timrlink.net.mautilus
+namespace timrlink.net.SampleCSVDotNetCore
 {
     class CsvRecord
     {

@@ -10,7 +10,7 @@ using Serilog;
 using timrlink.net.Core;
 using timrlink.net.Core.API;
 
-namespace timrlink.net.mautilus
+namespace timrlink.net.SampleCSVDotNetCore
 {
     class Program
     {

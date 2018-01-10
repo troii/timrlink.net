@@ -35,6 +35,18 @@ namespace timrlink.net.Core.Service
             return taskDictionary;
         }
 
+        public void AddTask(API.Task task)
+        {
+            logger.LogInformation($"Adding Task(Name={task.Name}, ExternalId={task.ExternalId})");
+            timrSync.AddTask(new API.AddTaskRequest(task));
+        }
+
+        public void UpdateTask(API.Task task)
+        {
+            logger.LogInformation($"Updating Task(Name={task.Name}, ExternalId={task.ExternalId})");
+            timrSync.UpdateTask(new API.UpdateTaskRequest(task));
+        }
+
         public void SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
         {
             if (equalityComparer == null)

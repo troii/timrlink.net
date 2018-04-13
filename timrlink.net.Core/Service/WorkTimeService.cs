@@ -22,24 +22,24 @@ namespace timrlink.net.Core.Service
             this.logger = loggerFactory.CreateLogger<WorkTimeService>();
         }
 
-        public void SaveWorkTime(WorkTime WorkTime)
+        public void SaveWorkTime(WorkTime workTime)
         {
             try
             {
-                logger.LogInformation($"Saving WorkTime(ExternalUserId={WorkTime.ExternalUserId}, ExternalWorkItemId={WorkTime.ExternalWorkItemId}, Description={WorkTime.Description}, Start={WorkTime.StartTime}, End={WorkTime.EndTime}");
-                timrSync.SaveWorkTime(new SaveWorkTimeRequest(WorkTime));
+                logger.LogInformation($"Saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}");
+                timrSync.SaveWorkTime(new SaveWorkTimeRequest(workTime));
             }
             catch (Exception e)
             {
-                logger.LogError(new EventId(), e, $"Failed saving WorkTime(ExternalUserId={WorkTime.ExternalUserId}, ExternalWorkItemId={WorkTime.ExternalWorkItemId}, Description={WorkTime.Description}, Start={WorkTime.StartTime}, End={WorkTime.EndTime}");
+                logger.LogError(new EventId(), e, $"Failed saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}");
             }
         }
 
-        public void SaveWorkTimes(IEnumerable<WorkTime> WorkTimes)
+        public void SaveWorkTimes(IEnumerable<WorkTime> workTimes)
         {
-            foreach (var WorkTime in WorkTimes)
+            foreach (var workTime in workTimes)
             {
-                SaveWorkTime(WorkTime);
+                SaveWorkTime(workTime);
             }
         }
     }

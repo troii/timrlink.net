@@ -34,6 +34,7 @@ namespace timrlink.net.Core
             serviceProvider = new ServiceCollection()
                 .AddLogging()
                 .AddScoped<ITaskService, TaskService>()
+                .AddScoped<IWorkTimeService, WorkTimeService>()
                 .AddScoped<IProjectTimeService, ProjectTimeService>()
                 .AddSingleton(BindTimrSync(Configuration))
                 .BuildServiceProvider();

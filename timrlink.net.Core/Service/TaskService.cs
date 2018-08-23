@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -7,16 +7,15 @@ namespace timrlink.net.Core.Service
 {
     internal class TaskService : ITaskService
     {
-        private readonly ILoggerFactory loggerFactory;
         private readonly ILogger<TaskService> logger;
+        private readonly ILoggerFactory loggerFactory;
         private readonly API.TimrSync timrSync;
 
-        public TaskService(ILoggerFactory loggerFactory, API.TimrSync timrSync)
+        public TaskService(ILogger<TaskService> logger, ILoggerFactory loggerFactory, API.TimrSync timrSync)
         {
+            this.logger = logger;
             this.loggerFactory = loggerFactory;
             this.timrSync = timrSync;
-
-            this.logger = loggerFactory.CreateLogger<TaskService>();
         }
 
         public Task<IDictionary<string, API.Task>> GetExistingTasksAsync(Func<API.Task, string> externalIdLookup = null)
@@ -58,7 +57,7 @@ namespace timrlink.net.Core.Service
             {
                 try
                 {
-                    UpdateOrAddTask(existingTasks, task, updateTasks, equalityComparer);
+                    AddOrUpdateTask(existingTasks, task, updateTasks, equalityComparer);
                 }
                 catch (Exception e)
                 {
@@ -67,7 +66,7 @@ namespace timrlink.net.Core.Service
             }
         }
 
-        protected void UpdateOrAddTask(IDictionary<string, API.Task> existingTaskIDs, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
+        protected void AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
         {
             logger.LogDebug($"Checking Task(Name={task.Name}, ExternalId={task.ExternalId})");
 

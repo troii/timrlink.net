@@ -1,25 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.API;
+using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.Core.Service
 {
     internal class WorkTimeService : IWorkTimeService
     {
-        private readonly ILoggerFactory loggerFactory;
         private readonly ILogger<WorkTimeService> logger;
         private readonly TimrSync timrSync;
 
-        public WorkTimeService(ILoggerFactory loggerFactory, TimrSync timrSync)
+        public WorkTimeService(ILogger<WorkTimeService> logger, TimrSync timrSync)
         {
-            this.loggerFactory = loggerFactory;
+            this.logger = logger;
             this.timrSync = timrSync;
+        }
 
-            this.logger = loggerFactory.CreateLogger<WorkTimeService>();
+        public Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, string externalUserId = null, string externalWorkItemId = null)
+        {
+            return Task.Run(() => GetWorkTimes(start, end, externalUserId, externalWorkItemId));
+        }
+
+        public IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, string externalUserId = null, string externalWorkItemId = null)
+        {
+            var workTimes = timrSync.GetWorkTimes(new GetWorkTimesRequest(new WorkTimeQuery()
+            {
+                Start = start,
+                End = end,
+                ExternalUserId = externalUserId,
+                ExternalWorkItemId = externalWorkItemId
+            })).WorkTimes;
+
+            logger.LogDebug($"Total workTimes count: {workTimes.Count}");
+
+            return workTimes;
         }
 
         public void SaveWorkTime(WorkTime workTime)

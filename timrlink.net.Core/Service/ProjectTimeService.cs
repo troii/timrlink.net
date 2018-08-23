@@ -10,16 +10,13 @@ namespace timrlink.net.Core.Service
 {
     internal class ProjectTimeService : IProjectTimeService
     {
-        private readonly ILoggerFactory loggerFactory;
         private readonly ILogger<ProjectTimeService> logger;
         private readonly TimrSync timrSync;
 
-        public ProjectTimeService(ILoggerFactory loggerFactory, TimrSync timrSync)
+        public ProjectTimeService(ILogger<ProjectTimeService> logger, TimrSync timrSync)
         {
-            this.loggerFactory = loggerFactory;
+            this.logger = logger;
             this.timrSync = timrSync;
-
-            this.logger = loggerFactory.CreateLogger<ProjectTimeService>();
         }
 
         public void SaveProjectTime(ProjectTime projectTime)

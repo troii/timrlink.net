@@ -61,7 +61,7 @@ namespace timrlink.net.Core.Service
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(new EventId(), e, $"Failed synchronizing Task(Name={task.Name}, ExternalId={task.ExternalId})");
+                    logger.LogError(e, $"Failed synchronizing Task(Name={task.Name}, ExternalId={task.ExternalId})");
                 }
             }
         }
@@ -70,8 +70,7 @@ namespace timrlink.net.Core.Service
         {
             logger.LogDebug($"Checking Task(Name={task.Name}, ExternalId={task.ExternalId})");
 
-            API.Task existingTask;
-            if (existingTaskIDs.TryGetValue(task.ExternalId, out existingTask))
+            if (existingTaskIDs.TryGetValue(task.ExternalId, out var existingTask))
             {
                 if (updateTask && !equalityComparer.Equals(task, existingTask))
                 {
@@ -146,7 +145,7 @@ namespace timrlink.net.Core.Service
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(new EventId(), e, $"Failed SetTaskExternalId Task(Name={task.Name}, ExternalId={externalId})");
+                    logger.LogError(e, $"Failed SetTaskExternalId Task(Name={task.Name}, ExternalId={externalId})");
                 }
             }
         }

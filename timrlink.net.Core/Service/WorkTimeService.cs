@@ -50,7 +50,7 @@ namespace timrlink.net.Core.Service
             }
             catch (Exception e)
             {
-                logger.LogError(new EventId(), e, $"Failed saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}");
+                logger.LogError(e, $"Failed saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}");
             }
         }
 

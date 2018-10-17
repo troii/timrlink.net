@@ -28,7 +28,7 @@ namespace timrlink.net.Core.Service
             }
             catch (Exception e)
             {
-                logger.LogError(new EventId(), e, $"Failed saving ProjectTime(ExternalUserId={projectTime.ExternalUserId}, ExternalTaskId={projectTime.ExternalTaskId}, Description={projectTime.Description}, Start={projectTime.StartTime}, End={projectTime.EndTime}");
+                logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.ExternalUserId}, ExternalTaskId={projectTime.ExternalTaskId}, Description={projectTime.Description}, Start={projectTime.StartTime}, End={projectTime.EndTime}");
             }
         }
 

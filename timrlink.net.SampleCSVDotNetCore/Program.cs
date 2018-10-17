@@ -25,7 +25,7 @@ namespace timrlink.net.SampleCSVDotNetCore
             }
             catch (Exception e)
             {
-                application.Logger.LogError(new EventId(0), e, e.Message);
+                application.Logger.LogError(e, e.Message);
             }
         }
     }
@@ -84,14 +84,14 @@ namespace timrlink.net.SampleCSVDotNetCore
 
                 using (var fileReader = File.OpenRead(filename))
                 using (var textReader = new StreamReader(fileReader))
-                using (var csvReader = new CsvReader(textReader, new CsvConfiguration { SkipEmptyRecords = true }))
+                using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true }))
                 {
                     records = csvReader.GetRecords<CsvRecord>().ToList();
                 }
             }
             catch (Exception e)
             {
-                Logger.LogError(new EventId(), e, $"Could not read passed file '{filename}'.");
+                Logger.LogError(e, $"Could not read passed file '{filename}'.");
                 return;
             }
 
@@ -108,13 +108,13 @@ namespace timrlink.net.SampleCSVDotNetCore
                         ExternalUserId = record.User,
                         StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
                         EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
-                        BreakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
+                        BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
                         Description = record.Notes
                     };
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError(new EventId(), e, $"Error parsing record: {record}");
+                    Logger.LogError(e, $"Error parsing record: {record}");
                     continue;
                 }
 

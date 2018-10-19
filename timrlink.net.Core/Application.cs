@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
+using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.Core
 {
@@ -17,53 +18,63 @@ namespace timrlink.net.Core
 
         private readonly IServiceProvider serviceProvider;
 
-        protected ITaskService TaskService => serviceProvider.GetService<ITaskService>();
-        protected IWorkTimeService WorkTimeService => serviceProvider.GetService<IWorkTimeService>();
-        protected IProjectTimeService ProjectTimeService => serviceProvider.GetService<IProjectTimeService>();
-        protected ILoggerFactory LoggerFactory => serviceProvider.GetService<ILoggerFactory>();
-
-        protected IConfigurationRoot Configuration { get; }
+        protected ITaskService TaskService => GetService<ITaskService>();
+        protected IWorkTimeService WorkTimeService => GetService<IWorkTimeService>();
+        protected IProjectTimeService ProjectTimeService => GetService<IProjectTimeService>();
+        protected IConfiguration Configuration => GetService<IConfiguration>();
 
         public ILogger Logger { get; }
 
         protected Application()
         {
             var confBuilder = new ConfigurationBuilder();
-            Configuration = SetupConfiguration(confBuilder);
+            SetupConfiguration(confBuilder);
+            var configuration = confBuilder.Build();
 
-            serviceProvider = new ServiceCollection()
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            serviceProvider = serviceCollection
                 .AddLogging()
                 .AddScoped<ITaskService, TaskService>()
                 .AddScoped<IWorkTimeService, WorkTimeService>()
                 .AddScoped<IProjectTimeService, ProjectTimeService>()
-                .AddSingleton(BindTimrSync(Configuration))
+                .AddSingleton(BindTimrSync(configuration))
+                .AddSingleton<IConfiguration>(configuration)
                 .BuildServiceProvider();
 
-            ConfigureLogger(LoggerFactory);
-            Logger = LoggerFactory.CreateLogger(GetType());
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            ConfigureLogger(loggerFactory);
+
+            Logger = loggerFactory.CreateLogger(GetType());
         }
 
         public abstract void Run();
 
-        public virtual IConfigurationRoot SetupConfiguration(IConfigurationBuilder configurationBuilder)
-        {
-            return configurationBuilder.Build();
-        }
-
-        public virtual void ConfigureLogger(ILoggerFactory loggerFactory)
+        protected virtual void SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {
         }
 
-        private TimrSync BindTimrSync(IConfigurationRoot configuration)
+        protected virtual void ConfigureLogger(ILoggerFactory loggerFactory)
         {
-            var host = configuration.GetSection("timrSync:host")?.Value ?? DEFAULT_HOST;
-            var identifier = configuration.GetSection("timrSync:identifier")?.Value;
-            var token = configuration.GetSection("timrSync:token")?.Value;
+        }
+
+        protected virtual void ConfigureServices(IServiceCollection serviceCollection)
+        {
+        }
+
+        protected T GetService<T>() => serviceProvider.GetService<T>();
+
+        private static TimrSync BindTimrSync(IConfiguration configuration)
+        {
+            var host = configuration["timrSync:host"] ?? DEFAULT_HOST;
+            var identifier = configuration["timrSync:identifier"];
+            var token = configuration["timrSync:token"];
 
             if (identifier == null)
             {
                 throw new MissingConfigurationException("timrSync", "identifier");
             }
+
             if (token == null)
             {
                 throw new MissingConfigurationException("timrSync", "token");

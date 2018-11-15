@@ -39,7 +39,7 @@ namespace timrlink.net.SampleCSVDotNetCore
             this.args = args;
         }
 
-        public override IConfigurationRoot SetupConfiguration(IConfigurationBuilder configurationBuilder)
+        protected override void SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {
             /*
             configurationBuilder.AddInMemoryCollection(new Dictionary<string, string>
@@ -48,13 +48,11 @@ namespace timrlink.net.SampleCSVDotNetCore
                 {"timrSync:token", "<token>"}
             });
             */
-            configurationBuilder.AddJsonFile("config.json");
 
-            var configuration = base.SetupConfiguration(configurationBuilder);
-            return configuration;
+            configurationBuilder.AddJsonFile("config.json");
         }
 
-        public override void ConfigureLogger(ILoggerFactory loggerFactory)
+        protected override void ConfigureLogger(ILoggerFactory loggerFactory)
         {
             base.ConfigureLogger(loggerFactory);
 

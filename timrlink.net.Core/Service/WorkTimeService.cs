@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -63,15 +64,29 @@ namespace timrlink.net.Core.Service
             }
         }
 
-        public void ExportWorkTimes(IEnumerable<WorkTime> workTimes, Func<WorkTime, WorkTime> export)
+        public void SetWorkTimeStatus(WorkTime workTime, WorkTimeStatus workTimeStatus)
         {
-            foreach (var workTime in workTimes)
+            SetWorkTimeStatus(new List<long> { workTime.Id }, workTimeStatus);
+        }
+
+        public void SetWorkTimeStatus(IList<WorkTime> workTimes, WorkTimeStatus workTimeStatus)
+        {
+            SetWorkTimeStatus(workTimes.Select(w => w.Id).ToList(), workTimeStatus);
+        }
+
+        private void SetWorkTimeStatus(List<long> ids, WorkTimeStatus workTimeStatus)
+        {
+            try
             {
-                var newWorkTime = export(workTime);
-                if (newWorkTime != null)
+                timrSync.SetWorkTimesStatus(new SetWorkTimesStatusRequest(new WorkTimesStatusRequestType
                 {
-                    SaveWorkTime(newWorkTime);
-                }
+                    Ids = ids,
+                    Status = workTimeStatus
+                }));
+            }
+            catch (ProtocolException e) when (e.Message == "The one-way operation returned a non-null message with Action=''.")
+            {
+                // thanks to the wrong generated wsdl (OneWay, but it isn't) whe have to catch this here 😂
             }
         }
     }

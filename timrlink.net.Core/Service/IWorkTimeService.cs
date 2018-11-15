@@ -15,6 +15,8 @@ namespace timrlink.net.Core.Service
 
         void SaveWorkTimes(IEnumerable<WorkTime> workTimes);
 
-        void ExportWorkTimes(IEnumerable<WorkTime> workTimes, Func<WorkTime, WorkTime> export);
+        void SetWorkTimeStatus(WorkTime workTime, WorkTimeStatus workTimeStatus);
+
+        void SetWorkTimeStatus(IList<WorkTime> workTimes, WorkTimeStatus workTimeStatus);
     }
 }

@@ -21,17 +21,18 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, string externalUserId = null, string externalWorkItemId = null)
+        public Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
         {
-            return Task.Run(() => GetWorkTimes(start, end, externalUserId, externalWorkItemId));
+            return Task.Run(() => GetWorkTimes(start: start, end: end, statuses: statuses, externalUserId: externalUserId, externalWorkItemId: externalWorkItemId));
         }
 
-        public IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, string externalUserId = null, string externalWorkItemId = null)
+        public IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
         {
             var workTimes = timrSync.GetWorkTimes(new GetWorkTimesRequest(new WorkTimeQuery
             {
                 Start = start,
                 End = end,
+                Statuses = statuses,
                 ExternalUserId = externalUserId,
                 ExternalWorkItemId = externalWorkItemId
             })).WorkTimes;

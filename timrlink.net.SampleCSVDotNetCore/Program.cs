@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using timrlink.net.Core;
 using timrlink.net.Core.API;
 
@@ -95,8 +95,30 @@ namespace timrlink.net.SampleCSVDotNetCore
 
             Logger.LogInformation($"found {records.Count} entries");
 
+            var tasks = TaskService.GetExistingTasks(task => task.Name);
+
             foreach (var record in records)
             {
+                if (!tasks.ContainsKey(record.Task))
+                {
+                    try
+                    {
+                        Task task = new Task
+                        {
+                            Name = record.Task,
+                            ExternalId = record.Task,
+                            Bookable = true,
+                        };
+                        TaskService.AddTask(task);
+                        tasks.Add(record.Task, task);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.LogError(e, $"Failed to add missing Task for record: {record}");
+                        continue;
+                    }
+                }
+
                 ProjectTime projectTime;
                 try
                 {
@@ -106,7 +128,7 @@ namespace timrlink.net.SampleCSVDotNetCore
                         ExternalUserId = record.User,
                         StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
                         EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
-                        BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
+                        BreakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
                         Description = record.Notes
                     };
                 }

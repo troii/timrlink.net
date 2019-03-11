@@ -95,7 +95,9 @@ namespace timrlink.net.SampleCSVDotNetCore
 
             Logger.LogInformation($"found {records.Count} entries");
 
-            var tasks = TaskService.GetExistingTasks(task => task.Name);
+            var tasks = TaskService.GetExistingTasks(
+                task => task.ParentExternalId != null ? task.ParentExternalId + "|" + task.Name : task.Name
+            );
 
             foreach (var record in records)
             {
@@ -103,18 +105,11 @@ namespace timrlink.net.SampleCSVDotNetCore
                 {
                     try
                     {
-                        Task task = new Task
-                        {
-                            Name = record.Task,
-                            ExternalId = record.Task,
-                            Bookable = true,
-                        };
-                        TaskService.AddTask(task);
-                        tasks.Add(record.Task, task);
+                        AddTaskTreeRecursive(tasks, null, record.Task.Split("|"));
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(e, $"Failed to add missing Task for record: {record}");
+                        Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
                         continue;
                     }
                 }
@@ -126,9 +121,9 @@ namespace timrlink.net.SampleCSVDotNetCore
                     {
                         ExternalTaskId = record.Task,
                         ExternalUserId = record.User,
-                        StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
-                        EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "d/M/yy H:mm", CultureInfo.InvariantCulture),
-                        BreakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
+                        StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
+                        EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
+                        BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
                         Description = record.Notes
                     };
                 }
@@ -142,6 +137,29 @@ namespace timrlink.net.SampleCSVDotNetCore
             }
 
             Logger.LogInformation("End.");
+        }
+
+        private void AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentPath, IList<string> pathTokens)
+        {
+            if (pathTokens.Count == 0) return;
+
+            var name = pathTokens.First();
+            var currentPath = parentPath != null ? parentPath + "|" + name : name;
+
+            if (!tasks.ContainsKey(currentPath))
+            {
+                Task task = new Task
+                {
+                    Name = name,
+                    ExternalId = currentPath,
+                    ParentExternalId = parentPath,
+                    Bookable = true,
+                };
+                TaskService.AddTask(task);
+                tasks.Add(currentPath, task);
+            }
+
+            AddTaskTreeRecursive(tasks, currentPath, pathTokens.Skip(1).ToList());
         }
     }
 }

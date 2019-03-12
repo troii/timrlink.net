@@ -9,10 +9,11 @@ namespace timrlink.net.SampleCSVDotNetCore
         public string End { get; set; }
         public string Break { get; set; }
         public string Notes { get; set; }
+        public bool Billable { get; set; }
 
         public override string ToString()
         {
-            return $"Record(Date={Date}, User={User}, Task={Task}, Start={Start}, End={End}, Break={Break}, Notes={Notes}";
+            return $"Record(Date={Date}, User={User}, Task={Task}, Start={Start}, End={End}, Break={Break}, Notes={Notes}, Billable={Billable}";
         }
     }
 }

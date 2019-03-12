@@ -1,9 +1,9 @@
-Date,User,Task,Start,End,Break,Notes
-12/1/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,
-12/2/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,
-12/3/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,
-12/4/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,
-2/26/16,John Cena,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, Boring Stuff "
-3/16/16,John Dow,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, drilling... "
-6/29/16,John Dow,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, drilling... "
-6/29/16,John Cena,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, AWESOME Stuff!!! "
+Date,User,Task,Start,End,Break,Notes,Billable
+12/1/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,,false
+12/2/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,,false
+12/3/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,,false
+12/4/15,John Dow,INTERNAL|Holiday,8:00,16:30,0:30,,false
+2/26/16,John Cena,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, Boring Stuff ",true
+3/16/16,John Dow,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, drilling... ",true
+6/29/16,John Dow,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, drilling... ",true
+6/29/16,John Cena,INTERNAL|PM,8:00,16:30,0:30,"Boring Company, AWESOME Stuff!!! ",true

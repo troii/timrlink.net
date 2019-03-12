@@ -124,7 +124,8 @@ namespace timrlink.net.SampleCSVDotNetCore
                         StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
                         EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
                         BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
-                        Description = record.Notes
+                        Description = record.Notes,
+                        Billable = record.Billable
                     };
                 }
                 catch (Exception e)

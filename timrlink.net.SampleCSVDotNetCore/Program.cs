@@ -121,8 +121,8 @@ namespace timrlink.net.SampleCSVDotNetCore
                     {
                         ExternalTaskId = record.Task,
                         ExternalUserId = record.User,
-                        StartTime = DateTime.ParseExact($"{record.Date} {record.Start}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
-                        EndTime = DateTime.ParseExact($"{record.Date} {record.End}", "M/d/yy H:mm", CultureInfo.InvariantCulture),
+                        StartTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
+                        EndTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
                         BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
                         Description = record.Notes,
                         Billable = record.Billable

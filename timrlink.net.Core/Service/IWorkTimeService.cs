@@ -7,6 +7,10 @@ namespace timrlink.net.Core.Service
 {
     public interface IWorkTimeService
     {
+        IList<WorkItem> GetWorkItems();
+        
+        Task<IList<WorkItem>> GetWorkItemsAsync();
+        
         Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
 
         IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);

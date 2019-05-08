@@ -16,12 +16,12 @@ namespace timrlink.net.SampleCSVDotNetCore
     class Program
     {
         // call with SampleData.csv as argument
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             Application application = new ApplicationImpl(args);
             try
             {
-                application.Run();
+                await application.Run();
             }
             catch (Exception e)
             {
@@ -63,7 +63,7 @@ namespace timrlink.net.SampleCSVDotNetCore
                 .CreateLogger());
         }
 
-        public override void Run()
+        public override async System.Threading.Tasks.Task Run()
         {
             Logger.LogInformation("Running...");
 
@@ -95,8 +95,8 @@ namespace timrlink.net.SampleCSVDotNetCore
 
             Logger.LogInformation($"found {records.Count} entries");
 
-            var tasks = TaskService.GetExistingTasks(
-                task => task.ParentExternalId != null ? task.ParentExternalId + "|" + task.Name : task.Name
+            var tasks = await TaskService.GetExistingTasksAsync(
+                task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
             );
 
             foreach (var record in records)
@@ -119,13 +119,13 @@ namespace timrlink.net.SampleCSVDotNetCore
                 {
                     projectTime = new ProjectTime
                     {
-                        ExternalTaskId = record.Task,
-                        ExternalUserId = record.User,
-                        StartTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
-                        EndTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
-                        BreakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
-                        Description = record.Notes,
-                        Billable = record.Billable
+                        externalTaskId = record.Task,
+                        externalUserId = record.User,
+                        startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
+                        endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
+                        breakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
+                        description = record.Notes,
+                        billable = record.Billable
                     };
                 }
                 catch (Exception e)
@@ -134,7 +134,7 @@ namespace timrlink.net.SampleCSVDotNetCore
                     continue;
                 }
 
-                ProjectTimeService.SaveProjectTime(projectTime);
+                await ProjectTimeService.SaveProjectTime(projectTime);
             }
 
             Logger.LogInformation("End.");
@@ -151,10 +151,10 @@ namespace timrlink.net.SampleCSVDotNetCore
             {
                 Task task = new Task
                 {
-                    Name = name,
-                    ExternalId = currentPath,
-                    ParentExternalId = parentPath,
-                    Bookable = true,
+                    name = name,
+                    externalId = currentPath,
+                    parentExternalId = parentPath,
+                    bookable = true,
                 };
                 TaskService.AddTask(task);
                 tasks.Add(currentPath, task);

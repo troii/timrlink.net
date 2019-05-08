@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using timrlink.net.Core.API;
 
 namespace timrlink.net.Core.Service
 {
     public interface IWorkTimeService
     {
-        IList<WorkItem> GetWorkItems();
-        
-        Task<IList<WorkItem>> GetWorkItemsAsync();
-        
-        Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
+        Task<IList<API.WorkItem>> GetWorkItemsAsync();
 
-        IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
+        Task<IList<API.WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
 
-        void SaveWorkTime(WorkTime workTime);
+        Task SaveWorkTime(API.WorkTime workTime);
 
-        void SaveWorkTimes(IEnumerable<WorkTime> workTimes);
+        Task SaveWorkTimes(IEnumerable<API.WorkTime> workTimes);
 
-        void SetWorkTimeStatus(WorkTime workTime, WorkTimeStatus workTimeStatus);
+        Task SetWorkTimeStatus(API.WorkTime workTime, API.WorkTimeStatus workTimeStatus);
 
-        void SetWorkTimeStatus(IList<WorkTime> workTimes, WorkTimeStatus workTimeStatus);
+        Task SetWorkTimeStatus(IList<API.WorkTime> workTimes, API.WorkTimeStatus workTimeStatus);
     }
 }

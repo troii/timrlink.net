@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Logging;
 using timrlink.net.Core.API;
 
 namespace timrlink.net.Core
@@ -22,73 +19,73 @@ namespace timrlink.net.Core
 
         public bool Equals(Task x, Task y)
         {
-            if (x.ExternalId != y.ExternalId)
+            if (x.externalId != y.externalId)
             {
-                logger?.LogDebug($"ExternalId: {x.ExternalId} != {y.ExternalId}");
+                logger?.LogDebug($"ExternalId: {x.externalId} != {y.externalId}");
                 return false;
             }
 
-            if (x.Name != y.Name)
+            if (x.name != y.name)
             {
-                logger?.LogDebug($"Name: {x.Name} != {y.Name}");
+                logger?.LogDebug($"Name: {x.name} != {y.name}");
                 return false;
             }
 
-            if (x.Description != y.Description)
+            if (x.description != y.description)
             {
-                logger?.LogDebug($"Description: {x.Description} != {y.Description}");
+                logger?.LogDebug($"Description: {x.description} != {y.description}");
                 return false;
             }
 
-            if (x.ParentExternalId != y.ParentExternalId)
+            if (x.parentExternalId != y.parentExternalId)
             {
-                logger?.LogDebug($"ParentExternalId: {x.ParentExternalId} != {y.ParentExternalId}");
+                logger?.LogDebug($"ParentExternalId: {x.parentExternalId} != {y.parentExternalId}");
                 return false;
             }
 
-            if (x.CustomField1 != y.CustomField1)
+            if (x.customField1 != y.customField1)
             {
-                logger?.LogDebug($"CustomField1: {x.CustomField1} != {y.CustomField1}");
+                logger?.LogDebug($"CustomField1: {x.customField1} != {y.customField1}");
                 return false;
             }
 
-            if (x.CustomField2 != y.CustomField2)
+            if (x.customField2 != y.customField2)
             {
-                logger?.LogDebug($"CustomField2: {x.CustomField2} != {y.CustomField2}");
+                logger?.LogDebug($"CustomField2: {x.customField2} != {y.customField2}");
                 return false;
             }
 
-            if (x.CustomField3 != y.CustomField3)
+            if (x.customField3 != y.customField3)
             {
-                logger?.LogDebug($"CustomField3: {x.CustomField3} != {y.CustomField3}");
+                logger?.LogDebug($"CustomField3: {x.customField3} != {y.customField3}");
                 return false;
             }
 
-            if (x.Start?.Year != y.Start?.Year
-                || x.Start?.Month != y.Start?.Month
-                || x.Start?.Day != y.Start?.Day)
+            if (x.start?.Year != y.start?.Year
+                || x.start?.Month != y.start?.Month
+                || x.start?.Day != y.start?.Day)
             {
-                logger?.LogDebug($"Start: {x.Start} != {y.Start}");
+                logger?.LogDebug($"Start: {x.start} != {y.start}");
                 return false;
             }
 
-            if (x.End?.Year != y.End?.Year
-                || x.End?.Month != y.End?.Month
-                || x.End?.Day != y.End?.Day)
+            if (x.end?.Year != y.end?.Year
+                || x.end?.Month != y.end?.Month
+                || x.end?.Day != y.end?.Day)
             {
-                logger?.LogDebug($"End: {x.End} != {y.End}");
+                logger?.LogDebug($"End: {x.end} != {y.end}");
                 return false;
             }
 
-            if (x.Billable != y.Billable)
+            if (x.billable != y.billable)
             {
-                logger?.LogDebug($"Billable: {x.Billable} != {y.Billable}");
+                logger?.LogDebug($"Billable: {x.billable} != {y.billable}");
                 return false;
             }
 
-            if (x.Bookable != y.Bookable)
+            if (x.bookable != y.bookable)
             {
-                logger?.LogDebug($"Bookable: {x.Bookable} != {y.Bookable}");
+                logger?.LogDebug($"Bookable: {x.bookable} != {y.bookable}");
                 return false;
             }
 

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using timrlink.net.Core.API;
+using System.Threading.Tasks;
 
 namespace timrlink.net.Core.Service
 {
     public interface IProjectTimeService
     {
-        void SaveProjectTime(ProjectTime projectTime);
+        Task SaveProjectTime(API.ProjectTime projectTime);
 
-        void SaveProjectTimes(IEnumerable<ProjectTime> projectTimes);
+        Task SaveProjectTimes(IEnumerable<API.ProjectTime> projectTimes);
     }
 }

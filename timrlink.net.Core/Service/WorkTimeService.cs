@@ -1,103 +1,78 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using timrlink.net.Core.API;
-using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.Core.Service
 {
     internal class WorkTimeService : IWorkTimeService
     {
         private readonly ILogger<WorkTimeService> logger;
-        private readonly TimrSync timrSync;
+        private readonly API.TimrSync timrSync;
 
-        public WorkTimeService(ILogger<WorkTimeService> logger, TimrSync timrSync)
+        public WorkTimeService(ILogger<WorkTimeService> logger, API.TimrSync timrSync)
         {
             this.logger = logger;
             this.timrSync = timrSync;
         }
 
-        public IList<WorkItem> GetWorkItems()
+        public async Task<IList<API.WorkItem>> GetWorkItemsAsync()
         {
-            return timrSync.GetWorkItems(new GetWorkItemsRequest("")).WorkItem;
+            return (await timrSync.GetWorkItemsAsync(new API.GetWorkItemsRequest("")).ConfigureAwait(false)).GetWorkItemsResponse1;
         }
 
-        public async Task<IList<WorkItem>> GetWorkItemsAsync()
+        public async Task<IList<API.WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
         {
-            return (await timrSync.GetWorkItemsAsync(new GetWorkItemsRequest(""))).WorkItem;
-        }
-
-        public async Task<IList<WorkTime>> GetWorkTimesAsync(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
-        {
-            return await Task.Run(() => GetWorkTimes(start: start, end: end, statuses: statuses, externalUserId: externalUserId, externalWorkItemId: externalWorkItemId));
-        }
-
-        public IList<WorkTime> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
-        {
-            var workTimes = timrSync.GetWorkTimes(new GetWorkTimesRequest(new WorkTimeQuery
+            var workTimes = (await timrSync.GetWorkTimesAsync(new API.GetWorkTimesRequest(new API.WorkTimeQuery
             {
-                Start = start,
-                End = end,
-                Statuses = statuses,
-                ExternalUserId = externalUserId,
-                ExternalWorkItemId = externalWorkItemId
-            })).WorkTimes;
+                start = start,
+                end = end,
+                statuses = statuses.ToArray(),
+                externalUserId = externalUserId,
+                externalWorkItemId = externalWorkItemId
+            })).ConfigureAwait(false)).GetWorkTimesResponse1;
 
-            logger.LogDebug($"Total workTimes count: {workTimes.Count}");
+            logger.LogDebug($"Total workTimes count: {workTimes.Length}");
 
             return workTimes;
         }
 
-        public void SaveWorkTime(WorkTime workTime)
+        public async Task SaveWorkTime(API.WorkTime workTime)
         {
             try
             {
-                logger.LogInformation($"Saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}, Status={workTime.Status})");
-                timrSync.SaveWorkTime(new SaveWorkTimeRequest(workTime));
+                logger.LogInformation($"Saving WorkTime(ExternalUserId={workTime.externalUserId}, ExternalWorkItemId={workTime.externalWorkItemId}, Description={workTime.description}, Start={workTime.startTime}, End={workTime.endTime}, Status={workTime.status})");
+                await timrSync.SaveWorkTimeAsync(new API.SaveWorkTimeRequest(workTime)).ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                logger.LogError(e, $"Failed saving WorkTime(ExternalUserId={workTime.ExternalUserId}, ExternalWorkItemId={workTime.ExternalWorkItemId}, Description={workTime.Description}, Start={workTime.StartTime}, End={workTime.EndTime}, Status={workTime.Status})");
+                logger.LogError(e, $"Failed saving WorkTime(ExternalUserId={workTime.externalUserId}, ExternalWorkItemId={workTime.externalWorkItemId}, Description={workTime.description}, Start={workTime.startTime}, End={workTime.endTime}, Status={workTime.status})");
             }
         }
 
-        public void SaveWorkTimes(IEnumerable<WorkTime> workTimes)
+        public async Task SaveWorkTimes(IEnumerable<API.WorkTime> workTimes)
         {
-            foreach (var workTime in workTimes)
+            await Task.WhenAll(workTimes.Select(SaveWorkTime)).ConfigureAwait(false);
+        }
+
+        public async Task SetWorkTimeStatus(API.WorkTime workTime, API.WorkTimeStatus workTimeStatus)
+        {
+            await SetWorkTimeStatus(new List<long> { workTime.id }, workTimeStatus).ConfigureAwait(false);
+        }
+
+        public async Task SetWorkTimeStatus(IList<API.WorkTime> workTimes, API.WorkTimeStatus workTimeStatus)
+        {
+            await SetWorkTimeStatus(workTimes.Select(w => w.id).ToList(), workTimeStatus).ConfigureAwait(false);
+        }
+
+        private async Task SetWorkTimeStatus(List<long> ids, API.WorkTimeStatus workTimeStatus)
+        {
+            await timrSync.SetWorkTimesStatusAsync(new API.SetWorkTimesStatusRequest(new API.WorkTimesStatusRequestType
             {
-                SaveWorkTime(workTime);
-            }
-        }
-
-        public void SetWorkTimeStatus(WorkTime workTime, WorkTimeStatus workTimeStatus)
-        {
-            SetWorkTimeStatus(new List<long> { workTime.Id }, workTimeStatus);
-        }
-
-        public void SetWorkTimeStatus(IList<WorkTime> workTimes, WorkTimeStatus workTimeStatus)
-        {
-            SetWorkTimeStatus(workTimes.Select(w => w.Id).ToList(), workTimeStatus);
-        }
-
-        private void SetWorkTimeStatus(List<long> ids, WorkTimeStatus workTimeStatus)
-        {
-            try
-            {
-                timrSync.SetWorkTimesStatus(new SetWorkTimesStatusRequest(new WorkTimesStatusRequestType
-                {
-                    Ids = ids,
-                    Status = workTimeStatus
-                }));
-            }
-            catch (ProtocolException e) when (e.Message == "The one-way operation returned a non-null message with Action=''.")
-            {
-                // thanks to the wrong generated wsdl (OneWay, but it isn't) whe have to catch this here 😂
-            }
+                ids = ids.ToArray(),
+                status = workTimeStatus
+            })).ConfigureAwait(false);
         }
     }
 }

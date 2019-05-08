@@ -1,7 +1,7 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace timrlink.net.Core.Service
 {
@@ -18,35 +18,30 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public Task<IDictionary<string, API.Task>> GetExistingTasksAsync(Func<API.Task, string> externalIdLookup = null)
+        public async Task<IDictionary<string, API.Task>> GetExistingTasksAsync(Func<API.Task, string> externalIdLookup = null)
         {
-            return Task.Run(() => GetExistingTasks(externalIdLookup));
-        }
-
-        public IDictionary<string, API.Task> GetExistingTasks(Func<API.Task, string> externalIdLookup = null)
-        {
-            var existingTasks = timrSync.GetTasks(new API.GetTasksRequest("")).Tasks;
+            var existingTasks = (await timrSync.GetTasksAsync(new API.GetTasksRequest1(new API.GetTasksRequest())).ConfigureAwait(false)).GetTasksResponse1;
 
             IDictionary<string, API.Task> taskDictionary = new Dictionary<string, API.Task>();
-            AddTaskIDs(taskDictionary, existingTasks, null, externalIdLookup);
-            logger.LogDebug($"Total task count: {existingTasks.Count}");
+            await AddTaskIDs(taskDictionary, existingTasks, null, externalIdLookup).ConfigureAwait(false);
+            logger.LogDebug($"Total task count: {existingTasks.Length}");
 
             return taskDictionary;
         }
 
-        public void AddTask(API.Task task)
+        public async Task AddTask(API.Task task)
         {
-            logger.LogInformation($"Adding Task(Name={task.Name}, ExternalId={task.ExternalId})");
-            timrSync.AddTask(new API.AddTaskRequest(task));
+            logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId})");
+            await timrSync.AddTaskAsync(new API.AddTaskRequest(task)).ConfigureAwait(false);
         }
 
-        public void UpdateTask(API.Task task)
+        public async Task UpdateTask(API.Task task)
         {
-            logger.LogInformation($"Updating Task(Name={task.Name}, ExternalId={task.ExternalId})");
-            timrSync.UpdateTask(new API.UpdateTaskRequest(task));
+            logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
+            await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
         }
 
-        public void SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
+        public async Task SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
         {
             if (equalityComparer == null)
             {
@@ -57,95 +52,93 @@ namespace timrlink.net.Core.Service
             {
                 try
                 {
-                    AddOrUpdateTask(existingTasks, task, updateTasks, equalityComparer);
+                    await AddOrUpdateTask(existingTasks, task, updateTasks, equalityComparer).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(e, $"Failed synchronizing Task(Name={task.Name}, ExternalId={task.ExternalId})");
+                    logger.LogError(e, $"Failed synchronizing Task(Name={task.name}, ExternalId={task.externalId})");
                 }
             }
         }
 
-        protected void AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
+        protected async Task AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
         {
-            logger.LogDebug($"Checking Task(Name={task.Name}, ExternalId={task.ExternalId})");
+            logger.LogDebug($"Checking Task(Name={task.name}, ExternalId={task.externalId})");
 
-            if (existingTaskIDs.TryGetValue(task.ExternalId, out var existingTask))
+            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask))
             {
                 if (updateTask && !equalityComparer.Equals(task, existingTask))
                 {
-                    logger.LogInformation($"Updating Task(Name={task.Name}, ExternalId={task.ExternalId})");
-                    timrSync.UpdateTask(new API.UpdateTaskRequest(task));
-                    existingTaskIDs[task.ExternalId] = task;
+                    logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
+                    await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
+                    existingTaskIDs[task.externalId] = task;
                 }
             }
             else
             {
-                logger.LogInformation($"Adding Task(Name={task.Name}, ExternalId={task.ExternalId})");
-                timrSync.AddTask(new API.AddTaskRequest(task));
-                existingTaskIDs.Add(task.ExternalId, task);
-                if (task.Subtasks != null)
+                logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId})");
+                await timrSync.AddTaskAsync(new API.AddTaskRequest(task)).ConfigureAwait(false);
+                existingTaskIDs.Add(task.externalId, task);
+                if (task.subtasks != null)
                 {
-                    foreach (API.Task subtask in task.Subtasks)
+                    foreach (API.Task subtask in task.subtasks)
                     {
-                        timrSync.AddTask(new API.AddTaskRequest(subtask));
-                        existingTaskIDs.Add(subtask.ExternalId, subtask);
+                        await timrSync.AddTaskAsync(new API.AddTaskRequest(subtask)).ConfigureAwait(false);
+                        existingTaskIDs.Add(subtask.externalId, subtask);
                     }
                 }
             }
         }
 
-        private void AddTaskIDs(IDictionary<string, API.Task> existingTaskIDs, IEnumerable<API.Task> existingTasks, string parentExternalId, Func<API.Task, string> externalIdLookup)
+        private async Task AddTaskIDs(IDictionary<string, API.Task> existingTaskIDs, IEnumerable<API.Task> existingTasks, string parentExternalId, Func<API.Task, string> externalIdLookup)
         {
             foreach (API.Task task in existingTasks)
             {
-                task.ParentExternalId = parentExternalId;
+                task.parentExternalId = parentExternalId;
 
-                if (String.IsNullOrEmpty(task.ExternalId) && externalIdLookup != null)
+                if (String.IsNullOrEmpty(task.externalId) && externalIdLookup != null)
                 {
-                    UpdateTaskWithoutExternalId(task, externalIdLookup);
+                    await UpdateTaskWithoutExternalId(task, externalIdLookup).ConfigureAwait(false);
                 }
 
-                if (!String.IsNullOrEmpty(task.ExternalId))
+                if (!String.IsNullOrEmpty(task.externalId))
                 {
-                    if (existingTaskIDs.ContainsKey(task.ExternalId))
+                    if (existingTaskIDs.ContainsKey(task.externalId))
                     {
-                        logger.LogError($"Duplicate ExternalId: Task(Name={task.Name}, ExternalId={task.ExternalId})");
+                        logger.LogError($"Duplicate ExternalId: Task(Name={task.name}, ExternalId={task.externalId})");
                     }
                     else
                     {
-                        existingTaskIDs.Add(task.ExternalId, task);
-                        if (task.Subtasks != null)
+                        existingTaskIDs.Add(task.externalId, task);
+                        if (task.subtasks != null)
                         {
-                            AddTaskIDs(existingTaskIDs, task.Subtasks, task.ExternalId, externalIdLookup);
+                            await AddTaskIDs(existingTaskIDs, task.subtasks, task.externalId, externalIdLookup).ConfigureAwait(false);
                         }
                     }
                 }
             }
         }
 
-        private void UpdateTaskWithoutExternalId(API.Task task, Func<API.Task, string> externalIdLookup)
+        private async Task UpdateTaskWithoutExternalId(API.Task task, Func<API.Task, string> externalIdLookup)
         {
             var externalId = externalIdLookup(task);
             if (!String.IsNullOrEmpty(externalId))
             {
-                logger.LogInformation($"Updating previous untracked Task(Name={task.Name}) with ExternalId: {externalId}");
+                logger.LogInformation($"Updating previous untracked Task(Name={task.name}) with ExternalId: {externalId}");
                 try
                 {
-                    timrSync.SetTaskExternalId(new API.SetTaskExternalIdRequest1
+                    await timrSync.SetTaskExternalIdAsync(new API.SetTaskExternalIdRequest1(new API.SetTaskExternalIdRequest
                     {
-                        SetTaskExternalIdRequest = new API.SetTaskExternalIdRequest
-                        {
-                            Name = task.Name,
-                            NewExternalTaskId = externalId,
-                            ParentExternalId = task.ParentExternalId
-                        }
-                    });
-                    task.ExternalId = externalId;
+                        name = task.name,
+                        newExternalTaskId = externalId,
+                        parentExternalId = task.parentExternalId
+                    }
+                    )).ConfigureAwait(false);
+                    task.externalId = externalId;
                 }
                 catch (Exception e)
                 {
-                    logger.LogError(e, $"Failed SetTaskExternalId Task(Name={task.Name}, ExternalId={externalId})");
+                    logger.LogError(e, $"Failed SetTaskExternalId Task(Name={task.name}, ExternalId={externalId})");
                 }
             }
         }

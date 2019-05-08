@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using timrlink.net.Core.API;
+using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.Core.Service
 {
@@ -19,24 +17,24 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public void SaveProjectTime(ProjectTime projectTime)
+        public async Task SaveProjectTime(ProjectTime projectTime)
         {
             try
             {
-                logger.LogInformation($"Saving ProjectTime(ExternalUserId={projectTime.ExternalUserId}, ExternalTaskId={projectTime.ExternalTaskId}, Description={projectTime.Description}, Start={projectTime.StartTime}, End={projectTime.EndTime}");
-                timrSync.SaveProjectTime(new SaveProjectTimeRequest(projectTime));
+                logger.LogInformation($"Saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime}");
+                await timrSync.SaveProjectTimeAsync(new SaveProjectTimeRequest(projectTime)).ConfigureAwait(false);
             }
             catch (Exception e)
             {
-                logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.ExternalUserId}, ExternalTaskId={projectTime.ExternalTaskId}, Description={projectTime.Description}, Start={projectTime.StartTime}, End={projectTime.EndTime}");
+                logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime}");
             }
         }
 
-        public void SaveProjectTimes(IEnumerable<ProjectTime> projectTimes)
+        public async Task SaveProjectTimes(IEnumerable<ProjectTime> projectTimes)
         {
             foreach (var projectTime in projectTimes)
             {
-                SaveProjectTime(projectTime);
+                await SaveProjectTime(projectTime).ConfigureAwait(false);
             }
         }
     }

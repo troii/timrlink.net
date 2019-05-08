@@ -48,7 +48,7 @@ namespace timrlink.net.Core
             Logger = loggerFactory.CreateLogger(GetType());
         }
 
-        public abstract void Run();
+        public abstract Task Run();
 
         protected virtual void SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {

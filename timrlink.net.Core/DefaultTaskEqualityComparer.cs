@@ -31,6 +31,12 @@ namespace timrlink.net.Core
                 return false;
             }
 
+            if (x.uuid != y.uuid)
+            {
+                logger?.LogDebug($"UUID: {x.uuid} != {y.uuid}");
+                return false;
+            }
+
             if (x.description != y.description)
             {
                 logger?.LogDebug($"Description: {x.description} != {y.description}");
@@ -86,6 +92,60 @@ namespace timrlink.net.Core
             if (x.bookable != y.bookable)
             {
                 logger?.LogDebug($"Bookable: {x.bookable} != {y.bookable}");
+                return false;
+            }
+
+            if (x.customField1 != y.customField1)
+            {
+                logger?.LogDebug($"CustomField1: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.customField2 != y.customField2)
+            {
+                logger?.LogDebug($"CustomField1: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.customField3 != y.customField3)
+            {
+                logger?.LogDebug($"CustomField1: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.uuid != y.uuid)
+            {
+                logger?.LogDebug($"UUID: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.budgetPlanningType != y.budgetPlanningType)
+            {
+                logger?.LogDebug($"BudgetPlanningType: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.budgetPlanningTypeInherited != y.budgetPlanningTypeInherited)
+            {
+                logger?.LogDebug($"BudgetPlanningTypeInherited: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.hoursPlanned != y.hoursPlanned)
+            {
+                logger?.LogDebug($"HoursPlanned: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.hourlyRate != y.hourlyRate)
+            {
+                logger?.LogDebug($"HourlyRate: {x.end} != {y.end}");
+                return false;
+            }
+
+            if (x.budgetPlanned != y.budgetPlanned)
+            {
+                logger?.LogDebug($"HourlyRate: {x.end} != {y.end}");
                 return false;
             }
 

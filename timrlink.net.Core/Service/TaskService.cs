@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace timrlink.net.Core.Service
@@ -24,7 +25,7 @@ namespace timrlink.net.Core.Service
 
             IDictionary<string, API.Task> taskDictionary = new Dictionary<string, API.Task>();
             await AddTaskIDs(taskDictionary, existingTasks, null, externalIdLookup).ConfigureAwait(false);
-            logger.LogDebug($"Total task count: {existingTasks.Length}");
+            logger.LogDebug($"Total task count: {taskDictionary.Count} with ExternalId/{existingTasks.Length} Total");
 
             return taskDictionary;
         }
@@ -41,14 +42,29 @@ namespace timrlink.net.Core.Service
             await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
         }
 
-        public async Task SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
+        public async Task SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
         {
             if (equalityComparer == null)
             {
                 equalityComparer = new DefaultTaskEqualityComparer(loggerFactory);
             }
 
-            foreach (API.Task task in remoteTasks)
+            var taskDictionary = remoteTasks.ToDictionary(task => task.externalId);
+            if (disableMissingTasks)
+            {
+                foreach (var existingTask in existingTasks)
+                {
+                    if (!taskDictionary.ContainsKey(existingTask.Key))
+                    {
+                        var task = existingTask.Value.Clone();
+                        task.end = DateTime.Today.AddDays(-1);
+                        task.endSpecified = true;
+                        taskDictionary.Add(task.externalId, task);   
+                    }
+                }
+            }
+
+            foreach (API.Task task in taskDictionary.Values)
             {
                 try
                 {

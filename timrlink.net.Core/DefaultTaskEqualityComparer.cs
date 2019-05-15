@@ -31,12 +31,6 @@ namespace timrlink.net.Core
                 return false;
             }
 
-            if (x.uuid != y.uuid)
-            {
-                logger?.LogDebug($"UUID: {x.uuid} != {y.uuid}");
-                return false;
-            }
-
             if (x.description != y.description)
             {
                 logger?.LogDebug($"Description: {x.description} != {y.description}");
@@ -113,11 +107,13 @@ namespace timrlink.net.Core
                 return false;
             }
 
+            /*
             if (x.uuid != y.uuid)
             {
                 logger?.LogDebug($"UUID: {x.end} != {y.end}");
                 return false;
             }
+            */
 
             if (x.budgetPlanningType != y.budgetPlanningType)
             {

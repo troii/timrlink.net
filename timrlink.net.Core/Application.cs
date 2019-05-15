@@ -34,18 +34,17 @@ namespace timrlink.net.Core
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             serviceProvider = serviceCollection
-                .AddLogging()
+                .AddSingleton<IConfiguration>(configuration)
+                .AddLogging(builder => ConfigureLogger(builder, configuration))
                 .AddScoped<ITaskService, TaskService>()
                 .AddScoped<IWorkTimeService, WorkTimeService>()
                 .AddScoped<IProjectTimeService, ProjectTimeService>()
-                .AddSingleton(BindTimrSync(configuration))
-                .AddSingleton<IConfiguration>(configuration)
+                .AddScoped(serviceProvider => BindTimrSync(configuration, serviceProvider))
+                .AddScoped<LoggingEndpointBehaviour>()
+                .AddScoped<LoggingMessageInspector>()
                 .BuildServiceProvider();
 
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-            ConfigureLogger(loggerFactory);
-
-            Logger = loggerFactory.CreateLogger(GetType());
+            Logger = serviceProvider.GetService<ILogger<Application>>();
         }
 
         public abstract Task Run();
@@ -54,7 +53,7 @@ namespace timrlink.net.Core
         {
         }
 
-        protected virtual void ConfigureLogger(ILoggerFactory loggerFactory)
+        protected virtual void ConfigureLogger(ILoggingBuilder loggingBuilder, IConfigurationRoot configuration)
         {
         }
 
@@ -64,11 +63,12 @@ namespace timrlink.net.Core
 
         protected T GetService<T>() => serviceProvider.GetService<T>();
 
-        private static TimrSync BindTimrSync(IConfiguration configuration)
+        private static TimrSync BindTimrSync(IConfiguration configuration, IServiceProvider provider)
         {
             var host = configuration["timrSync:host"] ?? DEFAULT_HOST;
             var identifier = configuration["timrSync:identifier"];
             var token = configuration["timrSync:token"];
+            var debug = Boolean.Parse(configuration["debug"]);
 
             if (identifier == null)
             {
@@ -93,6 +93,11 @@ namespace timrlink.net.Core
             var channelFactory = new ChannelFactory<TimrSync>(binding, endpoint);
             channelFactory.Credentials.UserName.UserName = identifier;
             channelFactory.Credentials.UserName.Password = token;
+
+            if (debug)
+            {
+                channelFactory.Endpoint.EndpointBehaviors.Add(provider.GetRequiredService<LoggingEndpointBehaviour>());
+            }
 
             return channelFactory.CreateChannel();
         }

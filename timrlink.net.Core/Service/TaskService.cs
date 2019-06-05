@@ -19,14 +19,33 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public async Task<IDictionary<string, API.Task>> GetExistingTasksAsync(Func<API.Task, string> externalIdLookup = null)
+        public async Task<IList<API.Task>> GetTaskHierarchy()
         {
-            var existingTasks = (await timrSync.GetTasksAsync(new API.GetTasksRequest1(new API.GetTasksRequest())).ConfigureAwait(false)).GetTasksResponse1;
+            var getTasksResponse = await timrSync.GetTasksAsync(new API.GetTasksRequest1(new API.GetTasksRequest())).ConfigureAwait(false);
+            var rootTaskArray = getTasksResponse.GetTasksResponse1;
+            logger.LogDebug($"Root task count: {rootTaskArray.Length}");
 
+            return rootTaskArray.ToList();
+        }
+
+        public IList<API.Task> FlattenTasks(IEnumerable<API.Task> tasks)
+        {
+            return tasks.SelectMany(task =>
+            {
+                var list = new List<API.Task> { task };
+                if (task.subtasks != null)
+                {
+                    list.AddRange(FlattenTasks(task.subtasks));
+                }
+
+                return list;
+            }).ToList();
+        }
+
+        public async Task<IDictionary<string, API.Task>> CreateExternalIdDictionary(IEnumerable<API.Task> tasks, Func<API.Task, string> externalIdLookup = null)
+        {
             IDictionary<string, API.Task> taskDictionary = new Dictionary<string, API.Task>();
-            await AddTaskIDs(taskDictionary, existingTasks, null, externalIdLookup).ConfigureAwait(false);
-            logger.LogDebug($"Total task count: {taskDictionary.Count} with ExternalId/{existingTasks.Length} Total");
-
+            await AddTaskIDs(taskDictionary, tasks, null, externalIdLookup).ConfigureAwait(false);
             return taskDictionary;
         }
 
@@ -42,7 +61,7 @@ namespace timrlink.net.Core.Service
             await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
         }
 
-        public async Task SynchronizeTasks(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
+        public async Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
         {
             if (equalityComparer == null)
             {
@@ -59,7 +78,7 @@ namespace timrlink.net.Core.Service
                         var task = existingTask.Value.Clone();
                         task.end = DateTime.Today.AddDays(-1);
                         task.endSpecified = true;
-                        taskDictionary.Add(task.externalId, task);   
+                        taskDictionary.Add(task.externalId, task);
                     }
                 }
             }
@@ -144,11 +163,11 @@ namespace timrlink.net.Core.Service
                 try
                 {
                     await timrSync.SetTaskExternalIdAsync(new API.SetTaskExternalIdRequest1(new API.SetTaskExternalIdRequest
-                    {
-                        name = task.name,
-                        newExternalTaskId = externalId,
-                        parentExternalId = task.parentExternalId
-                    }
+                        {
+                            name = task.name,
+                            newExternalTaskId = externalId,
+                            parentExternalId = task.parentExternalId
+                        }
                     )).ConfigureAwait(false);
                     task.externalId = externalId;
                 }

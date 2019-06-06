@@ -27,8 +27,10 @@ namespace timrlink.net.Core.Service
             var workTimes = (await timrSync.GetWorkTimesAsync(new API.GetWorkTimesRequest(new API.WorkTimeQuery
             {
                 start = start,
+                startSpecified = start != null,
                 end = end,
-                statuses = statuses.ToArray(),
+                endSpecified = end != null,
+                statuses = statuses?.ToArray(),
                 externalUserId = externalUserId,
                 externalWorkItemId = externalWorkItemId
             })).ConfigureAwait(false)).GetWorkTimesResponse1;

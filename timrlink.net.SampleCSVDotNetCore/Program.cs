@@ -52,14 +52,14 @@ namespace timrlink.net.SampleCSVDotNetCore
             configurationBuilder.AddJsonFile("config.json");
         }
 
-        protected override void ConfigureLogger(ILoggerFactory loggerFactory)
+        protected override void ConfigureLogger(ILoggingBuilder loggingBuilder, IConfigurationRoot configuration)
         {
-            base.ConfigureLogger(loggerFactory);
+            base.ConfigureLogger(loggingBuilder, configuration);
 
-            loggerFactory.AddConsole(LogLevel.Debug, false);
-            loggerFactory.AddSerilog(new LoggerConfiguration()
-                .MinimumLevel.Debug()
+            loggingBuilder.AddSerilog(new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
                 .WriteTo.RollingFile("timrlink.net.{Date}.log")
+                .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.ConsoleTheme.None)
                 .CreateLogger());
         }
 
@@ -95,17 +95,18 @@ namespace timrlink.net.SampleCSVDotNetCore
 
             Logger.LogInformation($"found {records.Count} entries");
 
-            var tasks = await TaskService.GetExistingTasksAsync(
+            var tasks = await TaskService.GetTaskHierarchy();
+            var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
                 task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
             );
 
             foreach (var record in records)
             {
-                if (!tasks.ContainsKey(record.Task))
+                if (!taskDictionary.ContainsKey(record.Task))
                 {
                     try
                     {
-                        AddTaskTreeRecursive(tasks, null, record.Task.Split("|"));
+                        AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
                     }
                     catch (Exception e)
                     {
@@ -114,27 +115,25 @@ namespace timrlink.net.SampleCSVDotNetCore
                     }
                 }
 
-                ProjectTime projectTime;
                 try
                 {
-                    projectTime = new ProjectTime
+                    var projectTime = new ProjectTime
                     {
                         externalTaskId = record.Task,
                         externalUserId = record.User,
-                        startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
-                        endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy HH:mm", CultureInfo.InvariantCulture),
-                        breakTime = (int)TimeSpan.Parse(record.Break).TotalMinutes,
+                        startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                        endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                        breakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
                         description = record.Notes,
                         billable = record.Billable
                     };
+
+                    await ProjectTimeService.SaveProjectTime(projectTime);
                 }
-                catch (Exception e)
+                catch (FormatException e)
                 {
                     Logger.LogError(e, $"Error parsing record: {record}");
-                    continue;
                 }
-
-                await ProjectTimeService.SaveProjectTime(projectTime);
             }
 
             Logger.LogInformation("End.");

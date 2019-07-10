@@ -2,5 +2,13 @@
   "timrSync": {
     "identifier": "<identifier>",
     "token": "<token>"
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "System.Net.Http.HttpClient": "Warning"
+      }
+    }
   }
 }

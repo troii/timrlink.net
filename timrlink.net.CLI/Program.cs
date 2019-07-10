@@ -73,28 +73,56 @@ namespace timrlink.net.CLI
                 return;
             }
 
-            string filename = args[0];
             List<CsvRecord> records;
-
             try
             {
-                Logger.LogInformation($"Reading file: {filename}");
-
-                using (var fileReader = File.OpenRead(filename))
-                using (var textReader = new StreamReader(fileReader))
-                using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true }))
-                {
-                    records = csvReader.GetRecords<CsvRecord>().ToList();
-                }
+                records = ParseFile(args[0]);
             }
             catch (Exception e)
             {
-                Logger.LogError(e, $"Could not read passed file '{filename}'.");
+                Logger.LogError(e, "Could not read passed file!");
                 return;
             }
 
             Logger.LogInformation($"found {records.Count} entries");
 
+            await ImportProjectTimeRecords(records);
+
+            Logger.LogInformation("End.");
+        }
+
+        private List<CsvRecord> ParseFile(string filename)
+        {
+            Logger.LogInformation($"Reading file: {filename}");
+
+            switch (Path.GetExtension(filename))
+            {
+                case ".csv":
+                    return ParseCSV(filename);
+                case ".xlsx":
+                    return ParseXLSX(filename);
+                default:
+                    throw new ArgumentException($"Unsupported file type '{filename}' - use .csv or .xlsx!");
+            }
+        }
+
+        private List<CsvRecord> ParseCSV(string filename)
+        {
+            using (var fileReader = File.OpenRead(filename))
+            using (var textReader = new StreamReader(fileReader))
+            using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true }))
+            {
+                return csvReader.GetRecords<CsvRecord>().ToList();
+            }
+        }
+
+        private List<CsvRecord> ParseXLSX(string filename)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async System.Threading.Tasks.Task ImportProjectTimeRecords(List<CsvRecord> records)
+        {
             var tasks = await TaskService.GetTaskHierarchy();
             var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
                 task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
@@ -106,7 +134,7 @@ namespace timrlink.net.CLI
                 {
                     try
                     {
-                        AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
+                        await AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
                     }
                     catch (Exception e)
                     {
@@ -135,11 +163,9 @@ namespace timrlink.net.CLI
                     Logger.LogError(e, $"Error parsing record: {record}");
                 }
             }
-
-            Logger.LogInformation("End.");
         }
 
-        private void AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentPath, IList<string> pathTokens)
+        private async System.Threading.Tasks.Task AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentPath, IList<string> pathTokens)
         {
             if (pathTokens.Count == 0) return;
 
@@ -155,11 +181,11 @@ namespace timrlink.net.CLI
                     parentExternalId = parentPath,
                     bookable = true,
                 };
-                TaskService.AddTask(task);
+                await TaskService.AddTask(task);
                 tasks.Add(currentPath, task);
             }
 
-            AddTaskTreeRecursive(tasks, currentPath, pathTokens.Skip(1).ToList());
+            await AddTaskTreeRecursive(tasks, currentPath, pathTokens.Skip(1).ToList());
         }
     }
 }

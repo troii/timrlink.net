@@ -1,17 +1,17 @@
-using CsvHelper;
-using CsvHelper.Configuration;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using timrlink.net.Core;
 using timrlink.net.Core.API;
 
-namespace timrlink.net.SampleCSVDotNetCore
+namespace timrlink.net.CLI
 {
     class Program
     {

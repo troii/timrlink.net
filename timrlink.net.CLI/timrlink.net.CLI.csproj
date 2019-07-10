@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <StartupObject>timrlink.net.SampleCSVDotNetCore.Program</StartupObject>
+    <StartupObject>timrlink.net.CLI.Program</StartupObject>
     <Company>troii Software GmbH</Company>
-    <Product>timrlink.net SampleCSVDotNetCore</Product>
+    <Product>timrlink.net CLI</Product>
     <Authors>Bernhard Danecker</Authors>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

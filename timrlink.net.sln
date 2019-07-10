@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timrlink.net.SampleCSVDotNetCore", "timrlink.net.SampleCSVDotNetCore\timrlink.net.SampleCSVDotNetCore.csproj", "{E6F2C8F8-3B2A-4188-AE07-F44D72E3F11D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timrlink.net.CLI", "timrlink.net.CLI\timrlink.net.CLI.csproj", "{E6F2C8F8-3B2A-4188-AE07-F44D72E3F11D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "timrlink.net.Core", "timrlink.net.Core\timrlink.net.Core.csproj", "{B65374F1-A7C6-4D8F-B5ED-59C4DAF0AC28}"
 EndProject

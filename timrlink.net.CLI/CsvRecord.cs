@@ -1,4 +1,4 @@
-namespace timrlink.net.SampleCSVDotNetCore
+namespace timrlink.net.CLI
 {
     class CsvRecord
     {

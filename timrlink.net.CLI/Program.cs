@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -15,7 +19,6 @@ namespace timrlink.net.CLI
 {
     class Program
     {
-        // call with SampleData.csv as argument
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             Application application = new ApplicationImpl(args);
@@ -73,7 +76,7 @@ namespace timrlink.net.CLI
                 return;
             }
 
-            List<CsvRecord> records;
+            List<ProjectTime> records;
             try
             {
                 records = ParseFile(args[0]);
@@ -91,7 +94,7 @@ namespace timrlink.net.CLI
             Logger.LogInformation("End.");
         }
 
-        private List<CsvRecord> ParseFile(string filename)
+        private List<ProjectTime> ParseFile(string filename)
         {
             Logger.LogInformation($"Reading file: {filename}");
 
@@ -106,22 +109,82 @@ namespace timrlink.net.CLI
             }
         }
 
-        private List<CsvRecord> ParseCSV(string filename)
+        private List<ProjectTime> ParseCSV(string filename)
         {
             using (var fileReader = File.OpenRead(filename))
             using (var textReader = new StreamReader(fileReader))
             using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true }))
             {
-                return csvReader.GetRecords<CsvRecord>().ToList();
+                return csvReader.GetRecords<CsvRecord>().Select(record =>
+                {
+                    try
+                    {
+                        return new ProjectTime
+                        {
+                            externalTaskId = record.Task,
+                            externalUserId = record.User,
+                            startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            breakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
+                            description = record.Notes,
+                            billable = record.Billable
+                        };
+                    }
+                    catch (FormatException e)
+                    {
+                        Logger.LogError(e, $"Error parsing record: {record}");
+                        return null;
+                    }
+                }).Where(record => record != null).ToList();
             }
         }
 
-        private List<CsvRecord> ParseXLSX(string filename)
+        private List<ProjectTime> ParseXLSX(string filename)
         {
-            throw new NotImplementedException();
+            using (var document = SpreadsheetDocument.Open(filename, false))
+            {
+                //create the object for workbook part  
+                var worksheet = document.WorkbookPart.WorksheetParts.First().Worksheet;
+                var sheetData = worksheet.Elements<SheetData>().Single();
+
+                return sheetData.Cast<Row>().Skip(1).Select(row =>
+                {
+                    // TODO Column Titles are localized 
+
+                    var columns = row.Elements<Cell>().ToList();
+                    var externalUserId = document.WorkbookPart.GetStringValue(columns[1]);
+                    var externalTaskId = document.WorkbookPart.GetStringValue(columns[4]);
+                    if (String.IsNullOrEmpty(externalTaskId))
+                    {
+                        // build externalTaskId by Task Levels
+                    }
+
+                    // TODO n (=1) task custom fields!
+                    var notes = document.WorkbookPart.GetStringValue(columns[6]);
+                    var startTime = DateTime.FromOADate(double.Parse(columns[8].InnerText));
+                    // TODO timezone optional!
+                    var endTime = DateTime.FromOADate(double.Parse(columns[10].InnerText));
+                    // TODO timezone optional!
+                    var billable = columns[11].InnerText == "1";
+                    var @break = (int) decimal.Parse(document.WorkbookPart.GetStringValue(columns[16]));
+                    // TODO n project time custom fields
+                    // TODO Task level n
+
+                    return new ProjectTime
+                    {
+                        externalUserId = externalUserId,
+                        externalTaskId = externalTaskId,
+                        startTime = startTime,
+                        endTime = endTime,
+                        breakTime = @break,
+                        description = notes,
+                        billable = billable,
+                    };
+                }).ToList();
+            }
         }
 
-        private async System.Threading.Tasks.Task ImportProjectTimeRecords(List<CsvRecord> records)
+        private async System.Threading.Tasks.Task ImportProjectTimeRecords(List<ProjectTime> records)
         {
             var tasks = await TaskService.GetTaskHierarchy();
             var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
@@ -130,11 +193,11 @@ namespace timrlink.net.CLI
 
             foreach (var record in records)
             {
-                if (!taskDictionary.ContainsKey(record.Task))
+                if (!taskDictionary.ContainsKey(record.externalTaskId))
                 {
                     try
                     {
-                        await AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
+                        await AddTaskTreeRecursive(taskDictionary, null, record.externalTaskId.Split("|"));
                     }
                     catch (Exception e)
                     {
@@ -143,25 +206,7 @@ namespace timrlink.net.CLI
                     }
                 }
 
-                try
-                {
-                    var projectTime = new ProjectTime
-                    {
-                        externalTaskId = record.Task,
-                        externalUserId = record.User,
-                        startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                        endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                        breakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
-                        description = record.Notes,
-                        billable = record.Billable
-                    };
-
-                    await ProjectTimeService.SaveProjectTime(projectTime);
-                }
-                catch (FormatException e)
-                {
-                    Logger.LogError(e, $"Error parsing record: {record}");
-                }
+                await ProjectTimeService.SaveProjectTime(record);
             }
         }
 

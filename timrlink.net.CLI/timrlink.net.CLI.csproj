@@ -8,6 +8,12 @@
     <Product>timrlink.net CLI</Product>
     <Authors>Bernhard Danecker</Authors>
     <LangVersion>latest</LangVersion>
+    <AssemblyName>timrlink</AssemblyName>
+    <Title>timrlink-cli</Title>
+    <Copyright>troii Software GmbH</Copyright>
+    <PackageProjectUrl>https://timr.com</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/troii/timrlink.net/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/troii/timrlink.net</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -18,13 +18,14 @@ namespace timrlink.net.Core
 
         private readonly IServiceProvider serviceProvider;
 
+        protected ILoggerFactory LoggerFactory => GetService<ILoggerFactory>();
         protected ITaskService TaskService => GetService<ITaskService>();
         protected IWorkTimeService WorkTimeService => GetService<IWorkTimeService>();
         protected IProjectTimeService ProjectTimeService => GetService<IProjectTimeService>();
         protected IConfiguration Configuration => GetService<IConfiguration>();
 
         public ILogger Logger { get; }
-
+        
         protected Application()
         {
             var confBuilder = new ConfigurationBuilder();

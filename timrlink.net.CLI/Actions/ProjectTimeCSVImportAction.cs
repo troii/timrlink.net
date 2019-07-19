@@ -11,7 +11,7 @@ using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
 {
-    public class ProjectTimeCSVImportAction : ProjectTimeImportAction
+    internal class ProjectTimeCSVImportAction : ProjectTimeImportAction
     {
         public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IProjectTimeService projectTimeService)
             : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, projectTimeService)

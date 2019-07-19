@@ -10,7 +10,7 @@ using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
 {
-    public class ProjectTimeXLSXImportAction : ProjectTimeImportAction
+    internal class ProjectTimeXLSXImportAction : ProjectTimeImportAction
     {
         private static readonly IDictionary<string, ColumnDefinition> ColumnDefinitions = new Dictionary<string, ColumnDefinition>
         {

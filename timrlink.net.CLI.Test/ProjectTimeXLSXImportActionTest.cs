@@ -7,7 +7,7 @@ using timrlink.net.CLI.Actions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 
-namespace Tests
+namespace timrlink.net.CLI.Test
 {
     public class ProjectTimeXLSXImportActionTest
     {

@@ -14,13 +14,37 @@ Currently supported:
 
 * Project Time import via .csv and .xlsx files
 
+### Usage
+
+#### Import project times
+
+```
+timrlink -pt <file>
+```
+
+#### Import tasks
+
+```
+timrlink -t <file>
+```
+
+### Building
+
+```
+dotnet build
+```
+
 ### Execution
+
+Execution from source
 
 ```
 dotnet run --project timrlink.net.CLI
 ```
 
 ### Packaging
+
+Packing
 
 #### Self Contained Package including dotnet runtime ###
 

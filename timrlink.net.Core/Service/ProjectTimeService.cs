@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using timrlink.net.Core.API;
 using Task = System.Threading.Tasks.Task;
 
@@ -21,12 +22,16 @@ namespace timrlink.net.Core.Service
         {
             try
             {
-                logger.LogInformation($"Saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime}");
+                logger.LogInformation($"Saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime})");
                 await timrSync.SaveProjectTimeAsync(new SaveProjectTimeRequest(projectTime)).ConfigureAwait(false);
+            }
+            catch (FaultException e)
+            {
+                logger.LogError($"Failed saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime}): {e.Message}");
             }
             catch (Exception e)
             {
-                logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime}");
+                logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime})");
             }
         }
 

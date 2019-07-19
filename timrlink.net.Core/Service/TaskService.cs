@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace timrlink.net.Core.Service
@@ -89,6 +90,10 @@ namespace timrlink.net.Core.Service
                 {
                     await AddOrUpdateTask(existingTasks, task, updateTasks, equalityComparer).ConfigureAwait(false);
                 }
+                catch (FaultException e)
+                {
+                    logger.LogError($"Failed synchronizing Task(Name={task.name}, ExternalId={task.externalId}): ${e.Message}");
+                }
                 catch (Exception e)
                 {
                     logger.LogError(e, $"Failed synchronizing Task(Name={task.name}, ExternalId={task.externalId})");
@@ -170,6 +175,10 @@ namespace timrlink.net.Core.Service
                         }
                     )).ConfigureAwait(false);
                     task.externalId = externalId;
+                }
+                catch (FaultException e)
+                {
+                    logger.LogError($"Failed SetTaskExternalId Task(Name={task.name}, ExternalId={externalId}): {e.Message}");
                 }
                 catch (Exception e)
                 {

@@ -22,7 +22,7 @@ namespace timrlink.net.CLI.Actions
         {
             using (var fileReader = File.OpenRead(Filename))
             using (var textReader = new StreamReader(fileReader))
-            using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true }))
+            using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true, Delimiter = ";" }))
             {
                 return csvReader.GetRecords<CsvRecord>().Select(record =>
                 {

@@ -1,9 +1,0 @@
-User,Task,StartDateTime,EndDateTime,Break,Notes,Billable
-John Dow,INTERNAL|Holiday,01.12.15 8:00,01.12.15 16:30,0:30,,false
-John Dow,INTERNAL|Holiday,02.12.15 8:00,02.12.15 16:30,0:30,,false
-John Dow,INTERNAL|Holiday,03.12.15 8:00,03.12.15 16:30,0:30,,false
-John Dow,INTERNAL|Holiday,04.12.15 8:00,04.12.15 16:30,0:30,,false
-John Cena,INTERNAL|PM,26.02.16 8:00,26.02.16 16:30,0:30,"Boring Company, Boring Stuff ",true
-John Dow,INTERNAL|PM,16.03.16 8:00,16.03.16 16:30,0:30,"Boring Company, drilling... ",true
-John Dow,INTERNAL|PM,29.06.16 8:00,29.06.16 16:30,0:30,"Boring Company, drilling... ",true
-John Cena,INTERNAL|PM,29.06.16 8:00,29.06.16 16:30,0:30,"Boring Company, AWESOME Stuff!!! ",true

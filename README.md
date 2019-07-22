@@ -1,9 +1,9 @@
 # timrlink.net
-timr SOAP API client implemented in .Net Core
+[timr](timr.com) SOAP API client implemented in .Net Core
 
 ## Core
 
-`timrlink.net.Core` contains the basic implementation and abstraction of the <timr.com> SOAP API.
+`timrlink.net.Core` contains the basic implementation and abstraction of the [timr.com](timr.com) SOAP API.
 
 ## CLI
 
@@ -13,8 +13,55 @@ Mainly this is used for importing data into timr.
 Currently supported:
 
 * Project Time import via .csv and .xlsx files
+* Task import via .csv files
+
+### Usage
+
+#### Import project times
+
+```
+timrlink pt <file>
+timrlink projecttime <file>
+```
+
+CSV file has to be in the format
+
+```
+User;Task;StartDateTime;EndDateTime;Break;Notes;Billable
+John Dow;INTERNAL|Holiday;01.12.15 8:00;01.12.15 16:30;0:30;;false
+```
+
+Excel files are supported in the form of excel exports from timr
+
+#### Import tasks
+
+```
+timrlink t <file> [--u]
+timrlink task <file> [--update]
+
+Options:
+  -u, --update    Update existing tasks with same externalId
+
+```
+
+CSV file has to be in the format
+
+```
+Task;Bookable;Billable;Description;Start;End
+Customer A|Project1|Task1;True;False;Awesome;;
+Customer A|Project1;True;True;;;
+Customer A|Project2;false;true;;2019-05-16;
+```
+
+### Building
+
+```
+dotnet build
+```
 
 ### Execution
+
+Execution from source
 
 ```
 dotnet run --project timrlink.net.CLI

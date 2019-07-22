@@ -1,41 +1,38 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Invocation;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using CsvHelper;
-using CsvHelper.Configuration;
-using DocumentFormat.OpenXml.Math;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using timrlink.net.CLI.Actions;
 using timrlink.net.Core;
-using timrlink.net.Core.API;
+
+[assembly: InternalsVisibleTo("timrlink.net.CLI.Test")]
 
 namespace timrlink.net.CLI
 {
-    class Program
+    internal class Program
     {
-        static async System.Threading.Tasks.Task Main(string[] args)
+        private static async Task<int> Main(string[] args)
         {
             Application application = new ApplicationImpl(args);
             try
             {
-                await application.Run();
+                return await application.Run();
             }
             catch (Exception e)
             {
                 application.Logger.LogError(e, e.Message);
+                return 1;
             }
         }
     }
 
-    class ApplicationImpl : Application
+    internal class ApplicationImpl : Application
     {
         private readonly string[] args;
 
@@ -46,14 +43,6 @@ namespace timrlink.net.CLI
 
         protected override void SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {
-            /*
-            configurationBuilder.AddInMemoryCollection(new Dictionary<string, string>
-            {
-                {"timrSync:identifier", "<identifier>"},
-                {"timrSync:token", "<token>"}
-            });
-            */
-
             configurationBuilder.AddJsonFile("config.json");
         }
 
@@ -68,17 +57,40 @@ namespace timrlink.net.CLI
                 .CreateLogger());
         }
 
-        public override async System.Threading.Tasks.Task Run()
+        public override async Task<int> Run()
         {
-            Logger.LogInformation("Running...");
-
-            if (args.Length != 1)
-            {
-                Logger.LogError($"Invalid Argument count: {args.Length}; Required: 1");
-                return;
-            }
-            var filename = args[0];
+            var filenameArgument = new Argument<string>("filename");
+            filenameArgument.LegalFilePathsOnly();
             
+            var projectTimeCommand = new Command("projecttime", "Import project times");
+            projectTimeCommand.AddAlias("pt");
+            projectTimeCommand.AddArgument(filenameArgument);
+            projectTimeCommand.Handler = CommandHandler.Create<string>(ImportProjectTime);
+
+            var updateTasks = new Option("--update", "Update existing tasks with same externalId");
+            updateTasks.AddAlias("-u");
+            updateTasks.Argument.SetDefaultValue(true);
+            updateTasks.Argument.ArgumentType = typeof(bool);
+            
+            var taskCommand = new Command("task", "Import tasks");
+            taskCommand.AddAlias("t");
+            taskCommand.AddArgument(filenameArgument);
+            taskCommand.AddOption(updateTasks);
+            taskCommand.Handler = CommandHandler.Create<string, bool>(ImportTasks);
+
+            var rootCommand = new RootCommand("timrlink command line interface")
+            {
+                projectTimeCommand,
+                taskCommand,
+            };
+            rootCommand.Name = "timrlink";
+            rootCommand.TreatUnmatchedTokensAsErrors = true;
+
+            return await rootCommand.InvokeAsync(args);
+        }
+
+        private async Task ImportProjectTime(string filename)
+        {
             ImportAction action;
             switch (Path.GetExtension(filename))
             {
@@ -93,8 +105,11 @@ namespace timrlink.net.CLI
             }
 
             await action.Execute();
+        }
 
-            Logger.LogInformation("End.");
+        private async Task ImportTasks(string filename, bool update)
+        {
+            await new TaskImportAction(LoggerFactory, filename, update, TaskService).Execute();
         }
     }
 }

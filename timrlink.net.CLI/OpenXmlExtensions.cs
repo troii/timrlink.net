@@ -5,7 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace timrlink.net.CLI
 {
-    public static class OpenXmlExtensions
+    internal static class OpenXmlExtensions
     {
         public static string GetStringValue(this WorkbookPart workbook, Cell cell)
         {

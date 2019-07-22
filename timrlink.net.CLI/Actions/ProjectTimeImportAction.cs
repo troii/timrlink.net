@@ -7,7 +7,7 @@ using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
 {
-    public abstract class ProjectTimeImportAction : ImportAction
+    internal abstract class ProjectTimeImportAction : ImportAction
     {
         protected ITaskService TaskService { get; }
         protected IProjectTimeService ProjectTimeService { get; }

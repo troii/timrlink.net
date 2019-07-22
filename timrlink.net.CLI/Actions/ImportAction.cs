@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 
 namespace timrlink.net.CLI.Actions
 {
-    public abstract class ImportAction
+    internal abstract class ImportAction
     {
         protected string Filename { get; }
 

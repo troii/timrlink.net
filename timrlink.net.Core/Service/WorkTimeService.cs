@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace timrlink.net.Core.Service
@@ -46,6 +47,10 @@ namespace timrlink.net.Core.Service
             {
                 logger.LogInformation($"Saving WorkTime(ExternalUserId={workTime.externalUserId}, ExternalWorkItemId={workTime.externalWorkItemId}, Description={workTime.description}, Start={workTime.startTime}, End={workTime.endTime}, Status={workTime.status})");
                 await timrSync.SaveWorkTimeAsync(new API.SaveWorkTimeRequest(workTime)).ConfigureAwait(false);
+            }
+            catch (FaultException e)
+            {
+                logger.LogError($"Failed saving WorkTime(ExternalUserId={workTime.externalUserId}, ExternalWorkItemId={workTime.externalWorkItemId}, Description={workTime.description}, Start={workTime.startTime}, End={workTime.endTime}, Status={workTime.status}): {e.Message}");
             }
             catch (Exception e)
             {

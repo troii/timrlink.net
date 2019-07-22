@@ -1,0 +1,4 @@
+Task;Bookable;Billable;Description;Start;End
+Customer A|Project1|Task1;True;False;Awesome;;
+Customer A|Project1;True;True;;;
+Customer A|Project2;false;true;;2019-05-16;

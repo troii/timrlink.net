@@ -1,14 +1,11 @@
-﻿using System.Linq;
 using System;
-using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
-using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.Core
 {
@@ -25,7 +22,7 @@ namespace timrlink.net.Core
         protected IConfiguration Configuration => GetService<IConfiguration>();
 
         public ILogger Logger { get; }
-        
+
         protected Application()
         {
             var confBuilder = new ConfigurationBuilder();
@@ -48,7 +45,7 @@ namespace timrlink.net.Core
             Logger = serviceProvider.GetService<ILogger<Application>>();
         }
 
-        public abstract Task Run();
+        public abstract Task<int> Run();
 
         protected virtual void SetupConfiguration(IConfigurationBuilder configurationBuilder)
         {

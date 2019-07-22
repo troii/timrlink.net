@@ -20,15 +20,15 @@ Currently supported:
 #### Import project times
 
 ```
-timrlink -pt <file>
-timrlink -projecttime <file>
+timrlink pt <file>
+timrlink projecttime <file>
 ```
 
 CSV file has to be in the format
 
 ```
-User,Task,StartDateTime,EndDateTime,Break,Notes,Billable
-John Dow,INTERNAL|Holiday,01.12.15 8:00,01.12.15 16:30,0:30,,false
+User;Task;StartDateTime;EndDateTime;Break;Notes;Billable
+John Dow;INTERNAL|Holiday;01.12.15 8:00;01.12.15 16:30;0:30;;false
 ```
 
 Excel files are supported in the form of excel exports from timr
@@ -36,8 +36,12 @@ Excel files are supported in the form of excel exports from timr
 #### Import tasks
 
 ```
-timrlink -t <file> [--u]
-timrlink -task <file> [--update]
+timrlink t <file> [--u]
+timrlink task <file> [--update]
+
+Options:
+  -u, --update    Update existing tasks with same externalId
+
 ```
 
 CSV file has to be in the format

@@ -15,6 +15,20 @@ Currently supported:
 * Project Time import via .csv and .xlsx files
 * Task import via .csv files
 
+### Setup
+
+Specify your timr identifier (\<identifier>.timr.com) in the `config.json` file and enter your `Authentication Token` (found at `Administration -> Settings -> timr API`).
+For full support with excel imports also set the `Show external ID` to `Yes`, so task assignment and creation works as expected.
+
+```
+{
+  "timrSync": {
+    "identifier": "<identifier>",
+    "token": "<Authentication Token>"
+  }
+}
+```
+
 ### Usage
 
 #### Import project times
@@ -41,7 +55,6 @@ timrlink task <file> [--update]
 
 Options:
   -u, --update    Update existing tasks with same externalId
-
 ```
 
 CSV file has to be in the format

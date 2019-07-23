@@ -1,7 +1,7 @@
 {
   "timrSync": {
-    "identifier": "<identifier>",
-    "token": "<token>"
+    "identifier": "",
+    "token": ""
   },
   "Serilog": {
     "MinimumLevel": {

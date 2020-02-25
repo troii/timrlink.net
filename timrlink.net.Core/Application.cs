@@ -16,6 +16,7 @@ namespace timrlink.net.Core
         private readonly IServiceProvider serviceProvider;
 
         protected ILoggerFactory LoggerFactory => GetService<ILoggerFactory>();
+        protected IUserService UserService => GetService<IUserService>();
         protected ITaskService TaskService => GetService<ITaskService>();
         protected IWorkTimeService WorkTimeService => GetService<IWorkTimeService>();
         protected IProjectTimeService ProjectTimeService => GetService<IProjectTimeService>();
@@ -37,6 +38,7 @@ namespace timrlink.net.Core
                 .AddScoped<ITaskService, TaskService>()
                 .AddScoped<IWorkTimeService, WorkTimeService>()
                 .AddScoped<IProjectTimeService, ProjectTimeService>()
+                .AddScoped<IUserService, UserService>()
                 .AddScoped(serviceProvider => BindTimrSync(configuration, serviceProvider))
                 .AddScoped<LoggingEndpointBehaviour>()
                 .AddScoped<LoggingMessageInspector>()

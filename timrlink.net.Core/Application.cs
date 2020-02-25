@@ -66,7 +66,7 @@ namespace timrlink.net.Core
             var host = configuration["timrSync:host"] ?? DEFAULT_HOST;
             var identifier = configuration["timrSync:identifier"];
             var token = configuration["timrSync:token"];
-            bool debug = Boolean.TryParse(configuration["debug"], out debug) && debug;
+            bool debug = Boolean.TryParse(configuration["timrSync:debug"], out debug) && debug;
 
             if (identifier == null)
             {

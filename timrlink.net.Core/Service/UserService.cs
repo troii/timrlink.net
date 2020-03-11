@@ -17,13 +17,14 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<IList<User>> GetUsers()
         {
             var getUsersResponse = await timrSync.GetUsersAsync(new GetUsersRequest("")).ConfigureAwait(false);
+            
             var users = getUsersResponse.GetUsersResponse1;
-
-            logger.LogDebug($"User count: {users.Length}");
-            return users.ToList();
+            logger.LogDebug($"Total user count: {users.Length}");
+            
+            return users;
         }
     }
 }

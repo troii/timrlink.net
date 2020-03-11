@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using timrlink.net.Core.API;
 using Task = System.Threading.Tasks.Task;
 
@@ -41,6 +42,18 @@ namespace timrlink.net.Core.Service
             {
                 await SaveProjectTime(projectTime).ConfigureAwait(false);
             }
+        }
+
+        public async Task<IList<ProjectTime>> GetProjectTimes()
+        {
+            var projectTimesResponse = await timrSync.GetProjectTimesAsync(new GetProjectTimesRequest(new ProjectTimeQuery
+            {
+            })).ConfigureAwait(false);
+
+            var projectTimes = projectTimesResponse.GetProjectTimesResponse1;
+            logger.LogDebug($"Total projectTimes count: {projectTimes.Length}");
+
+            return projectTimes;
         }
     }
 }

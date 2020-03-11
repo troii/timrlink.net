@@ -2154,6 +2154,10 @@ namespace timrlink.net.Core.API
         
         private string customField7Field;
         
+        private string userUuidField;
+        
+        private string carUuidField;
+        
         public DriveLog()
         {
             this.statusField = DriveLogStatus.CHANGEABLE;
@@ -2383,6 +2387,34 @@ namespace timrlink.net.Core.API
                 this.customField7Field = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        public string carUuid
+        {
+            get
+            {
+                return this.carUuidField;
+            }
+            set
+            {
+                this.carUuidField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -2417,6 +2449,10 @@ namespace timrlink.net.Core.API
         private string customField6Field;
         
         private string customField7Field;
+        
+        private string userUuidField;
+        
+        private string taskUuidField;
         
         public ProjectTime()
         {
@@ -2605,6 +2641,34 @@ namespace timrlink.net.Core.API
                 this.customField7Field = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public string taskUuid
+        {
+            get
+            {
+                return this.taskUuidField;
+            }
+            set
+            {
+                this.taskUuidField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -2635,6 +2699,10 @@ namespace timrlink.net.Core.API
         private string customField6Field;
         
         private string customField7Field;
+        
+        private string userUuidField;
+        
+        private string workItemUuidField;
         
         public WorkTime()
         {
@@ -2793,6 +2861,34 @@ namespace timrlink.net.Core.API
             set
             {
                 this.customField7Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public string workItemUuid
+        {
+            get
+            {
+                return this.workItemUuidField;
+            }
+            set
+            {
+                this.workItemUuidField = value;
             }
         }
     }
@@ -3059,6 +3155,14 @@ namespace timrlink.net.Core.API
         private System.Nullable<decimal> budgetPlannedField;
         
         private bool budgetPlannedFieldSpecified;
+        
+        private string externalCommentsField;
+        
+        private System.Nullable<System.DateTime> lockDateField;
+        
+        private bool lockDateFieldSpecified;
+        
+        private string parentUuidField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -3407,6 +3511,62 @@ namespace timrlink.net.Core.API
             set
             {
                 this.budgetPlannedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=18)]
+        public string externalComments
+        {
+            get
+            {
+                return this.externalCommentsField;
+            }
+            set
+            {
+                this.externalCommentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=19)]
+        public System.Nullable<System.DateTime> lockDate
+        {
+            get
+            {
+                return this.lockDateField;
+            }
+            set
+            {
+                this.lockDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool lockDateSpecified
+        {
+            get
+            {
+                return this.lockDateFieldSpecified;
+            }
+            set
+            {
+                this.lockDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public string parentUuid
+        {
+            get
+            {
+                return this.parentUuidField;
+            }
+            set
+            {
+                this.parentUuidField = value;
             }
         }
     }

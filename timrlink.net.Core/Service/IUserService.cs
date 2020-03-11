@@ -6,6 +6,6 @@ namespace timrlink.net.Core.Service
 {
     public interface IUserService
     {
-        Task<List<User>> GetUsers();
+        Task<IList<User>> GetUsers();
     }
 }

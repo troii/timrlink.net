@@ -18,7 +18,7 @@ namespace timrlink.net.CLI.Actions
         {
         }
 
-        protected override IEnumerable<ProjectTime> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
         {
             using (var fileReader = File.OpenRead(Filename))
             using (var textReader = new StreamReader(fileReader))
@@ -28,7 +28,7 @@ namespace timrlink.net.CLI.Actions
                 {
                     try
                     {
-                        return new ProjectTime
+                        return new Core.API.ProjectTime
                         {
                             externalTaskId = record.Task,
                             externalUserId = record.User,

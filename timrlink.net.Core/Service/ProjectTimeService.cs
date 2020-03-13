@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using timrlink.net.Core.API;
@@ -17,6 +18,27 @@ namespace timrlink.net.Core.Service
         {
             this.logger = logger;
             this.timrSync = timrSync;
+        }
+
+        public async Task<IList<ProjectTime>> GetProjectTimes(DateTime? start, DateTime? end, DateTime? lastModified, IEnumerable<ProjectTimeStatus> statuses, string externalUserId, string externalTaskId)
+        {
+            var projectTimesResponse = await timrSync.GetProjectTimesAsync(new GetProjectTimesRequest(new ProjectTimeQuery
+            {
+                start = start,
+                startSpecified = start != null,
+                end = end,
+                endSpecified = end != null,
+                lastModified = lastModified,
+                lastModifiedSpecified = lastModified != null,
+                statuses = statuses?.ToArray(),
+                externalUserId = externalUserId,
+                externalTaskId = externalTaskId,
+            })).ConfigureAwait(false);
+
+            var projectTimes = projectTimesResponse.GetProjectTimesResponse1;
+            logger.LogDebug($"Total projectTimes count: {projectTimes.Length}");
+
+            return projectTimes;
         }
 
         public async Task SaveProjectTime(ProjectTime projectTime)
@@ -42,18 +64,6 @@ namespace timrlink.net.Core.Service
             {
                 await SaveProjectTime(projectTime).ConfigureAwait(false);
             }
-        }
-
-        public async Task<IList<ProjectTime>> GetProjectTimes()
-        {
-            var projectTimesResponse = await timrSync.GetProjectTimesAsync(new GetProjectTimesRequest(new ProjectTimeQuery
-            {
-            })).ConfigureAwait(false);
-
-            var projectTimes = projectTimesResponse.GetProjectTimesResponse1;
-            logger.LogDebug($"Total projectTimes count: {projectTimes.Length}");
-
-            return projectTimes;
         }
     }
 }

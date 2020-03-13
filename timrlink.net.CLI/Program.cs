@@ -1,6 +1,5 @@
 using System;
 using System.CommandLine;
-using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -61,7 +60,7 @@ namespace timrlink.net.CLI
         {
             var filenameArgument = new Argument<string>("filename");
             filenameArgument.LegalFilePathsOnly();
-            
+
             var projectTimeCommand = new Command("projecttime", "Import project times");
             projectTimeCommand.AddAlias("pt");
             projectTimeCommand.AddArgument(filenameArgument);
@@ -71,17 +70,22 @@ namespace timrlink.net.CLI
             updateTasks.AddAlias("-u");
             updateTasks.Argument.SetDefaultValue(true);
             updateTasks.Argument.ArgumentType = typeof(bool);
-            
+
             var taskCommand = new Command("task", "Import tasks");
             taskCommand.AddAlias("t");
             taskCommand.AddArgument(filenameArgument);
             taskCommand.AddOption(updateTasks);
             taskCommand.Handler = CommandHandler.Create<string, bool>(ImportTasks);
 
+            var exportProjectTimeCommand = new Command("export-projecttime", "Export Project times");
+            exportProjectTimeCommand.AddOption(new Option<string>("connectionstring"));
+            exportProjectTimeCommand.Handler = CommandHandler.Create<string>(ExportProjectTime);
+
             var rootCommand = new RootCommand("timrlink command line interface")
             {
                 projectTimeCommand,
                 taskCommand,
+                exportProjectTimeCommand,
             };
             rootCommand.Name = "timrlink";
             rootCommand.TreatUnmatchedTokensAsErrors = true;
@@ -110,6 +114,11 @@ namespace timrlink.net.CLI
         private async Task ImportTasks(string filename, bool update)
         {
             await new TaskImportAction(LoggerFactory, filename, update, TaskService).Execute();
+        }
+
+        private async Task ExportProjectTime(string connectionString)
+        {
+            await new ProjectTimeDatabaseExportAction(LoggerFactory, connectionString, UserService, TaskService, ProjectTimeService).Execute();
         }
     }
 }

@@ -38,14 +38,14 @@ timrlink pt <file>
 timrlink projecttime <file>
 ```
 
-CSV file has to be in the format
+CSV file has to be in the following format:
 
 ```
 User;Task;StartDateTime;EndDateTime;Break;Notes;Billable
 John Dow;INTERNAL|Holiday;01.12.15 8:00;01.12.15 16:30;0:30;;false
 ```
 
-Excel files are supported in the form of excel exports from timr
+Excel files are supported in the form of excel exports from timr.
 
 #### Import tasks
 
@@ -54,10 +54,10 @@ timrlink t <file> [--u]
 timrlink task <file> [--update]
 
 Options:
-  -u, --update    Update existing tasks with same externalId
+  -u, --update    Update existing tasks with same externalId, default: true
 ```
 
-CSV file has to be in the format
+CSV file has to be in the following format:
 
 ```
 Task;Bookable;Billable;Description;Start;End
@@ -65,6 +65,17 @@ Customer A|Project1|Task1;True;False;Awesome;;
 Customer A|Project1;True;True;;;
 Customer A|Project2;false;true;;2019-05-16;
 ```
+
+#### Export project times to DB
+
+Currently only Microsoft SQL Server is supported. The connection string for the database has to be specified as argument.
+
+```
+timrlink export-projecttime connectionstring <connectionstring>
+```
+
+Project times will get exported to the specified database. Required tables get created automatically.
+Project times will get updated when changed in timr too. 
 
 ### Building
 

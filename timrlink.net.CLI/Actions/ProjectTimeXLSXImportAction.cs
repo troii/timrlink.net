@@ -24,7 +24,7 @@ namespace timrlink.net.CLI.Actions
         {
         }
 
-        protected override IEnumerable<ProjectTime> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
         {
             using (var document = SpreadsheetDocument.Open(Filename, false))
             {
@@ -97,7 +97,7 @@ namespace timrlink.net.CLI.Actions
                     var changed = columns[columnMapping.ManuallyChanged].CellValue.Text == "1";
                     var @break = (int) decimal.Parse(document.WorkbookPart.GetStringValue(columns[columnMapping.Break]));
 
-                    return new ProjectTime
+                    return new Core.API.ProjectTime
                     {
                         externalUserId = externalUserId,
                         externalTaskId = externalTaskId,

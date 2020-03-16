@@ -2,7 +2,7 @@
 
 properties([
     parameters([
-        booleanParam(name: "BUILD_ARTIFACTS", description: "Build and archive artifacts", defaultValue: true)
+        booleanParam(name: "BUILD_ARTIFACTS", description: "Build and archive artifacts", defaultValue: false)
     ]),
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))
 ])
@@ -22,13 +22,13 @@ node(label: "docker") {
         }
         
         stage("Build") {
-            sh "docker run -it -v $(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet build /mnt/timrlink -c Release"
+            sh "docker run -it -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet build /mnt/timrlink -c Release"
         }
         
         stage("Test") {
             if (currentBuild.result == null) {
                 warnError(message: "This commit has test failures.") {
-                    sh "docker run -it -v $(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet test /mnt/timrlink -c Release"
+                    sh "docker run -it -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet test /mnt/timrlink -c Release"
                 }
                 // junit allowEmptyResults: true, testResults: "**/build/test-results/**/*.xml"
             }
@@ -37,13 +37,13 @@ node(label: "docker") {
         stage("Publish") {
             if (currentBuild.result == null) {
                 warnError(message: "Publish failed.") {
-                    sh "docker run -it -v $(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r win7-x64 --self-contained"
+                    sh "docker run -it -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r win7-x64 --self-contained"
                     zip zipFile: "timrlink-win7-x64.zip" dir: "/mnt/timrlink/timrlink.net.CLI/bin/Release/netcoreapp2.0/win7-x64/publish" archive: true
 
-                    sh "docker run -it -v $(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r osx-x64 --self-contained"
+                    sh "docker run -it -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r osx-x64 --self-contained"
                     zip zipFile: "timrlink-osx-x64.zip" dir: "/mnt/timrlink/timrlink.net.CLI/bin/Release/netcoreapp2.0/osx-x64/publish" archive: true
 
-                    sh "docker run -it -v $(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r ubuntu.18.04-x64 --self-contained"
+                    sh "docker run -it -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r ubuntu.18.04-x64 --self-contained"
                     zip zipFile: "timrlink-ubuntu.18.04-x64.zip" dir: "/mnt/timrlink/timrlink.net.CLI/bin/Release/netcoreapp2.0/ubuntu.18.04-x64/publish" archive: true
 
                     slack("good", "Docker Image $IMAGE_NAME build for ${currentBuild.fullDisplayName} finished", ["#timr-chat"])

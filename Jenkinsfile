@@ -35,7 +35,7 @@ node(label: "docker") {
         }
 
         stage("Publish") {
-            if (currentBuild.result == null) {
+            if (currentBuild.result == null && params.BUILD_ARTIFACTS) {
                 warnError(message: "Publish failed.") {
                     sh "docker run -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r win7-x64 --self-contained"
                     zip(zipFile: "timrlink-win7-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp2.0/win7-x64/publish", archive: true)

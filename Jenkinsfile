@@ -46,7 +46,7 @@ node(label: "docker") {
                     sh "docker run -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r ubuntu.18.04-x64 --self-contained"
                     zip(zipFile: "timrlink-ubuntu.18.04-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp2.0/ubuntu.18.04-x64/publish", archive: true)
 
-                    slack("good", "Docker Image $IMAGE_NAME build for ${currentBuild.fullDisplayName} finished", ["#timr-chat"])
+                    slack("good", "Publish build for ${currentBuild.fullDisplayName} finished, artifacts: (<${env.BUILD_URL}|Download>)", ["#timr-chat"])
                 }
             }
         }

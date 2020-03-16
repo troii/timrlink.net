@@ -53,17 +53,17 @@ namespace timrlink.net.CLI.Test
         [Test]
         public async System.Threading.Tasks.Task ParseCSV()
         {
-            var projectTimes = new List<ProjectTime>();
+            var projectTimes = new List<Core.API.ProjectTime>();
 
             var loggerFactory = new LoggerFactory();
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
-                .Setup(service => service.SaveProjectTime(It.IsAny<ProjectTime>()))
-                .Callback((ProjectTime projectTime) => projectTimes.Add(projectTime));
+                .Setup(service => service.SaveProjectTime(It.IsAny<Core.API.ProjectTime>()))
+                .Callback((Core.API.ProjectTime projectTime) => projectTimes.Add(projectTime));
             projectTimeServiceMock
-                .Setup(service => service.SaveProjectTimes(It.IsAny<IList<ProjectTime>>()))
-                .Callback((IEnumerable<ProjectTime> pts) => projectTimes.AddRange(pts));
+                .Setup(service => service.SaveProjectTimes(It.IsAny<IList<Core.API.ProjectTime>>()))
+                .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock

@@ -20,7 +20,7 @@ namespace timrlink.net.CLI.Actions
 
         public sealed override async System.Threading.Tasks.Task Execute()
         {
-            IList<ProjectTime> records;
+            IList<Core.API.ProjectTime> records;
             try
             {
                 records = ParseFile().ToList();
@@ -36,9 +36,9 @@ namespace timrlink.net.CLI.Actions
             await ImportProjectTimeRecords(records);
         }
 
-        protected abstract IEnumerable<ProjectTime> ParseFile();
+        protected abstract IEnumerable<Core.API.ProjectTime> ParseFile();
 
-        private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<ProjectTime> records)
+        private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<Core.API.ProjectTime> records)
         {
             var tasks = await TaskService.GetTaskHierarchy();
             var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,

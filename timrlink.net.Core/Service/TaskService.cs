@@ -26,6 +26,22 @@ namespace timrlink.net.Core.Service
             var rootTaskArray = getTasksResponse.GetTasksResponse1;
             logger.LogDebug($"Root task count: {rootTaskArray.Length}");
 
+            // Update parent-ids which are not set in the SOAP-API response
+            void UpdateIds(IEnumerable<API.Task> tasks, string parentExternalId, string parentUuid)
+            {
+                if (tasks != null)
+                {
+                    Parallel.ForEach(tasks, task =>
+                    {
+                        task.parentExternalId = parentExternalId;
+                        task.parentUuid = parentUuid;
+                        UpdateIds(task.subtasks, task.externalId, task.uuid);
+                    });
+                }
+            }
+
+            UpdateIds(rootTaskArray, null, null);
+
             return rootTaskArray.ToList();
         }
 

@@ -38,13 +38,13 @@ node(label: "docker") {
             if (currentBuild.result == null && params.BUILD_ARTIFACTS) {
                 warnError(message: "Publish failed.") {
                     sh "docker run -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r win7-x64 --self-contained"
-                    zip(zipFile: "timrlink-win7-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp2.0/win7-x64/publish", archive: true)
+                    zip(zipFile: "timrlink-win7-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp3.1/win7-x64/publish", archive: true)
 
                     sh "docker run -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r osx-x64 --self-contained"
-                    zip(zipFile: "timrlink-osx-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp2.0/osx-x64/publish", archive: true)
+                    zip(zipFile: "timrlink-osx-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp3.1/osx-x64/publish", archive: true)
 
                     sh "docker run -v \$(pwd):/mnt/timrlink mcr.microsoft.com/dotnet/core/sdk:3.1 dotnet publish /mnt/timrlink/timrlink.net.CLI -c Release -r ubuntu.18.04-x64 --self-contained"
-                    zip(zipFile: "timrlink-ubuntu.18.04-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp2.0/ubuntu.18.04-x64/publish", archive: true)
+                    zip(zipFile: "timrlink-ubuntu.18.04-x64.zip", dir: "./timrlink.net.CLI/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/publish", archive: true)
 
                     slack("good", "Publish build for ${currentBuild.fullDisplayName} finished, artifacts: (<${env.BUILD_URL}|Download>)", ["#timr-chat"])
                 }

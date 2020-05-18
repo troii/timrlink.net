@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
@@ -67,6 +68,9 @@ namespace timrlink.net.CLI.Actions
                     task.startSpecified = entry.Start.HasValue;
                     task.end = entry.End;
                     task.endSpecified = entry.End.HasValue;
+                    task.customField1 = entry.CustomField1;
+                    task.customField2 = entry.CustomField2;
+                    task.customField3 = entry.CustomField3;
 
                     return task;
                 });
@@ -104,11 +108,15 @@ namespace timrlink.net.CLI.Actions
         {
             using (var fileReader = File.OpenRead(filename))
             using (var textReader = new StreamReader(fileReader))
-            using (var csvReader = new CsvReader(textReader, new Configuration { HasHeaderRecord = true, IgnoreBlankLines = true, Delimiter = ";" }))
+            using (var csvReader = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true, IgnoreBlankLines = true, Delimiter = ";" }))
             {
                 csvReader.Configuration.CultureInfo = new CultureInfo("de");
                 csvReader.Configuration.BadDataFound = context => Logger.LogWarning($"Bad Entry found: '{context.RawRecord}");
-                csvReader.Configuration.ReadingExceptionOccurred = ex => Logger.LogError(ex, $"Exception when parsing '{ex.ReadingContext.RawRecord}'");
+                csvReader.Configuration.ReadingExceptionOccurred = ex =>
+                {
+                    Logger.LogError(ex, $"Exception when parsing '{ex.ReadingContext.RawRecord}'");
+                    return true;
+                };
 
                 return csvReader.GetRecords<CSVEntry>().ToImmutableList();
             }
@@ -122,6 +130,15 @@ namespace timrlink.net.CLI.Actions
             public string Description { get; set; }
             public DateTime? Start { get; set; }
             public DateTime? End { get; set; }
+
+            [Optional]
+            public string CustomField1 { get; set; }
+
+            [Optional]
+            public string CustomField2 { get; set; }
+
+            [Optional]
+            public string CustomField3 { get; set; }
         }
     }
 }

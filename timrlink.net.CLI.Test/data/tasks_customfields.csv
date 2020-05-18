@@ -1,0 +1,4 @@
+Task;Bookable;Billable;Description;Start;End;CustomField1;CustomField2;CustomField3
+Customer A|Project1|Task1;True;False;Awesome;;;;2;Feld3
+Customer A|Project1;True;True;;;;;;
+Customer A|Project2;false;true;;2019-05-16;;1;;

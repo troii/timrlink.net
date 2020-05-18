@@ -1,24 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using timrlink.net.Core.Service;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Position = timrlink.net.Core.API.Position;
+using timrlink.net.Core.API;
+using timrlink.net.Core.Service;
+using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.CLI.Actions
 {
     internal class ProjectTimeDatabaseExportAction
     {
-        private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
         private readonly DatabaseContext context;
-        private readonly IUserService userService;
-        private readonly ITaskService taskService;
+        private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
         private readonly IProjectTimeService projectTimeService;
+        private readonly ITaskService taskService;
+        private readonly IUserService userService;
 
         public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
@@ -31,7 +29,7 @@ namespace timrlink.net.CLI.Actions
 
         public async Task Execute()
         {
-            logger.LogDebug($"ProjectTimeDatabaseExportAction started");
+            logger.LogDebug("ProjectTimeDatabaseExportAction started");
 
             await context.Database.EnsureCreatedAsync();
 
@@ -59,7 +57,7 @@ namespace timrlink.net.CLI.Actions
                 // var taskDict = taskList.ToDictionary(t => t.uuid); // timr 4.16.x is currently affected by a bug returning Tasks duplicated
                 var taskDict = taskList.GroupBy(t => t.uuid).ToDictionary(g => g.Key, g => g.First());
                 logger.LogDebug($"Found {taskDict.Count} unique tasks");
-                
+
                 var dbEntities = projectTimes.Select(pt =>
                 {
                     var user = userDict.GetValueOrDefault(pt.userUuid);
@@ -89,7 +87,7 @@ namespace timrlink.net.CLI.Actions
 
             await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("s", CultureInfo.InvariantCulture)));
 
-            logger.LogDebug($"ProjectTimeDatabaseExportAction finished");
+            logger.LogDebug("ProjectTimeDatabaseExportAction finished");
         }
 
         private IEnumerable<Core.API.Task> BuildTaskPath(string taskUuid, Dictionary<string, Core.API.Task> tasks)
@@ -100,6 +98,9 @@ namespace timrlink.net.CLI.Actions
             }
         }
 
-        private string LatLon(Position position) => position != null ? $"{position.latitude},{position.longitude}" : null;
+        private string LatLon(Position position)
+        {
+            return position != null ? $"{position.latitude},{position.longitude}" : null;
+        }
     }
 }

@@ -6,7 +6,6 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
-using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
@@ -22,7 +21,7 @@ namespace timrlink.net.CLI.Actions
         {
             using (var fileReader = File.OpenRead(Filename))
             using (var textReader = new StreamReader(fileReader))
-            using (var csvReader = new CsvReader(textReader, new Configuration { IgnoreBlankLines = true, Delimiter = ";" }))
+            using (var csvReader = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture) { IgnoreBlankLines = true, Delimiter = ";" }))
             {
                 return csvReader.GetRecords<CsvRecord>().Select(record =>
                 {
@@ -47,7 +46,7 @@ namespace timrlink.net.CLI.Actions
                 }).Where(record => record != null).ToList();
             }
         }
-        
+
         private class CsvRecord
         {
             public string User { get; set; }

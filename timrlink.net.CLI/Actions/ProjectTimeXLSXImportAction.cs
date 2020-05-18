@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Logging;
-using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions

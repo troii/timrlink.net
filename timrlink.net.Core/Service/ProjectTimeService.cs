@@ -41,12 +41,13 @@ namespace timrlink.net.Core.Service
             return projectTimes;
         }
 
-        public async Task SaveProjectTime(ProjectTime projectTime)
+        public async Task<long> SaveProjectTime(ProjectTime projectTime)
         {
             try
             {
                 logger.LogInformation($"Saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime})");
-                await timrSync.SaveProjectTimeAsync(new SaveProjectTimeRequest(projectTime)).ConfigureAwait(false);
+                return (await timrSync.SaveProjectTimeAsync(new SaveProjectTimeRequest(projectTime))
+                    .ConfigureAwait(false)).SaveProjectTimeResponse1;
             }
             catch (FaultException e)
             {
@@ -56,6 +57,7 @@ namespace timrlink.net.Core.Service
             {
                 logger.LogError(e, $"Failed saving ProjectTime(ExternalUserId={projectTime.externalUserId}, ExternalTaskId={projectTime.externalTaskId}, Description={projectTime.description}, Start={projectTime.startTime}, End={projectTime.endTime})");
             }
+            return -1;
         }
 
         public async Task SaveProjectTimes(IEnumerable<ProjectTime> projectTimes)
@@ -64,6 +66,40 @@ namespace timrlink.net.Core.Service
             {
                 await SaveProjectTime(projectTime).ConfigureAwait(false);
             }
+        }
+
+        public async Task<bool> SetProjectTimeStatus(ProjectTime projectTime, ProjectTimeStatus projectTimeStatus)
+        {
+            return await SetProjectTimesStatus(new List<long> { projectTime.id }, projectTimeStatus).ConfigureAwait(false);
+        }
+
+        public async Task<bool> SetProjectTimeStatus(IEnumerable<ProjectTime> projectTimes, ProjectTimeStatus projectTimeStatus)
+        {
+            return await SetProjectTimesStatus(projectTimes.Select(p => p.id).ToList(), projectTimeStatus).ConfigureAwait(false);
+        }
+
+        private async Task<bool> SetProjectTimesStatus(IEnumerable<long> ids, ProjectTimeStatus status)
+        {
+            var idsArray = ids.ToArray();
+            try
+            {
+                logger.LogInformation($"SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status})");
+                return (await timrSync.SetProjectTimesStatusAsync(new SetProjectTimesStatusRequest(
+                    new ProjectTimesStatusRequestType()
+                    {
+                        ids = idsArray,
+                        status = status
+                    })).ConfigureAwait(false)).SetProjectTimesStatusResponse1;
+            }
+            catch (FaultException e)
+            {
+                logger.LogError($"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status}): {e.Message}");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status})");
+            }
+            return false;
         }
     }
 }

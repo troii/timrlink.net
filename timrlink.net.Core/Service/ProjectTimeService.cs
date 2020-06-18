@@ -20,7 +20,7 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public async Task<IList<ProjectTime>> GetProjectTimes(DateTime? start, DateTime? end, DateTime? lastModified, IEnumerable<ProjectTimeStatus> statuses, string externalUserId, string externalTaskId)
+        public async Task<IList<ProjectTime>> GetProjectTimes(DateTime? start, DateTime? end, DateTime? lastModified, IEnumerable<ProjectTimeStatus> statuses, string externalUserId, string externalTaskId, bool? includeChildTasks)
         {
             var projectTimesResponse = await timrSync.GetProjectTimesAsync(new GetProjectTimesRequest(new ProjectTimeQuery
             {
@@ -33,6 +33,8 @@ namespace timrlink.net.Core.Service
                 statuses = statuses?.ToArray(),
                 externalUserId = externalUserId,
                 externalTaskId = externalTaskId,
+                includeChildTasks = includeChildTasks,
+                includeChildTasksSpecified = includeChildTasks.HasValue
             })).ConfigureAwait(false);
 
             var projectTimes = projectTimesResponse.GetProjectTimesResponse1;

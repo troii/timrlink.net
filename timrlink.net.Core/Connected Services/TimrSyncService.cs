@@ -1753,6 +1753,10 @@ namespace timrlink.net.Core.API
         
         private ProjectTimeStatus[] statusesField;
         
+        private System.Nullable<bool> includeChildTasksField;
+        
+        private bool includeChildTasksFieldSpecified;
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
         public string externalTaskId
@@ -1820,6 +1824,34 @@ namespace timrlink.net.Core.API
             set
             {
                 this.statusesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public System.Nullable<bool> includeChildTasks
+        {
+            get
+            {
+                return this.includeChildTasksField;
+            }
+            set
+            {
+                this.includeChildTasksField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeChildTasksSpecified
+        {
+            get
+            {
+                return this.includeChildTasksFieldSpecified;
+            }
+            set
+            {
+                this.includeChildTasksFieldSpecified = value;
             }
         }
     }

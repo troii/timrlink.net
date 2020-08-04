@@ -36,7 +36,7 @@ namespace timrlink.net.CLI.Actions
 
             var csvEntries = ParseFile();
             Logger.LogInformation($"CSV contains {csvEntries.Count} entries.");
-            
+
             async Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens)
             {
                 if (pathTokens.Count == 0) return;
@@ -44,19 +44,22 @@ namespace timrlink.net.CLI.Actions
                 var name = pathTokens.First();
                 var currentPath = parentPath != null ? parentPath + "|" + name : name;
 
-                if (!taskTokenDictionary.ContainsKey(currentPath))
+                if (!taskTokenDictionary.TryGetValue(currentPath, out var task))
                 {
-                    var task = new Core.API.Task
+                    var newTask = new Core.API.Task
                     {
                         name = name,
-                        uuid = Guid.NewGuid().ToString(),
-                        parentUuid = string.IsNullOrEmpty(parentPath) ? null : taskTokenDictionary[parentPath].uuid,
+                        parentExternalId = parentPath,
                         externalId = currentPath,
                         bookable = false,
                     };
-                    await TaskService.AddTask(task);
-                    taskTokenDictionary.Add(currentPath, task);
-                    taskUuidDictionary.Add(task.uuid, task);
+                    await TaskService.AddTask(newTask);
+                    taskTokenDictionary.Add(currentPath, newTask);
+                }
+                else if (task.externalId != currentPath)
+                {
+                    task.externalId = currentPath;
+                    await TaskService.UpdateTask(task);
                 }
 
                 await AddTaskTreeRecursive(currentPath, pathTokens.Skip(1).ToList());
@@ -73,7 +76,7 @@ namespace timrlink.net.CLI.Actions
                     var task = taskTokenDictionary.TryGetValue(entry.Task, out var existingTask) ? existingTask.Clone() : new Core.API.Task();
                     task.name = taskTokens.Last();
                     task.externalId = entry.Task;
-                    task.parentUuid = taskTokenDictionary[String.Join("|", parentTaskTokens)].uuid;
+                    task.parentExternalId = String.Join("|", parentTaskTokens);
                     task.bookable = entry.Bookable;
                     task.billable = entry.Billable;
                     task.description = entry.Description;
@@ -92,10 +95,10 @@ namespace timrlink.net.CLI.Actions
             await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, csvTasks, updateTasks: updateTasks);
         }
 
-        private string Tokenize(Core.API.Task task, Dictionary<string,Core.API.Task> taskUuidDictionary)
+        private string Tokenize(Core.API.Task task, Dictionary<string, Core.API.Task> taskUuidDictionary)
         {
             var pathTokens = new List<string>();
-            
+
             while (task != null)
             {
                 pathTokens.Add(task.name);

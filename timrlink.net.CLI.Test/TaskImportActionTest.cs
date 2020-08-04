@@ -47,13 +47,12 @@ namespace timrlink.net.CLI.Test
             await importAction.Execute();
 
             Assert.AreEqual(5, tasks.Count);
-            var taskDictionary = tasks.GroupBy(task => task.uuid).ToDictionary(group => group.Last().externalId, group => group.Last());
 
             {
                 var task = tasks[0];
                 Assert.AreEqual("Customer A", task.name);
                 Assert.AreEqual("Customer A", task.externalId);
-                Assert.IsNull(task.parentUuid);
+                Assert.IsNull(task.parentExternalId);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
@@ -65,7 +64,7 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[1];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
@@ -77,7 +76,7 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[2];
                 Assert.AreEqual("Task1", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A|Project1"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A|Project1", task.parentExternalId);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.AreEqual("Awesome", task.description);
@@ -90,7 +89,7 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[3];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
@@ -102,7 +101,7 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[4];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
@@ -110,7 +109,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.end);
             }
         }
-        
+
         [Test]
         public async System.Threading.Tasks.Task TaskCreationNoUpdateCustomFields()
         {
@@ -143,6 +142,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Customer A", task.name);
                 Assert.AreEqual("Customer A", task.externalId);
                 Assert.IsNull(task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
@@ -157,7 +157,8 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[1];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
@@ -172,7 +173,8 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[2];
                 Assert.AreEqual("Task1", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A|Project1"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A|Project1", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.AreEqual("Awesome", task.description);
@@ -188,7 +190,8 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[3];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
@@ -203,7 +206,8 @@ namespace timrlink.net.CLI.Test
                 var task = tasks[4];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
@@ -225,7 +229,8 @@ namespace timrlink.net.CLI.Test
                 bookable = false,
                 billable = true
             };
-            var tasks = new List<Task>();
+            var addedTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
 
             var loggerFactory = new LoggerFactory();
 
@@ -241,24 +246,43 @@ namespace timrlink.net.CLI.Test
                 .ReturnsAsync(new Dictionary<string, Task>());
             taskServiceMock
                 .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => tasks.Add(task))
+                .Callback((Task task) => addedTasks.Add(task))
+                .Returns(System.Threading.Tasks.Task.CompletedTask);
+            taskServiceMock
+                .Setup(service => service.UpdateTask(It.IsAny<Task>()))
+                .Callback((Task task) => updatedTasks.Add(task))
                 .Returns(System.Threading.Tasks.Task.CompletedTask);
             taskServiceMock
                 .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => tasks.AddRange(t))
+                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => addedTasks.AddRange(t))
                 .Returns(System.Threading.Tasks.Task.CompletedTask);
 
             var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskServiceMock.Object);
             await importAction.Execute();
 
-            Assert.AreEqual(4, tasks.Count);
-            var taskDictionary = tasks.GroupBy(task => task.uuid).ToDictionary(group => group.Last().externalId, group => group.Last());
+            Assert.AreEqual(1, updatedTasks.Count);
 
             {
-                var task = tasks[0];
+                var task = updatedTasks[0];
+                Assert.AreEqual("Customer A", task.name);
+                Assert.AreEqual("Customer A", task.externalId);
+                Assert.IsNull(task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.IsNull(task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+            }
+            
+            Assert.AreEqual(4, addedTasks.Count);
+
+            {
+                var task = addedTasks[0];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(customerATask.uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
@@ -267,10 +291,11 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = tasks[1];
+                var task = addedTasks[1];
                 Assert.AreEqual("Task1", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
-                Assert.AreEqual(taskDictionary["Customer A|Project1"].uuid, task.parentUuid);
+                Assert.AreEqual("Customer A|Project1", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.AreEqual("Awesome", task.description);
@@ -280,10 +305,11 @@ namespace timrlink.net.CLI.Test
 
             {
                 // same as task[0] - but update will be performed
-                var task = tasks[2];
+                var task = addedTasks[2];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(customerATask.uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
@@ -292,10 +318,11 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = tasks[3];
+                var task = addedTasks[3];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
-                Assert.AreEqual(customerATask.uuid, task.parentUuid);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(true, task.billable);
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));

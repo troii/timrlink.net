@@ -19,4 +19,10 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>timrlink.net.CLI.Test</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

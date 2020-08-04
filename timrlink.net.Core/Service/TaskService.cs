@@ -45,7 +45,12 @@ namespace timrlink.net.Core.Service
             return rootTaskArray.ToList();
         }
 
-        public IList<API.Task> FlattenTasks(IEnumerable<API.Task> tasks)
+        IList<API.Task> ITaskService.FlattenTasks(IEnumerable<API.Task> tasks)
+        {
+            return TaskService.FlattenTasks(tasks);
+        }
+
+        internal static IList<API.Task> FlattenTasks(IEnumerable<API.Task> tasks)
         {
             return tasks.SelectMany(task =>
             {
@@ -108,7 +113,7 @@ namespace timrlink.net.Core.Service
                 }
                 catch (FaultException e)
                 {
-                    logger.LogError($"Failed synchronizing Task(Name={task.name}, ExternalId={task.externalId}): ${e.Message}");
+                    logger.LogError($"Failed synchronizing Task(Name={task.name}, ExternalId={task.externalId}): {e.Message}");
                 }
                 catch (Exception e)
                 {

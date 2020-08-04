@@ -66,6 +66,15 @@ Customer A|Project1;True;True;;;
 Customer A|Project2;false;true;;2019-05-16;
 ```
 
+Optionally Custom Fields can be included, which then requires the following format:
+
+```
+Task;Bookable;Billable;Description;Start;End;CustomField1;CustomField2;CustomField3
+Customer A|Project1|Task1;True;False;Awesome;;Field1;Field2;Field3
+Customer A|Project1;True;True;;;;;;
+Customer A|Project2;false;true;;2019-05-16;;;;
+```
+
 #### Export project times to DB
 
 Currently only Microsoft SQL Server is supported. The connection string for the database has to be specified as argument.

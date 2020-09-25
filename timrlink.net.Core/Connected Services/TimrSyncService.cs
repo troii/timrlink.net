@@ -2956,6 +2956,10 @@ namespace timrlink.net.Core.API
         
         private string uuidField;
         
+        private System.Nullable<System.DateTime> entryDateField;
+        
+        private bool entryDateFieldSpecified;
+        
         public User()
         {
             this.isTeamLeaderField = false;
@@ -3127,6 +3131,34 @@ namespace timrlink.net.Core.API
             set
             {
                 this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=10)]
+        public System.Nullable<System.DateTime> entryDate
+        {
+            get
+            {
+                return this.entryDateField;
+            }
+            set
+            {
+                this.entryDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool entryDateSpecified
+        {
+            get
+            {
+                return this.entryDateFieldSpecified;
+            }
+            set
+            {
+                this.entryDateFieldSpecified = value;
             }
         }
     }

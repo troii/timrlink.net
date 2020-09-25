@@ -16,6 +16,7 @@ namespace timrlink.net.Core
         protected ILoggerFactory LoggerFactory => GetService<ILoggerFactory>();
         protected IUserService UserService => GetService<IUserService>();
         protected ITaskService TaskService => GetService<ITaskService>();
+        protected IWorkItemService WorkItemService => GetService<IWorkItemService>();
         protected IWorkTimeService WorkTimeService => GetService<IWorkTimeService>();
         protected IProjectTimeService ProjectTimeService => GetService<IProjectTimeService>();
         protected IConfiguration Configuration => GetService<IConfiguration>();

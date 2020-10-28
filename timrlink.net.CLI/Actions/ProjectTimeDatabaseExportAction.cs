@@ -35,7 +35,7 @@ namespace timrlink.net.CLI.Actions
 
             DateTime? lastProjectTimeImport = null;
             var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
-            if (DateTime.TryParseExact(metadata?.Value, "s", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            if (DateTime.TryParseExact(metadata?.Value, "o", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
             {
                 lastProjectTimeImport = date;
             }
@@ -85,7 +85,7 @@ namespace timrlink.net.CLI.Actions
                 await context.SaveChangesAsync();
             }
 
-            await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("s", CultureInfo.InvariantCulture)));
+            await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
 
             logger.LogDebug("ProjectTimeDatabaseExportAction finished");
         }

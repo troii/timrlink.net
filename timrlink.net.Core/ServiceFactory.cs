@@ -10,7 +10,7 @@ namespace timrlink.net.Core
 {
     public class ServiceFactory
     {
-        private const string DEFAULT_HOST = "http://timrsync.timr.com/timr";
+        private const string DEFAULT_HOST = "https://timrsync.timr.com/timr";
 
         public static TimrSync BuildTimrSync(IServiceProvider provider, string sectionName = "timrSync")
         {

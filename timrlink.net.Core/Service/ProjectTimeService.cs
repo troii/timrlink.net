@@ -85,7 +85,7 @@ namespace timrlink.net.Core.Service
             var idsArray = ids.ToArray();
             try
             {
-                logger.LogInformation($"SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status})");
+                logger.LogInformation($"SetProjectTimesStatus(ids.Count={idsArray.Count()}, Status={status})");
                 return (await timrSync.SetProjectTimesStatusAsync(new SetProjectTimesStatusRequest(
                     new ProjectTimesStatusRequestType()
                     {
@@ -95,11 +95,11 @@ namespace timrlink.net.Core.Service
             }
             catch (FaultException e)
             {
-                logger.LogError($"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status}): {e.Message}");
+                logger.LogError($"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, Status={status}): {e.Message}");
             }
             catch (Exception e)
             {
-                logger.LogError(e, $"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, DriveLogStatus={status})");
+                logger.LogError(e, $"Failed SetProjectTimesStatus(ids.Count={idsArray.Count()}, Status={status})");
             }
             return false;
         }

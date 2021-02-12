@@ -97,6 +97,7 @@ namespace timrlink.net.Core.Service
                 {
                     logger.LogInformation($"Successfully changed Status for ProjectTime(id={id}) to Status={status}");
                 }
+                return statusResponse;
             }
             catch (FaultException e)
             {

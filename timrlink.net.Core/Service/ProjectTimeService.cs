@@ -85,19 +85,13 @@ namespace timrlink.net.Core.Service
             var idsArray = ids.ToArray();
             try
             {
-                logger.LogInformation($"SetProjectTimesStatus(ids.Count={idsArray.Count()}, Status={status})");
-                var statusResponse = (await timrSync.SetProjectTimesStatusAsync(new SetProjectTimesStatusRequest(
+                logger.LogInformation($"SetProjectTimesStatus(ids=[{String.Join(",", idsArray)}], Status={status})");
+                return (await timrSync.SetProjectTimesStatusAsync(new SetProjectTimesStatusRequest(
                     new ProjectTimesStatusRequestType()
                     {
                         ids = idsArray,
                         status = status
                     })).ConfigureAwait(false)).SetProjectTimesStatusResponse1;
-                
-                foreach (var id in idsArray)
-                {
-                    logger.LogInformation($"Successfully changed Status for ProjectTime(id={id}) to Status={status}");
-                }
-                return statusResponse;
             }
             catch (FaultException e)
             {

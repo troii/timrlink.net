@@ -32,7 +32,7 @@ namespace timrlink.net.CLI.Actions
             var tasks = TaskService.FlattenTasks(await TaskService.GetTaskHierarchy());
             var taskUuidDictionary = tasks.ToDictionary(task => task.uuid);
             var taskTokenDictionary = tasks.ToDictionary(task => Tokenize(task, taskUuidDictionary));
-            Logger.LogInformation($"Found {tasks.Count} existing timr root tasks.");
+            Logger.LogInformation($"Found {tasks.Count} existing timr tasks.");
 
             var csvEntries = ParseFile();
             Logger.LogInformation($"CSV contains {csvEntries.Count} entries.");

@@ -3228,6 +3228,13 @@ namespace timrlink.net.Core.API
         
         private string parentUuidField;
         
+        private bool descriptionRequiredField;
+        
+        public Task()
+        {
+            this.descriptionRequiredField = false;
+        }
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string externalId
@@ -3631,6 +3638,20 @@ namespace timrlink.net.Core.API
             set
             {
                 this.parentUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        public bool descriptionRequired
+        {
+            get
+            {
+                return this.descriptionRequiredField;
+            }
+            set
+            {
+                this.descriptionRequiredField = value;
             }
         }
     }

@@ -51,10 +51,12 @@ namespace timrlink.net.CLI.Actions
         {
             public string User { get; set; }
             public string Task { get; set; }
+            public string ExternalId { get; set; }
             public string StartDateTime { get; set; }
             public string EndDateTime { get; set; }
             public string Break { get; set; }
             public string Notes { get; set; }
+            public bool DescriptionRequired { get; set; }
             public bool Billable { get; set; }
 
             public override string ToString()

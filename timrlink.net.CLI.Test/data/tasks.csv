@@ -1,4 +1,4 @@
-Task;Bookable;Billable;Description;Start;End
-Customer A|Project1|Task1;True;False;Awesome;;
-Customer A|Project1;True;True;;;
-Customer A|Project2;false;true;;2019-05-16;
+Task;ExternalId;Bookable;Billable;Description;DescriptionRequired;Start;End
+Customer A|Project1|Task1;A11;True;False;Awesome;True;;
+Customer A|Project1;;True;True;;False;;
+Customer A|Project2;;false;true;;False;2019-05-16;;

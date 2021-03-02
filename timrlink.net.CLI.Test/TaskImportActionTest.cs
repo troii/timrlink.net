@@ -33,6 +33,23 @@ namespace timrlink.net.CLI.Test
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_bad_header.csv", false, taskServiceMock.Object);
             await importAction.Execute();
         }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationDuplicateExternalId()
+        {
+            var loggerFactory = new LoggerFactory();
+
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy())
+                .ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
+            
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_duplicate_ExternalId.csv", false, taskServiceMock.Object);
+            await importAction.Execute();
+        }
 
         [Test]
         public async System.Threading.Tasks.Task TaskCreationNoUpdate()

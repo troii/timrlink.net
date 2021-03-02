@@ -39,6 +39,9 @@
         <None Update="data\tasks_bad_header.csv">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+         <None Update="data\tasks_duplicate_externalId.csv">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

@@ -34,7 +34,6 @@ namespace timrlink.net.CLI.Actions
         {
             var tasks = TaskService.FlattenTasks(await TaskService.GetTaskHierarchy());
             var taskUuidDictionary = tasks.ToDictionary(task => task.uuid);
-            var taskExternalIdDictionary = tasks.ToDictionary(task => task.externalId);
             var taskTokenDictionary = tasks.ToDictionary(task => Tokenize(task, taskUuidDictionary));
             Logger.LogInformation($"Found {tasks.Count} existing timr tasks.");
 
@@ -80,9 +79,25 @@ namespace timrlink.net.CLI.Actions
 
                 var task = new Core.API.Task();
 
-                if (entry.ExternalId != null && taskExternalIdDictionary.ContainsKey(entry.ExternalId))
+                var existingTasks = tasks.Where(task => task.externalId == entry.ExternalId);
+
+                if (existingTasks.Count() > 1)
                 {
-                    task = taskExternalIdDictionary[entry.ExternalId];
+                    Logger.LogError($"Duplicate Tasks with ExternalId {entry.ExternalId} found. Skipping.");
+                    continue;
+                }
+
+                var existingCSVTAsks = csvEntries.Where(task => task.ExternalId == entry.ExternalId);
+                
+                if (existingCSVTAsks.Count() > 1)
+                {
+                    Logger.LogError($"Duplicate Tasks with ExternalId {entry.ExternalId} in CSV file found. Skipping.");
+                    continue;
+                }
+
+                if (entry.ExternalId != null && existingTasks.Count() == 1)
+                {
+                    task = existingTasks.First();
                 } 
                 else if (taskTokenDictionary.TryGetValue(entry.Task, out var existingTask))
                 {
@@ -145,22 +160,12 @@ namespace timrlink.net.CLI.Actions
                     Logger.LogError(ex, $"Exception when parsing '{ex.ReadingContext.RawRecord}'");
                     return true;
                 };
-                csvReader.Configuration.HeaderValidated =
-                    (isValid, headerNames, headerNameIndex, context) =>
-                    {
-                        if (!isValid)
-                        {
-                            Logger.LogError("Column not found");
-                        }
-                    };
-
 
                 try
                 {
-                    var test = csvReader.GetRecords<CSVEntry>().ToImmutableList();
-                    return test;
+                    return csvReader.GetRecords<CSVEntry>().ToImmutableList();
                 }
-                catch (MissingFieldException e)
+                catch (HeaderValidationException e)
                 {
                     Logger.LogError(e.Message);
                 }

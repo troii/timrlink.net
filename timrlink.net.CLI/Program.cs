@@ -66,15 +66,9 @@ namespace timrlink.net.CLI
             projectTimeCommand.AddArgument(filenameArgument);
             projectTimeCommand.Handler = CommandHandler.Create<string>(ImportProjectTime);
 
-            var updateTasks = new Option("--update", "Update existing tasks with same externalId");
-            updateTasks.AddAlias("-u");
-            updateTasks.Argument.SetDefaultValue(true);
-            updateTasks.Argument.ArgumentType = typeof(bool);
-
             var taskCommand = new Command("task", "Import tasks");
             taskCommand.AddAlias("t");
             taskCommand.AddArgument(filenameArgument);
-            taskCommand.AddOption(updateTasks);
             taskCommand.Handler = CommandHandler.Create<string, bool>(ImportTasks);
 
             var exportProjectTimeCommand = new Command("export-projecttime", "Export Project times");

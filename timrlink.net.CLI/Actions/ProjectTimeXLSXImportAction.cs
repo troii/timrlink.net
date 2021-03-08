@@ -104,7 +104,7 @@ namespace timrlink.net.CLI.Actions
                         StartTimeZone = startTimeZone,
                         EndDateTime = endTime,
                         EndTimeZone = endTimeZone,
-                        duration = duration,
+                        Duration = duration,
                         Break = @break,
                         Notes = notes,
                         Billable = billable,

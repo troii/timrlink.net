@@ -10,7 +10,7 @@ namespace timrlink.net.CLI
         public DateTime EndDateTime { get; set; }
         public string StartTimeZone { get; set; }
         public string EndTimeZone { get; set; }
-        public long duration { get; set; }
+        public long Duration { get; set; }
         public int  Break { get; set; }
         public string Notes { get; set; }
         public bool Billable { get; set; }
@@ -24,7 +24,7 @@ namespace timrlink.net.CLI
                 endTime = EndDateTime,
                 startTimeZone = StartTimeZone,
                 endTimeZone = EndTimeZone,
-                duration = duration,
+                duration = Duration,
                 breakTime = Break,
                 description = Notes,
                 billable = Billable,

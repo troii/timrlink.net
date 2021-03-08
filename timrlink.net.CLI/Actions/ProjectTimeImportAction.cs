@@ -23,15 +23,15 @@ namespace timrlink.net.CLI.Actions
         public sealed override async System.Threading.Tasks.Task Execute()
         {
             IList<ProjectTimeEntry> records;
-            try
-            {
+            /*try
+            {*/
                 records = ParseFile().ToList();
-            }
+            /*}
             catch (Exception e)
             {
                 Logger.LogError(e, "Could not read passed file!");
                 return;
-            }
+            }*/
 
             Logger.LogInformation($"found {records.Count} entries");
 

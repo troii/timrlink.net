@@ -94,7 +94,7 @@ namespace timrlink.net.CLI.Actions
                     var duration = (long) (DateTime.FromOADate(double.Parse(columns[columnMapping.Duration].CellValue.Text)) - DateTime.FromOADate(0)).TotalMinutes;
                     var billable = columns[columnMapping.Billable].CellValue.Text == "1";
                     var changed = columns[columnMapping.ManuallyChanged].CellValue.Text == "1";
-                    var @break = (int) decimal.Parse(document.WorkbookPart.GetStringValue(columns[columnMapping.Break]));
+                    var @break = (int) decimal.Parse(columns[columnMapping.Break].CellValue.Text);
 
                     return new ProjectTimeEntry()
                     {

@@ -16,53 +16,6 @@ namespace timrlink.net.CLI.Test
         public void Setup()
         {
         }
- 
-        [Test]
-        public async System.Threading.Tasks.Task TaskCreationInvalidHeader()
-        {
-            var loggerFactory = new LoggerFactory();
-
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
-                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_bad_header.csv", false, taskServiceMock.Object);
-            await importAction.Execute();
-        }
-        
-        [Test]
-        public async System.Threading.Tasks.Task TaskCreationDuplicateExternalId()
-        {
-            var tasks = new List<Task>();
-            var updatedTasks = new List<Task>();
-            
-            var loggerFactory = new LoggerFactory();
-
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
-                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => tasks.Add(task))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
-            taskServiceMock
-                .Setup(service => service.UpdateTask(It.IsAny<Task>()))
-                .Callback((Task task) => updatedTasks.Add(task))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
-            
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_duplicate_ExternalId.csv", false, taskServiceMock.Object);
-            await importAction.Execute();
-            
-            Assert.AreEqual(3, tasks.Count);
-        }
 
         [Test]
         public async System.Threading.Tasks.Task TaskCreationNoUpdate()
@@ -293,6 +246,9 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.UpdateTask(It.IsAny<Task>()))
                 .Callback((Task task) => updatedTasks.Add(task))
                 .Returns(System.Threading.Tasks.Task.CompletedTask);
+            taskServiceMock
+                .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
+                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => addedTasks.AddRange(t));
 
             var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskServiceMock.Object);
             await importAction.Execute();

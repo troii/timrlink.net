@@ -99,10 +99,10 @@ namespace timrlink.net.CLI
             switch (Path.GetExtension(filename))
             {
                 case ".csv":
-                    action = new ProjectTimeCSVImportAction(LoggerFactory, filename, TaskService, ProjectTimeService);
+                    action = new ProjectTimeCSVImportAction(LoggerFactory, filename, TaskService, UserService, ProjectTimeService);
                     break;
                 case ".xlsx":
-                    action = new ProjectTimeXLSXImportAction(LoggerFactory, filename, TaskService, ProjectTimeService);
+                    action = new ProjectTimeXLSXImportAction(LoggerFactory, filename, TaskService, UserService, ProjectTimeService);
                     break;
                 default:
                     throw new ArgumentException($"Unsupported file type '{filename}' - use .csv or .xlsx!");

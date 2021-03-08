@@ -12,12 +12,12 @@ namespace timrlink.net.CLI.Actions
 {
     internal class ProjectTimeCSVImportAction : ProjectTimeImportAction
     {
-        public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IProjectTimeService projectTimeService)
-            : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, projectTimeService)
+        public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
+            : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, userService, projectTimeService)
         {
         }
 
-        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
+        protected override IEnumerable<ProjectTimeEntry> ParseFile()
         {
             using (var fileReader = File.OpenRead(Filename))
             using (var textReader = new StreamReader(fileReader))
@@ -27,15 +27,15 @@ namespace timrlink.net.CLI.Actions
                 {
                     try
                     {
-                        return new Core.API.ProjectTime
+                        return new ProjectTimeEntry()
                         {
-                            externalTaskId = record.Task,
-                            externalUserId = record.User,
-                            startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                            endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                            breakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
-                            description = record.Notes,
-                            billable = record.Billable
+                            Task = record.Task,
+                            User = record.User,
+                            StartDateTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            EndDateTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            Break = (int) TimeSpan.Parse(record.Break).TotalMinutes,
+                            Notes = record.Notes,
+                            Billable = record.Billable
                         };
                     }
                     catch (FormatException e)

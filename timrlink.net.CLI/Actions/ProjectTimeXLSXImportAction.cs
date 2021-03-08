@@ -18,12 +18,12 @@ namespace timrlink.net.CLI.Actions
             { "Usuario", ColumnDefinition.Spanish }
         };
 
-        public ProjectTimeXLSXImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IProjectTimeService projectTimeService)
-            : base(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), filename, taskService, projectTimeService)
+        public ProjectTimeXLSXImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
+            : base(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), filename, taskService, userService, projectTimeService)
         {
         }
 
-        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
+        protected override IEnumerable<ProjectTimeEntry> ParseFile()
         {
             using (var document = SpreadsheetDocument.Open(Filename, false))
             {
@@ -44,7 +44,7 @@ namespace timrlink.net.CLI.Actions
                 return rows.Skip(1).Select(row =>
                 {
                     var columns = row.Elements<Cell>().ToDictionary(ColumnNameFromCell);
-                    var externalUserId = GetStringValue(document.WorkbookPart, columnMapping.UserExternalId, columns);
+                    var externalId = GetStringValue(document.WorkbookPart, columnMapping.UserExternalId, columns);
                     var externalTaskId = GetStringValue(document.WorkbookPart, columnMapping.TaskExternalId, columns);
                     if (String.IsNullOrEmpty(externalTaskId))
                     {
@@ -96,19 +96,19 @@ namespace timrlink.net.CLI.Actions
                     var changed = columns[columnMapping.ManuallyChanged].CellValue.Text == "1";
                     var @break = (int) decimal.Parse(document.WorkbookPart.GetStringValue(columns[columnMapping.Break]));
 
-                    return new Core.API.ProjectTime
+                    return new ProjectTimeEntry()
                     {
-                        externalUserId = externalUserId,
-                        externalTaskId = externalTaskId,
-                        startTime = startTime,
-                        startTimeZone = startTimeZone,
-                        endTime = endTime,
-                        endTimeZone = endTimeZone,
+                        User = externalId,
+                        Task = externalTaskId,
+                        StartDateTime = startTime,
+                        StartTimeZone = startTimeZone,
+                        EndDateTime = endTime,
+                        EndTimeZone = endTimeZone,
                         duration = duration,
-                        breakTime = @break,
-                        description = notes,
-                        billable = billable,
-                        changed = changed
+                        Break = @break,
+                        Notes = notes,
+                        Billable = billable,
+                        Changed = changed
                     };
                 }).ToList();
             }

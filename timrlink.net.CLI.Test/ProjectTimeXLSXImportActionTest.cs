@@ -22,6 +22,13 @@ namespace timrlink.net.CLI.Test
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
 
             var loggerFactory = new LoggerFactory();
+            
+            var user1 = new User()
+            {
+                externalId = "John Dow"
+            };
+
+            var users = new List<User> {user1};
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
@@ -33,16 +40,24 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy())
+                .ReturnsAsync(new List<Task>());
+            
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
 
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_spanish_datetime.xlsx", taskServiceMock.Object, projectTimeServiceMock.Object);
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_spanish_datetime.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
 
             Assert.AreEqual(28, projectTimes.Count);
 
             {
                 var projectTime = projectTimes[0];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 08, 07, 00, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -56,8 +71,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[3];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 13, 15, 58, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -71,8 +86,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[10];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("Parent|NewTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("Test für das \r\nwachte\r\n\r\nasdfasdfksdfa\r\n\r\n\r\nasdfajsdkfaskd\r\n\r\nDas sieht ja schon mal sehr gut aus!", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 29, 07, 40, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -89,8 +104,15 @@ namespace timrlink.net.CLI.Test
         public async System.Threading.Tasks.Task ParseEnglishDateTime()
         {
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
-
+            
             var loggerFactory = new LoggerFactory();
+            
+            var user1 = new User()
+            {
+                externalId = "John Dow"
+            };
+
+            var users = new List<User> {user1};
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
@@ -102,16 +124,24 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
-
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_english_datetime.xlsx", taskServiceMock.Object, projectTimeServiceMock.Object);
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy())
+                .ReturnsAsync(new List<Task>());
+            
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+            
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_english_datetime.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
 
             Assert.AreEqual(28, projectTimes.Count);
 
             {
                 var projectTime = projectTimes[0];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 08, 07, 00, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -125,8 +155,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[3];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 13, 15, 58, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -140,8 +170,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[10];
-                Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.AreEqual("Parent|NewTask", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("Test für das \r\nwachte\r\n\r\nasdfasdfksdfa\r\n\r\n\r\nasdfajsdkfaskd\r\n\r\nDas sieht ja schon mal sehr gut aus!", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 29, 07, 40, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -160,6 +190,13 @@ namespace timrlink.net.CLI.Test
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
 
             var loggerFactory = new LoggerFactory();
+            
+            var user1 = new User()
+            {
+                login = "Bernhard Danecker [timrtest]"
+            };
+
+            var users = new List<User> {};
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
@@ -171,16 +208,26 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
-
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_german_time.xlsx", taskServiceMock.Object, projectTimeServiceMock.Object);
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy())
+                .ReturnsAsync(new List<Task>());
+            
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers());
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+            
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_german_time.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
 
             Assert.AreEqual(3, projectTimes.Count);
 
             {
                 var projectTime = projectTimes[0];
-                Assert.AreEqual("", projectTime.externalUserId);
-                Assert.AreEqual("bernhard budget", projectTime.externalTaskId);
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);
@@ -194,11 +241,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[1];
-                Assert.AreEqual("", projectTime.externalUserId);
-                Assert.AreEqual(
-                    "Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text|another very long task xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx |pfosjüfojsaopfjeoeafjsüjf438975984375970432§$%&§$%&§$%&§%$/54390860456094586 6 495 834 5680543m8v90bm389mb0683b mmm m3v 6 54v 6",
-                    projectTime.externalTaskId
-                );
+                Assert.IsNull(projectTime.externalUserId);
+                Assert.IsNull(projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);

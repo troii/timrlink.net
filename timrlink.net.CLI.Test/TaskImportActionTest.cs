@@ -248,7 +248,8 @@ namespace timrlink.net.CLI.Test
                 .Returns(System.Threading.Tasks.Task.CompletedTask);
             taskServiceMock
                 .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => addedTasks.AddRange(t));
+                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => addedTasks.AddRange(t))
+                .Returns(System.Threading.Tasks.Task.CompletedTask);
 
             var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskServiceMock.Object);
             await importAction.Execute();

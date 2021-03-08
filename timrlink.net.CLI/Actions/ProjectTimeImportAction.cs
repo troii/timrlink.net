@@ -64,28 +64,19 @@ namespace timrlink.net.CLI.Actions
                     continue;
                 }
                 
-                string uuid;
+                try
+                {
+                    await AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
+                    continue;
+                }
                 
-                if (taskDictionary.TryGetValue(record.Task, out var task))
-                {
-                    uuid = task.uuid;
-                }
-                else
-                {
-                    try
-                    {
-                        uuid = await AddTaskTreeRecursive(taskDictionary, null, null, record.Task.Split("|"));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
-                        continue;
-                    }
-                }
-
                 var projectTime = record.CreateProjectTime();
-                projectTime.taskUuid = uuid;
-                projectTime.userUuid = user.uuid;
+                projectTime.externalTaskId = record.Task;
+                projectTime.externalUserId = record.User;
                 await ProjectTimeService.SaveProjectTime(projectTime);
             }
         }
@@ -114,31 +105,30 @@ namespace timrlink.net.CLI.Actions
             }
         }
 
-        protected async System.Threading.Tasks.Task<String> AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentUuid, string parentPath, IList<string> pathTokens)
+        protected async System.Threading.Tasks.Task AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentPath, IList<string> pathTokens)
         {
             if (pathTokens.Count == 0)
             {
-                return parentUuid;
+                return;
             }
 
             var name = pathTokens.First();
             var currentPath = parentPath != null ? parentPath + "|" + name : name;
             
-            if (!tasks.TryGetValue(currentPath, out var task))
+            if (!tasks.ContainsKey(currentPath))
             {
-                task = new Task
+                Task task = new Task
                 {
                     name = name,
-                    uuid = Guid.NewGuid().ToString(),
-                    parentUuid =  parentUuid,
+                    externalId = currentPath,
+                    parentExternalId = parentPath,
                     bookable = true,
-                    externalId = Guid.NewGuid().ToString()
                 };
                 await TaskService.AddTask(task);
                 tasks.Add(currentPath, task);
             }
 
-            return await AddTaskTreeRecursive(tasks, task.uuid, currentPath, pathTokens.Skip(1).ToList());
+            await AddTaskTreeRecursive(tasks, currentPath, pathTokens.Skip(1).ToList());
         }
     }
 }

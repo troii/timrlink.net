@@ -28,7 +28,9 @@ namespace timrlink.net.CLI
                 breakTime = Break,
                 description = Notes,
                 billable = Billable,
-                changed = Changed 
+                changed = Changed,
+                externalTaskId = Task,
+                externalUserId = User
             };
             return projectTime;
         }

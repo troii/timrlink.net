@@ -72,8 +72,6 @@ namespace timrlink.net.CLI.Actions
                 }
                 
                 var projectTime = record.CreateProjectTime();
-                projectTime.externalTaskId = record.Task;
-                projectTime.externalUserId = record.User;
                 await ProjectTimeService.SaveProjectTime(projectTime);
             }
         }

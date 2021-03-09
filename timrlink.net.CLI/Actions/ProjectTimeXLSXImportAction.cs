@@ -44,7 +44,7 @@ namespace timrlink.net.CLI.Actions
                 return rows.Skip(1).Select(row =>
                 {
                     var columns = row.Elements<Cell>().ToDictionary(ColumnNameFromCell);
-                    var externalId = GetStringValue(document.WorkbookPart, columnMapping.UserExternalId, columns);
+                    var externalUserId = GetStringValue(document.WorkbookPart, columnMapping.UserExternalId, columns);
                     var externalTaskId = GetStringValue(document.WorkbookPart, columnMapping.TaskExternalId, columns);
                     if (String.IsNullOrEmpty(externalTaskId))
                     {
@@ -98,7 +98,7 @@ namespace timrlink.net.CLI.Actions
 
                     return new ProjectTimeEntry()
                     {
-                        User = externalId,
+                        User = externalUserId,
                         Task = externalTaskId,
                         StartDateTime = startTime,
                         StartTimeZone = startTimeZone,

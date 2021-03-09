@@ -54,10 +54,10 @@ namespace timrlink.net.CLI.Actions
             
             foreach (var record in records)
             {
-                var externalId = record.User;
-                if (!userDictionary.TryGetValue(externalId, out _))
+                var externalUserId = record.User;
+                if (!userDictionary.TryGetValue(externalUserId, out _))
                 {
-                    Logger.LogError($"User with ExternalId {externalId} not found. Skipping ProjectTime to import.");
+                    Logger.LogError($"User with ExternalId {externalUserId} not found. Skipping ProjectTime to import.");
                     continue;
                 }
                 

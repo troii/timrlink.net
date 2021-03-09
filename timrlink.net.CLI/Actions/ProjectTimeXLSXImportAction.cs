@@ -23,7 +23,7 @@ namespace timrlink.net.CLI.Actions
         {
         }
 
-        protected override IEnumerable<ProjectTimeEntry> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
         {
             using (var document = SpreadsheetDocument.Open(Filename, false))
             {
@@ -96,19 +96,19 @@ namespace timrlink.net.CLI.Actions
                     var changed = columns[columnMapping.ManuallyChanged].CellValue.Text == "1";
                     var @break = (int) decimal.Parse(columns[columnMapping.Break].CellValue.Text);
 
-                    return new ProjectTimeEntry()
+                    return new Core.API.ProjectTime()
                     {
-                        User = externalUserId,
-                        Task = externalTaskId,
-                        StartDateTime = startTime,
-                        StartTimeZone = startTimeZone,
-                        EndDateTime = endTime,
-                        EndTimeZone = endTimeZone,
-                        Duration = duration,
-                        Break = @break,
-                        Notes = notes,
-                        Billable = billable,
-                        Changed = changed
+                        externalUserId = externalUserId,
+                        externalTaskId = externalTaskId,
+                        startTime = startTime,
+                        startTimeZone = startTimeZone,
+                        endTime = endTime,
+                        endTimeZone = endTimeZone,
+                        duration = duration,
+                        breakTime = @break,
+                        description = notes,
+                        billable = billable,
+                        changed = changed
                     };
                 }).ToList();
             }

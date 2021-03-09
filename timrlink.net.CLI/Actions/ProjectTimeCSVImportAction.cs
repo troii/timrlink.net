@@ -17,7 +17,7 @@ namespace timrlink.net.CLI.Actions
         {
         }
 
-        protected override IEnumerable<ProjectTimeEntry> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
         {
             using (var fileReader = File.OpenRead(Filename))
             using (var textReader = new StreamReader(fileReader))
@@ -27,15 +27,15 @@ namespace timrlink.net.CLI.Actions
                 {
                     try
                     {
-                        return new ProjectTimeEntry()
+                        return new Core.API.ProjectTime()
                         {
-                            Task = record.Task,
-                            User = record.User,
-                            StartDateTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                            EndDateTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
-                            Break = (int) TimeSpan.Parse(record.Break).TotalMinutes,
-                            Notes = record.Notes,
-                            Billable = record.Billable
+                            externalTaskId = record.Task,
+                            externalUserId = record.User,
+                            startTime = DateTime.ParseExact(record.StartDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            endTime = DateTime.ParseExact(record.EndDateTime, "dd.MM.yy H:mm", CultureInfo.InvariantCulture),
+                            breakTime = (int) TimeSpan.Parse(record.Break).TotalMinutes,
+                            description = record.Notes,
+                            billable = record.Billable
                         };
                     }
                     catch (FormatException e)

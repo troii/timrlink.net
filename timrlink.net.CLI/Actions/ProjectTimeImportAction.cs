@@ -22,7 +22,7 @@ namespace timrlink.net.CLI.Actions
 
         public sealed override async System.Threading.Tasks.Task Execute()
         {
-            IList<ProjectTimeEntry> records;
+            IList<Core.API.ProjectTime> records;
             try
             {
                 records = ParseFile().ToList();
@@ -38,9 +38,9 @@ namespace timrlink.net.CLI.Actions
             await ImportProjectTimeRecords(records);
         }
 
-        protected abstract IEnumerable<ProjectTimeEntry> ParseFile();
+        protected abstract IEnumerable<Core.API.ProjectTime> ParseFile();
 
-        private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<ProjectTimeEntry> records)
+        private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<Core.API.ProjectTime> records)
         {
             var users = await UserService.GetUsers();
             var userDictionary = users
@@ -54,25 +54,27 @@ namespace timrlink.net.CLI.Actions
             
             foreach (var record in records)
             {
-                var externalUserId = record.User;
-                if (!userDictionary.TryGetValue(externalUserId, out _))
+                var externalUserId = record.externalUserId;
+                if (!userDictionary.ContainsKey(externalUserId))
                 {
                     Logger.LogError($"User with ExternalId {externalUserId} not found. Skipping ProjectTime to import.");
                     continue;
                 }
-                
-                try
+
+                if (!taskDictionary.ContainsKey(record.externalTaskId))
                 {
-                    await AddTaskTreeRecursive(taskDictionary, null, record.Task.Split("|"));
+                    try
+                    {
+                        await AddTaskTreeRecursive(taskDictionary, null, record.externalTaskId.Split("|"));
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
+                        continue;
+                    }
                 }
-                catch (Exception e)
-                {
-                    Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
-                    continue;
-                }
-                
-                var projectTime = record.CreateProjectTime();
-                await ProjectTimeService.SaveProjectTime(projectTime);
+
+                await ProjectTimeService.SaveProjectTime(record);
             }
         }
 

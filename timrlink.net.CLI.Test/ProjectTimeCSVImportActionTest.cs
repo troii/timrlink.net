@@ -59,17 +59,18 @@ namespace timrlink.net.CLI.Test
 
             var internalTask = tasks[0];
             Assert.AreEqual("INTERNAL", internalTask.name);
+            Assert.AreEqual("INTERNAL", internalTask.externalId);
             Assert.IsNull(internalTask.parentExternalId);
 
             var holidayTask = tasks[1];
             Assert.AreEqual("Holiday", holidayTask.name);
-            Assert.AreEqual(internalTask.uuid, holidayTask.parentUuid);
-            Assert.IsNull(holidayTask.parentExternalId);
+            Assert.AreEqual("INTERNAL|Holiday", holidayTask.externalId);
+            Assert.AreEqual("INTERNAL", holidayTask.parentExternalId);
 
             var pmTask = tasks[2];
             Assert.AreEqual("PM", pmTask.name);
-            Assert.AreEqual(internalTask.uuid, pmTask.parentUuid);
-            Assert.IsNull(pmTask.parentExternalId);
+            Assert.AreEqual("INTERNAL|PM", pmTask.externalId);
+            Assert.AreEqual("INTERNAL", pmTask.parentExternalId);
         }
 
         [Test]
@@ -113,12 +114,12 @@ namespace timrlink.net.CLI.Test
             
             var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
-
+ 
             Assert.AreEqual(8, projectTimes.Count);
             {
                 var projectTime = projectTimes[0];
-                //Assert.AreEqual("John Dow", projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("INTERNAL|Holiday", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2015, 12, 01, 08, 00, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);

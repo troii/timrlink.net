@@ -56,8 +56,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[0];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 08, 07, 00, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -71,8 +71,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[3];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 13, 15, 58, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -86,8 +86,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[10];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("Parent|NewTask", projectTime.externalTaskId);
                 Assert.AreEqual("Test für das \r\nwachte\r\n\r\nasdfasdfksdfa\r\n\r\n\r\nasdfajsdkfaskd\r\n\r\nDas sieht ja schon mal sehr gut aus!", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 29, 07, 40, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -140,8 +140,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[0];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 08, 07, 00, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -155,8 +155,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[3];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("LockedTask", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 13, 15, 58, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -170,8 +170,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[10];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("Parent|NewTask", projectTime.externalTaskId);
                 Assert.AreEqual("Test für das \r\nwachte\r\n\r\nasdfasdfksdfa\r\n\r\n\r\nasdfajsdkfaskd\r\n\r\nDas sieht ja schon mal sehr gut aus!", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 05, 29, 07, 40, 00), projectTime.startTime);
                 Assert.IsNull(projectTime.startTimeZone);
@@ -224,8 +224,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[0];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual("bernhard budget", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);
@@ -239,9 +239,11 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[1];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
-                Assert.AreEqual("", projectTime.description);
+                Assert.AreEqual("John Dow", projectTime.externalUserId);
+                Assert.AreEqual(
+                    "Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text|another very long task xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx |pfosjüfojsaopfjeoeafjsüjf438975984375970432§$%&§$%&§$%&§%$/54390860456094586 6 495 834 5680543m8v90bm389mb0683b mmm m3v 6 54v 6",
+                    projectTime.externalTaskId
+                );
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.endTime);
@@ -293,8 +295,8 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[0];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("Steve Jobs", projectTime.externalUserId);
+                Assert.AreEqual("bernhard budget", projectTime.externalTaskId);
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);
@@ -308,8 +310,11 @@ namespace timrlink.net.CLI.Test
 
             {
                 var projectTime = projectTimes[1];
-                Assert.IsNull(projectTime.externalUserId);
-                Assert.IsNull(projectTime.externalTaskId);
+                Assert.AreEqual("Steve Jobs", projectTime.externalUserId);
+                Assert.AreEqual(
+                    "Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text Root Task timrTest für db Upgrade loooooooong very looooong text|another very long task xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx |pfosjüfojsaopfjeoeafjsüjf438975984375970432§$%&§$%&§$%&§%$/54390860456094586 6 495 834 5680543m8v90bm389mb0683b mmm m3v 6 54v 6",
+                    projectTime.externalTaskId
+                );
                 Assert.AreEqual("", projectTime.description);
                 Assert.AreEqual(new DateTime(2019, 04, 30, 15, 12, 00), projectTime.startTime);
                 Assert.AreEqual("+02:00", projectTime.startTimeZone);

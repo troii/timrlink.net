@@ -2,7 +2,7 @@ using System;
 
 namespace timrlink.net.CLI
 {
-    public class ProjectTimeEntry
+    internal class ProjectTimeEntry
     {
         public string User { get; set; }
         public string Task { get; set; }

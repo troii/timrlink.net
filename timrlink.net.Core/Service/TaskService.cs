@@ -73,7 +73,7 @@ namespace timrlink.net.Core.Service
 
         public async Task AddTask(API.Task task)
         {
-            logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId} UUID={task.uuid} parentUUID={task.parentUuid})");
+            logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId}");
             await timrSync.AddTaskAsync(new API.AddTaskRequest(task)).ConfigureAwait(false);
         }
 

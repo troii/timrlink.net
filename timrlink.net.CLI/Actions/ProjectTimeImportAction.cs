@@ -48,8 +48,9 @@ namespace timrlink.net.CLI.Actions
                 .ToDictionary(user => user.externalId);
             var tasks = await TaskService.GetTaskHierarchy();
 
-            var taskDictionary = new Dictionary<string, Task>();
-            CreatePathDictionary(taskDictionary, tasks);
+            var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
+                task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
+            );
             
             foreach (var record in records)
             {
@@ -74,30 +75,6 @@ namespace timrlink.net.CLI.Actions
                 projectTime.externalTaskId = record.Task;
                 projectTime.externalUserId = record.User;
                 await ProjectTimeService.SaveProjectTime(projectTime);
-            }
-        }
-
-        private void CreatePathDictionary(IDictionary<string, Task> tasks, IList<Task> allTasks)
-        {
-            foreach (var task in allTasks)
-            {
-                CreatePathDictionaryRecursive(tasks, task, null);
-            }
-        }
-
-        private void CreatePathDictionaryRecursive(IDictionary<string, Task> tasks, Task task, string path)
-        {
-            var currentPath = path != null ? path + "|" + task.name : task.name;
-            tasks[currentPath] = task;
-            
-            if (task.subtasks == null || task.subtasks.Count() == 0)
-            {
-                return;
-            }
-
-            foreach (var subtask in task.subtasks)
-            {
-                CreatePathDictionaryRecursive(tasks, subtask, currentPath);
             }
         }
 

@@ -43,9 +43,6 @@ namespace timrlink.net.CLI.Test
             taskServiceMock
                 .Setup(service => service.AddTask(It.IsAny<Task>()))
                 .Callback((Task task) => tasks.Add(task));
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task>());
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
@@ -103,9 +100,6 @@ namespace timrlink.net.CLI.Test
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
                 .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task>());
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock

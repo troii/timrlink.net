@@ -57,7 +57,7 @@ namespace timrlink.net.CLI.Actions
                 var externalUserId = record.externalUserId;
                 if (!userDictionary.ContainsKey(externalUserId))
                 {
-                    Logger.LogError($"User with ExternalId {externalUserId} not found. Skipping ProjectTime to import.");
+                    Logger.LogError($"User with ExternalId {externalUserId} not found. Skipping ProjectTime {record} to import.");
                     continue;
                 }
 

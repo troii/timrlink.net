@@ -32,9 +32,6 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
             taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>()))
-                .ReturnsAsync(new Dictionary<string, Task>());
-            taskServiceMock
                 .Setup(service => service.AddTask(It.IsAny<Task>()))
                 .Callback((Task task) => tasks.Add(task))
                 .Returns(System.Threading.Tasks.Task.CompletedTask);
@@ -241,9 +238,6 @@ namespace timrlink.net.CLI.Test
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>()))
-                .ReturnsAsync(new Dictionary<string, Task>());
             taskServiceMock
                 .Setup(service => service.AddTask(It.IsAny<Task>()))
                 .Callback((Task task) => addedTasks.Add(task))

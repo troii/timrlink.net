@@ -10,11 +10,13 @@ namespace timrlink.net.CLI.Actions
     internal abstract class ProjectTimeImportAction : ImportAction
     {
         protected ITaskService TaskService { get; }
+        protected IUserService UserService { get; }
         protected IProjectTimeService ProjectTimeService { get; }
 
-        protected ProjectTimeImportAction(ILogger logger, string filename, ITaskService taskService, IProjectTimeService projectTimeService) : base(filename, logger)
+        protected ProjectTimeImportAction(ILogger logger, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService) : base(filename, logger)
         {
             TaskService = taskService;
+            UserService = userService;
             ProjectTimeService = projectTimeService;
         }
 
@@ -40,13 +42,25 @@ namespace timrlink.net.CLI.Actions
 
         private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<Core.API.ProjectTime> records)
         {
+            var users = await UserService.GetUsers();
+            var userDictionary = users
+                .Where(user => user.externalId != null)
+                .ToDictionary(user => user.externalId);
             var tasks = await TaskService.GetTaskHierarchy();
+
             var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
                 task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
             );
-
+            
             foreach (var record in records)
             {
+                var externalUserId = record.externalUserId;
+                if (!userDictionary.ContainsKey(externalUserId))
+                {
+                    Logger.LogWarning($"User with ExternalId {externalUserId} not found. Skipping {record} to import.");
+                    continue;
+                }
+
                 if (!taskDictionary.ContainsKey(record.externalTaskId))
                 {
                     try
@@ -55,7 +69,7 @@ namespace timrlink.net.CLI.Actions
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
+                        Logger.LogError(e, $"Failed to add missing Task tree for: {record}");
                         continue;
                     }
                 }
@@ -66,11 +80,14 @@ namespace timrlink.net.CLI.Actions
 
         protected async System.Threading.Tasks.Task AddTaskTreeRecursive(IDictionary<string, Task> tasks, string parentPath, IList<string> pathTokens)
         {
-            if (pathTokens.Count == 0) return;
+            if (pathTokens.Count == 0)
+            {
+                return;
+            }
 
             var name = pathTokens.First();
             var currentPath = parentPath != null ? parentPath + "|" + name : name;
-
+            
             if (!tasks.ContainsKey(currentPath))
             {
                 Task task = new Task

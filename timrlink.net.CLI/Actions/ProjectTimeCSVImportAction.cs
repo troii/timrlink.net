@@ -12,8 +12,8 @@ namespace timrlink.net.CLI.Actions
 {
     internal class ProjectTimeCSVImportAction : ProjectTimeImportAction
     {
-        public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IProjectTimeService projectTimeService)
-            : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, projectTimeService)
+        public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
+            : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, userService, projectTimeService)
         {
         }
 
@@ -27,7 +27,7 @@ namespace timrlink.net.CLI.Actions
                 {
                     try
                     {
-                        return new Core.API.ProjectTime
+                        return new Core.API.ProjectTime()
                         {
                             externalTaskId = record.Task,
                             externalUserId = record.User,

@@ -20,6 +20,18 @@ namespace timrlink.net.CLI.Test
         public async System.Threading.Tasks.Task TaskCreation()
         {
             var tasks = new List<Task>();
+            
+            var user1 = new User()
+            {
+                externalId = "John Dow"
+            };
+
+            var user2 = new User()
+            {
+                externalId = "John Cena"
+            };
+
+            var users = new List<User> {user1, user2};
 
             var loggerFactory = new LoggerFactory();
 
@@ -32,22 +44,30 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.AddTask(It.IsAny<Task>()))
                 .Callback((Task task) => tasks.Add(task));
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, projectTimeServiceMock.Object);
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
 
             Assert.AreEqual(3, tasks.Count);
 
-            Assert.AreEqual("INTERNAL", tasks[0].name);
-            Assert.AreEqual("INTERNAL", tasks[0].externalId);
-            Assert.IsNull(tasks[0].parentExternalId);
+            var internalTask = tasks[0];
+            Assert.AreEqual("INTERNAL", internalTask.name);
+            Assert.AreEqual("INTERNAL", internalTask.externalId);
+            Assert.IsNull(internalTask.parentExternalId);
 
-            Assert.AreEqual("Holiday", tasks[1].name);
-            Assert.AreEqual("INTERNAL|Holiday", tasks[1].externalId);
-            Assert.AreEqual("INTERNAL", tasks[1].parentExternalId);
+            var holidayTask = tasks[1];
+            Assert.AreEqual("Holiday", holidayTask.name);
+            Assert.AreEqual("INTERNAL|Holiday", holidayTask.externalId);
+            Assert.AreEqual("INTERNAL", holidayTask.parentExternalId);
 
-            Assert.AreEqual("PM", tasks[2].name);
-            Assert.AreEqual("INTERNAL|PM", tasks[2].externalId);
-            Assert.AreEqual("INTERNAL", tasks[2].parentExternalId);
+            var pmTask = tasks[2];
+            Assert.AreEqual("PM", pmTask.name);
+            Assert.AreEqual("INTERNAL|PM", pmTask.externalId);
+            Assert.AreEqual("INTERNAL", pmTask.parentExternalId);
         }
 
         [Test]
@@ -57,6 +77,18 @@ namespace timrlink.net.CLI.Test
 
             var loggerFactory = new LoggerFactory();
 
+            var user1 = new User()
+            {
+                externalId = "John Dow"
+            };
+
+            var user2 = new User()
+            {
+                externalId = "John Cena"
+            };
+
+            var users = new List<User> {user1, user2};
+            
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
                 .Setup(service => service.SaveProjectTime(It.IsAny<Core.API.ProjectTime>()))
@@ -69,9 +101,14 @@ namespace timrlink.net.CLI.Test
             taskServiceMock
                 .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, projectTimeServiceMock.Object);
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+            
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
-
+ 
             Assert.AreEqual(8, projectTimes.Count);
             {
                 var projectTime = projectTimes[0];

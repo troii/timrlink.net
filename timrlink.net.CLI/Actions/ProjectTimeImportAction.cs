@@ -57,7 +57,7 @@ namespace timrlink.net.CLI.Actions
                 var externalUserId = record.externalUserId;
                 if (!userDictionary.ContainsKey(externalUserId))
                 {
-                    Logger.LogError($"User with ExternalId {externalUserId} not found. Skipping ProjectTime {record} to import.");
+                    Logger.LogWarning($"User with ExternalId {externalUserId} not found. Skipping {record} to import.");
                     continue;
                 }
 
@@ -69,7 +69,7 @@ namespace timrlink.net.CLI.Actions
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(e, $"Failed to add missing Task tree for record: {record}");
+                        Logger.LogError(e, $"Failed to add missing Task tree for: {record}");
                         continue;
                     }
                 }

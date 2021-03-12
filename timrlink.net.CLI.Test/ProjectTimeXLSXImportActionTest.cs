@@ -311,7 +311,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual(false, projectTime.billable);
                 Assert.AreEqual(false, projectTime.changed);
                 Assert.AreEqual(0, projectTime.duration);
-                Assert.AreEqual(0, projectTime.breakTime);
+                Assert.AreEqual(12, projectTime.breakTime);
             }
         }
     }

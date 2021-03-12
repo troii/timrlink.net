@@ -45,9 +45,10 @@ namespace timrlink.net.CLI.Actions
             var users = await UserService.GetUsers();
             var userDictionary = users
                 .Where(user => user.externalId != null)
-                .ToDictionary(user => user.externalId);
+                .GroupBy(user => user.externalId)
+                .ToDictionary(group => group.Key, group => group.ToList());
+            
             var tasks = await TaskService.GetTaskHierarchy();
-
             var taskDictionary = await TaskService.CreateExternalIdDictionary(tasks,
                 task => task.parentExternalId != null ? task.parentExternalId + "|" + task.name : task.name
             );
@@ -55,9 +56,14 @@ namespace timrlink.net.CLI.Actions
             foreach (var record in records)
             {
                 var externalUserId = record.externalUserId;
-                if (!userDictionary.ContainsKey(externalUserId))
+                if (!userDictionary.TryGetValue(externalUserId, out var projectTimeUsers))
                 {
-                    Logger.LogWarning($"User with ExternalId {externalUserId} not found. Skipping {record} to import.");
+                    Logger.LogWarning($"User with ExternalId '{externalUserId}' not found. Skipping {record} to import.");
+                    continue;
+                }
+                else if (projectTimeUsers.Count > 1)
+                {
+                    Logger.LogError($"User with ExternalId '{externalUserId}' not unique (logins=[{String.Join(", ", projectTimeUsers.Select(u => u.login))}]). Skipping {record} to import.");
                     continue;
                 }
 
@@ -69,7 +75,7 @@ namespace timrlink.net.CLI.Actions
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(e, $"Failed to add missing Task tree for: {record}");
+                        Logger.LogError(e, $"Failed to add missing Task tree for {record}");
                         continue;
                     }
                 }

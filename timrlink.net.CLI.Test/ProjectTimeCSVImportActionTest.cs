@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using Serilog;
 using timrlink.net.CLI.Actions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
@@ -19,21 +20,15 @@ namespace timrlink.net.CLI.Test
         [Test]
         public async System.Threading.Tasks.Task TaskCreation()
         {
-            var tasks = new List<Task>();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug)); 
             
-            var user1 = new User()
+            var users = new List<User>
             {
-                externalId = "John Dow"
+                new User { externalId = "John Dow" },
+                new User { externalId = "John Cena" }
             };
 
-            var user2 = new User()
-            {
-                externalId = "John Cena"
-            };
-
-            var users = new List<User> {user1, user2};
-
-            var loggerFactory = new LoggerFactory();
+            var tasks = new List<Task>();
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
 
@@ -71,24 +66,18 @@ namespace timrlink.net.CLI.Test
         }
 
         [Test]
-        public async System.Threading.Tasks.Task ParseCSV()
+        public async System.Threading.Tasks.Task ProjectTimeImport()
         {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var users = new List<User>
+            {
+                new User { externalId = "John Dow" },
+                new User { externalId = "John Cena" }
+            };
+
             var projectTimes = new List<Core.API.ProjectTime>();
 
-            var loggerFactory = new LoggerFactory();
-
-            var user1 = new User()
-            {
-                externalId = "John Dow"
-            };
-
-            var user2 = new User()
-            {
-                externalId = "John Cena"
-            };
-
-            var users = new List<User> {user1, user2};
-            
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
             projectTimeServiceMock
                 .Setup(service => service.SaveProjectTime(It.IsAny<Core.API.ProjectTime>()))
@@ -105,10 +94,10 @@ namespace timrlink.net.CLI.Test
             userServiceMock
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
-            
+
             var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
- 
+
             Assert.AreEqual(8, projectTimes.Count);
             {
                 var projectTime = projectTimes[0];
@@ -120,6 +109,57 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual(new DateTime(2015, 12, 01, 16, 30, 00), projectTime.endTime);
                 Assert.IsNull(projectTime.endTimeZone);
                 Assert.AreEqual(false, projectTime.billable);
+                Assert.AreEqual(30, projectTime.breakTime);
+            }
+        }
+
+        [Test]
+        public async System.Threading.Tasks.Task ProjectTimeImportNonUniqueUsers()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var users = new List<User>
+            {
+                new User { login = "john.dow", externalId = "John Dow" },
+                new User { login = "john.d", externalId = "John Dow" },
+                new User { login = "john.cena", externalId = "John Cena" }
+            };
+
+            var projectTimes = new List<Core.API.ProjectTime>();
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
+            projectTimeServiceMock
+                .Setup(service => service.SaveProjectTime(It.IsAny<Core.API.ProjectTime>()))
+                .Callback((Core.API.ProjectTime projectTime) => projectTimes.Add(projectTime));
+            projectTimeServiceMock
+                .Setup(service => service.SaveProjectTimes(It.IsAny<IList<Core.API.ProjectTime>>()))
+                .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
+
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
+            taskServiceMock
+                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute();
+
+            Assert.AreEqual(2, projectTimes.Count);
+            Assert.True(projectTimes.TrueForAll(projectTime => projectTime.externalUserId != "John Dow"), "contains projecttime for non-unique John Dow");
+
+            {
+                var projectTime = projectTimes[0];
+                Assert.AreEqual("John Cena", projectTime.externalUserId);
+                Assert.AreEqual("INTERNAL|PM", projectTime.externalTaskId);
+                Assert.AreEqual("Boring Company, Boring Stuff ", projectTime.description);
+                Assert.AreEqual(new DateTime(2016, 02, 26, 08, 00, 00), projectTime.startTime);
+                Assert.IsNull(projectTime.startTimeZone);
+                Assert.AreEqual(new DateTime(2016, 02, 26, 16, 30, 00), projectTime.endTime);
+                Assert.IsNull(projectTime.endTimeZone);
+                Assert.AreEqual(true, projectTime.billable);
                 Assert.AreEqual(30, projectTime.breakTime);
             }
         }

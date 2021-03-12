@@ -97,7 +97,7 @@ namespace timrlink.net.CLI.Actions
 
                     var @break = (int) decimal.Parse(columns[columnMapping.Break].CellValue.Text);
 
-                    return new Core.API.ProjectTime()
+                    return new Core.API.ProjectTime
                     {
                         externalUserId = externalUserId,
                         externalTaskId = externalTaskId,

@@ -27,7 +27,7 @@ namespace timrlink.net.CLI.Actions
                 {
                     try
                     {
-                        return new Core.API.ProjectTime()
+                        return new Core.API.ProjectTime
                         {
                             externalTaskId = record.Task,
                             externalUserId = record.User,

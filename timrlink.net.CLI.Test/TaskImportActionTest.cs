@@ -22,7 +22,7 @@ namespace timrlink.net.CLI.Test
         {
             var tasks = new List<Task>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
             taskServiceMock
@@ -112,7 +112,7 @@ namespace timrlink.net.CLI.Test
         {
             var tasks = new List<Task>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
@@ -229,7 +229,7 @@ namespace timrlink.net.CLI.Test
             var addedTasks = new List<Task>();
             var updatedTasks = new List<Task>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
             taskServiceMock
@@ -319,7 +319,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(true, task.billable);
-                Assert.IsTrue(String.IsNullOrEmpty(task.description));
+                Assert.IsTrue(String.IsNullOrEmpty(task.description), "String.IsNullOrEmpty(task.description)");
                 Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
                 Assert.IsNull(task.end);
             }

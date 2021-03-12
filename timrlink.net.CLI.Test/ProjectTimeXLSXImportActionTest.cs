@@ -21,9 +21,9 @@ namespace timrlink.net.CLI.Test
         {
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
-            var user1 = new User()
+            var user1 = new User
             {
                 externalId = "John Dow"
             };
@@ -102,9 +102,9 @@ namespace timrlink.net.CLI.Test
         {
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
             
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
-            var user1 = new User()
+            var user1 = new User
             {
                 externalId = "John Dow"
             };
@@ -183,9 +183,9 @@ namespace timrlink.net.CLI.Test
         {
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
-            var user1 = new User()
+            var user1 = new User
             {
                 externalId = "John Dow"
             };
@@ -251,9 +251,9 @@ namespace timrlink.net.CLI.Test
         {
             List<Core.API.ProjectTime> projectTimes = new List<Core.API.ProjectTime>();
 
-            var loggerFactory = new LoggerFactory();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
-            var user1 = new User()
+            var user1 = new User
             {
                 externalId = "Steve Jobs"
             };

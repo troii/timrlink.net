@@ -7,5 +7,10 @@ namespace timrlink.net.Core.API
         {
             return (ProjectTime) MemberwiseClone();
         }
+
+        public override string ToString()
+        {
+            return $"ProjectTime({nameof(externalUserId)}: {externalUserId}, {nameof(externalTaskId)}: {externalTaskId}, {nameof(startTime)}: {startTime}, {nameof(endTime)}: {endTime})";
+        }
     }
 }

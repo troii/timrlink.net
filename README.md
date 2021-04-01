@@ -112,7 +112,7 @@ For creating a self contained package run the following command:
 dotnet publish timrlink.net.CLI/ -c Release -r win7-x64 --self-contained
 ```
 
-The artifacts can then be found at `tirmlink.net.CLI/bin/Release/netcoreapp3.1/win7-x64/publish`
+The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/win7-x64/publish`
 
 ##### MacOS
 

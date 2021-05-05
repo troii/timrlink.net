@@ -75,6 +75,17 @@ Customer A|Project1;True;True;;;;;;
 Customer A|Project2;false;true;;2019-05-16;;;;
 ```
 
+Optionally Subtasks can be included. They need to be seperated by ','. Subtasks are always bookable and inherit the specified billable:
+
+```
+Task;Bookable;Billable;Description;Start;End;Subtasks
+Customer A|Project1|Task1;True;False;Awesome;;;Support,Sales
+Customer A|Project1;True;True;;;;Support
+Customer A|Project2;false;true;;2019-05-16;;Development,Testing
+```
+
+Custom Fields and Subtasks can also be specified together.
+
 #### Export project times to DB
 
 Currently only Microsoft SQL Server is supported. The connection string for the database has to be specified as argument.

@@ -352,8 +352,6 @@ namespace timrlink.net.CLI.Test
 
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_subtasks.csv", false, taskServiceMock.Object);
             await importAction.Execute();
-
-            var names = synchronizeTasks.Select(task => task.name);
             
             Assert.AreEqual(2, addTasks.Count);
 

@@ -66,7 +66,6 @@ namespace timrlink.net.CLI.Actions
             }
 
             var csvTasks = new List<Core.API.Task>();
-            var externalSubtaskIds = new List<string>();
 
             foreach (var entry in csvEntries)
             {
@@ -92,31 +91,27 @@ namespace timrlink.net.CLI.Actions
                 
                 csvTasks.Add(task);
                 
-                if (string.IsNullOrEmpty(entry.Subtasks))
+                if (string.IsNullOrEmpty(entry.Subtasks) == false)
                 {
-                    continue;
-                }
-                
-                parentExternalId = entry.Task;
-                
-                foreach (var subtaskName in entry.SubtasksSplitted)
-                {
-                    var externalId = parentExternalId + "|" + subtaskName;
-                    var subtask = taskTokenDictionary.TryGetValue(externalId, out var existingSubtask) ? existingSubtask.Clone() : new Core.API.Task();
-                    subtask.parentExternalId = parentExternalId;
-                    subtask.externalId = externalId;
-                    subtask.name = subtaskName;
-                    subtask.bookable = true;
-                    subtask.billable = task.billable;
-
-                    if (externalSubtaskIds.Contains(externalId) == false) 
+                    var subtaskParentExternalId = entry.Task;
+                    
+                    var uniqueSubtasks = entry.SubtasksSplitted.Distinct().ToList();
+                    if (entry.SubtasksSplitted.Length != uniqueSubtasks.Count)
                     {
-                        csvTasks.Add(subtask);
-                        externalSubtaskIds.Add(externalId);
+                        Logger.LogWarning($"Duplicate subtask specified: '{entry.Subtasks}'");
                     }
-                    else
+                
+                    foreach (var subtaskName in uniqueSubtasks)
                     {
-                        Logger.LogWarning($"Duplicate subtask specified: '{subtask.name}', skipping.");
+                        var externalId = subtaskParentExternalId + "|" + subtaskName;
+                        var subtask = taskTokenDictionary.TryGetValue(externalId, out var existingSubtask) ? existingSubtask.Clone() : new Core.API.Task();
+                        subtask.parentExternalId = subtaskParentExternalId;
+                        subtask.externalId = externalId;
+                        subtask.name = subtaskName;
+                        subtask.bookable = true;
+                        subtask.billable = task.billable;
+
+                        csvTasks.Add(subtask);
                     }
                 }
             }

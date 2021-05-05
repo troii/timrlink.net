@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DocumentFormat.OpenXml.Presentation;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;

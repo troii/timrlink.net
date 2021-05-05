@@ -15,6 +15,8 @@ namespace timrlink.net.Core.Service
         Task AddTask(API.Task task);
 
         Task UpdateTask(API.Task task);
+        
+        Task DeleteTask(API.Task task);
 
         Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null);
     }

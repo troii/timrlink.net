@@ -64,7 +64,8 @@ namespace timrlink.net.Core.Service
             }).ToList();
         }
 
-        public async Task<IDictionary<string, API.Task>> CreateExternalIdDictionary(IEnumerable<API.Task> tasks, Func<API.Task, string> externalIdLookup = null)
+        public async Task<IDictionary<string, API.Task>> 
+        CreateExternalIdDictionary(IEnumerable<API.Task> tasks, Func<API.Task, string> externalIdLookup = null)
         {
             IDictionary<string, API.Task> taskDictionary = new Dictionary<string, API.Task>();
             await AddTaskIDs(taskDictionary, tasks, null, externalIdLookup).ConfigureAwait(false);
@@ -81,6 +82,12 @@ namespace timrlink.net.Core.Service
         {
             logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
             await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
+        }
+
+        public async Task DeleteTask(API.Task task)
+        {
+            logger.LogInformation($"Deleting Task(Name={task.name}, ExternalId={task.externalId})");
+            await timrSync.DeleteTaskAsync(new API.DeleteTaskRequest(task.externalId)).ConfigureAwait(false);
         }
 
         public async Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)

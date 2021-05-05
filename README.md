@@ -66,13 +66,14 @@ Customer A|Project1;True;True;;;
 Customer A|Project2;false;true;;2019-05-16;
 ```
 
-Optionally Custom Fields can be included, which then requires the following format:
+Optionally Custom Fields can be included, which then requires the following format
+Optionally Subtasks can be included. They need to be seperated by ','
 
 ```
-Task;Bookable;Billable;Description;Start;End;CustomField1;CustomField2;CustomField3
-Customer A|Project1|Task1;True;False;Awesome;;Field1;Field2;Field3
-Customer A|Project1;True;True;;;;;;
-Customer A|Project2;false;true;;2019-05-16;;;;
+Task;Bookable;Billable;Description;Start;End;CustomField1;CustomField2;CustomField3;Subtasks
+Customer A|Project1|Task1;True;False;Awesome;;Field1;Field2;Field3;Support,Sales;
+Customer A|Project1;True;True;;;;;;Support;
+Customer A|Project2;false;true;;2019-05-16;;;;Development,Testing;
 ```
 
 #### Export project times to DB

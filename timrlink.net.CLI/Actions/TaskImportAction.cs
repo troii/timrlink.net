@@ -66,6 +66,7 @@ namespace timrlink.net.CLI.Actions
             }
 
             var csvTasks = new List<Core.API.Task>();
+            var externalSubtaskIds = new List<string>();
 
             foreach (var entry in csvEntries)
             {
@@ -100,15 +101,23 @@ namespace timrlink.net.CLI.Actions
                 
                 foreach (var subtaskName in entry.SubtasksSplitted)
                 {
-                    var fullTaskName = parentExternalId + "|" + subtaskName;
-                    var subtask = taskTokenDictionary.TryGetValue(fullTaskName, out var existingSubtask) ? existingSubtask.Clone() : new Core.API.Task();
+                    var externalId = parentExternalId + "|" + subtaskName;
+                    var subtask = taskTokenDictionary.TryGetValue(externalId, out var existingSubtask) ? existingSubtask.Clone() : new Core.API.Task();
                     subtask.parentExternalId = parentExternalId;
-                    subtask.externalId = fullTaskName;
+                    subtask.externalId = externalId;
                     subtask.name = subtaskName;
                     subtask.bookable = true;
                     subtask.billable = task.billable;
 
-                    csvTasks.Add(subtask);
+                    if (externalSubtaskIds.Contains(externalId) == false) 
+                    {
+                        csvTasks.Add(subtask);
+                        externalSubtaskIds.Add(externalId);
+                    }
+                    else
+                    {
+                        Logger.LogWarning($"Duplicate subtask specified: '{subtask.name}', skipping.");
+                    }
                 }
             }
 

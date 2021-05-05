@@ -105,7 +105,7 @@ namespace timrlink.net.Core.Service
                 }
             }
 
-            foreach (API.Task task in taskDictionary.Values)
+            foreach (API.Task task in remoteTasks)
             {
                 try
                 {

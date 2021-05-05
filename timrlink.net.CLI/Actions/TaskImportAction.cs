@@ -65,32 +65,56 @@ namespace timrlink.net.CLI.Actions
                 await AddTaskTreeRecursive(currentPath, pathTokens.Skip(1).ToList());
             }
 
-            var csvTasks = csvEntries.Select(entry =>
-            {
-                var asyncTask = Task.Run(async () =>
-                {
-                    var taskTokens = entry.Task.Split("|");
-                    var parentTaskTokens = taskTokens.SkipLast(1).ToList();
-                    await AddTaskTreeRecursive(null, parentTaskTokens);
+            var csvTasks = new List<Core.API.Task>();
 
-                    var task = taskTokenDictionary.TryGetValue(entry.Task, out var existingTask) ? existingTask.Clone() : new Core.API.Task();
-                    task.name = taskTokens.Last();
-                    task.externalId = entry.Task;
-                    task.parentExternalId = String.Join("|", parentTaskTokens);
-                    task.bookable = entry.Bookable;
-                    task.billable = entry.Billable;
-                    task.description = entry.Description;
-                    task.start = entry.Start;
-                    task.startSpecified = entry.Start.HasValue;
-                    task.end = entry.End;
-                    task.endSpecified = entry.End.HasValue;
-                    task.customField1 = entry.CustomField1;
-                    task.customField2 = entry.CustomField2;
-                    task.customField3 = entry.CustomField3;
-                    return task;
-                });
-                return asyncTask.GetAwaiter().GetResult();
-            }).ToList();
+            foreach (var entry in csvEntries)
+            {
+                var taskTokens = entry.Task.Split("|");
+                var parentTaskTokens = taskTokens.SkipLast(1).ToList();
+                await AddTaskTreeRecursive(null, parentTaskTokens);
+
+                var parentExternalId = String.Join("|", parentTaskTokens);
+                var task = taskTokenDictionary.TryGetValue(entry.Task, out var existingTask) ? existingTask.Clone() : new Core.API.Task();
+                task.name = taskTokens.Last();
+                task.externalId = entry.Task;
+                task.parentExternalId = parentExternalId;
+                task.bookable = entry.Bookable;
+                task.billable = entry.Billable;
+                task.description = entry.Description;
+                task.start = entry.Start;
+                task.startSpecified = entry.Start.HasValue;
+                task.end = entry.End;
+                task.endSpecified = entry.End.HasValue;
+                task.customField1 = entry.CustomField1;
+                task.customField2 = entry.CustomField2;
+                task.customField3 = entry.CustomField3;
+                
+                csvTasks.Add(task);
+                
+                if (string.IsNullOrEmpty(entry.Subtasks) == false)
+                {
+                    var subtaskParentExternalId = entry.Task;
+                    
+                    var uniqueSubtasks = entry.SubtasksSplitted.Distinct().ToList();
+                    if (entry.SubtasksSplitted.Length != uniqueSubtasks.Count)
+                    {
+                        Logger.LogWarning($"Duplicate subtask specified: '{entry.Subtasks}'");
+                    }
+                
+                    foreach (var subtaskName in uniqueSubtasks)
+                    {
+                        var externalId = subtaskParentExternalId + "|" + subtaskName;
+                        var subtask = taskTokenDictionary.TryGetValue(externalId, out var existingSubtask) ? existingSubtask.Clone() : new Core.API.Task();
+                        subtask.parentExternalId = subtaskParentExternalId;
+                        subtask.externalId = externalId;
+                        subtask.name = subtaskName;
+                        subtask.bookable = true;
+                        subtask.billable = task.billable;
+
+                        csvTasks.Add(subtask);
+                    }
+                }
+            }
 
             await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, csvTasks, updateTasks: updateTasks);
         }
@@ -144,6 +168,12 @@ namespace timrlink.net.CLI.Actions
 
             [Optional]
             public string CustomField3 { get; set; }
+            
+            [Optional]
+            public string Subtasks { get; set; }
+
+            [Ignore]
+            public string[] SubtasksSplitted => Subtasks.Split(",");
         }
     }
 }

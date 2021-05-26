@@ -63,7 +63,8 @@ namespace timrlink.net.Core.Service
                 return list;
             }).ToList();
         }
-
+        
+        [Obsolete]
         public async Task<IDictionary<string, API.Task>> CreateExternalIdDictionary(IEnumerable<API.Task> tasks, Func<API.Task, string> externalIdLookup = null)
         {
             IDictionary<string, API.Task> taskDictionary = new Dictionary<string, API.Task>();
@@ -75,6 +76,34 @@ namespace timrlink.net.Core.Service
         {
             logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId})");
             await timrSync.AddTaskAsync(new API.AddTaskRequest(task)).ConfigureAwait(false);
+        }
+        
+        public async Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens, IDictionary<string, API.Task> taskTokenDictionary, bool bookable)
+        {
+            if (pathTokens.Count == 0) return;
+
+            var name = pathTokens.First();
+            var currentPath = parentPath != null ? parentPath + "|" + name : name;
+
+            if (!taskTokenDictionary.TryGetValue(currentPath, out var task))
+            {
+                var newTask = new Core.API.Task
+                {
+                    name = name,
+                    parentExternalId = parentPath,
+                    externalId = currentPath,
+                    bookable = bookable
+                };
+                await AddTask(newTask);
+                taskTokenDictionary.Add(currentPath, newTask);
+            }
+            else if (task.externalId != currentPath)
+            {
+                task.externalId = currentPath;
+                await UpdateTask(task);
+            }
+
+            await AddTaskTreeRecursive(currentPath, pathTokens.Skip(1).ToList(), taskTokenDictionary, bookable);
         }
 
         public async Task UpdateTask(API.Task task)
@@ -151,6 +180,7 @@ namespace timrlink.net.Core.Service
             }
         }
 
+        [Obsolete]
         private async Task AddTaskIDs(IDictionary<string, API.Task> existingTaskIDs, IEnumerable<API.Task> existingTasks, string parentExternalId, Func<API.Task, string> externalIdLookup)
         {
             foreach (API.Task task in existingTasks)
@@ -180,6 +210,7 @@ namespace timrlink.net.Core.Service
             }
         }
 
+        [Obsolete]
         private async Task UpdateTaskWithoutExternalId(API.Task task, Func<API.Task, string> externalIdLookup)
         {
             var externalId = externalIdLookup(task);

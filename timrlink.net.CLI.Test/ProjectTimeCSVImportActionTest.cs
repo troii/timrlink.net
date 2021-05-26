@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -20,8 +21,8 @@ namespace timrlink.net.CLI.Test
         [Test]
         public async System.Threading.Tasks.Task TaskCreation()
         {
-            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug)); 
-            
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
             var users = new List<User>
             {
                 new User { externalId = "John Dow" },
@@ -30,21 +31,24 @@ namespace timrlink.net.CLI.Test
 
             var tasks = new List<Task>();
 
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => tasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
-
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => tasks.Add(task));
-
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskService, userServiceMock.Object, projectTimeServiceMock.Object);
             await importAction.Execute();
 
             Assert.AreEqual(3, tasks.Count);
@@ -63,6 +67,93 @@ namespace timrlink.net.CLI.Test
             Assert.AreEqual("PM", pmTask.name);
             Assert.AreEqual("INTERNAL|PM", pmTask.externalId);
             Assert.AreEqual("INTERNAL", pmTask.parentExternalId);
+        }
+
+        [Test(Description = "Tests partial creation of required Tasks including logic in TaskService")]
+        public async System.Threading.Tasks.Task PartialTaskCreation()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var user = new User { externalId = "John Dow" };
+            var tasks = new List<Task>
+            {
+                new Task
+                {
+                    name = "Customer A",
+                    externalId = "Customer A",
+                    uuid = "F38761C7-3974-4C01-9FD4-DA5027C346F6",
+                    subtasks = new[]
+                    {
+                        new Task
+                        {
+                            name = "Project1",
+                            externalId = "Customer A|Project1",
+                            parentExternalId = "Customer A",
+                            uuid = "4E5B79E0-7E0F-4FC1-9837-44C910256E04",
+                            subtasks = new[]
+                            {
+                                new Task
+                                {
+                                    name = "Task3",
+                                    externalId = "Customer A|Project1|Task3",
+                                    parentExternalId = "Customer A|Project1",
+                                    uuid = "40D2207E-EA0E-4570-A72D-100D3DC83C5C"
+                                }
+                            }
+                        }
+                    }
+                },
+                new Task
+                {
+                    name = "Customer B",
+                    uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
+                },
+                new Task
+                {
+                    name = "Customer C",
+                    uuid = "126EF139-0026-44A1-929A-473AC9F4E991"
+                }
+            };
+            var newTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+
+            var timrSyncMock = new Mock<TimrSync>();
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(tasks.ToArray()));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => newTasks.Add(addTaskRequest.AddTaskRequest1));
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback((UpdateTaskRequest updateTaskRequest) => updatedTasks.Add(updateTaskRequest.UpdateTaskRequest1));
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Loose);
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(new List<User> { user });
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime_partial_tasks.csv", taskService, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute();
+
+            Assert.AreEqual(6, newTasks.Count);
+
+            var cAp1t1 = newTasks[0];
+            Assert.AreEqual("Task1", cAp1t1.name);
+            Assert.AreEqual("Customer A|Project1|Task1", cAp1t1.externalId);
+            Assert.AreEqual("Customer A|Project1", cAp1t1.parentExternalId);
+
+            Assert.AreEqual(1, updatedTasks.Count);
+
+            var cB = updatedTasks[0];
+            Assert.AreEqual("Customer B", cB.name);
+            Assert.AreEqual("Customer B", cB.externalId);
+            Assert.IsNull(cB.parentExternalId);
+
+            Assert.IsFalse(updatedTasks.Any(task => task.externalId == "Customer C"), "Task 'Customer C' should not get updated when not contained in project time import");
         }
 
         [Test]
@@ -88,7 +179,10 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IList<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
@@ -137,7 +231,10 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock

@@ -24,23 +24,22 @@ namespace timrlink.net.CLI.Test
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
-                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => tasks.Add(task))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
-            taskServiceMock
-                .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => tasks.AddRange(t))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => tasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => tasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskServiceMock.Object);
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
             await importAction.Execute();
 
             Assert.AreEqual(5, tasks.Count);
@@ -114,25 +113,25 @@ namespace timrlink.net.CLI.Test
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>())).Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => tasks.Add(task));
-            taskServiceMock
-                .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => tasks.AddRange(t));
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => tasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => tasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_customfields.csv", false, taskServiceMock.Object);
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_customfields.csv", false, taskService);
             await importAction.Execute();
 
             Assert.AreEqual(5, tasks.Count);
-            var taskDictionary = tasks.GroupBy(task => task.uuid).ToDictionary(group => group.Last().externalId, group => group.Last());
 
             {
                 var task = tasks[0];
@@ -226,32 +225,28 @@ namespace timrlink.net.CLI.Test
                 bookable = false,
                 billable = true
             };
+
             var addedTasks = new List<Task>();
             var updatedTasks = new List<Task>();
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Strict);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy())
-                .ReturnsAsync(new List<Task> { customerATask });
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
-                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => addedTasks.Add(task))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
-            taskServiceMock
-                .Setup(service => service.UpdateTask(It.IsAny<Task>()))
-                .Callback((Task task) => updatedTasks.Add(task))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
-            taskServiceMock
-                .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => addedTasks.AddRange(t))
-                .Returns(System.Threading.Tasks.Task.CompletedTask);
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new[] { customerATask }));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback<AddTaskRequest>(addTaskRequest => addedTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskServiceMock.Object);
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
             await importAction.Execute();
 
             Assert.AreEqual(1, updatedTasks.Count);
@@ -268,7 +263,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
             }
-            
+
             Assert.AreEqual(4, addedTasks.Count);
 
             {
@@ -329,31 +324,24 @@ namespace timrlink.net.CLI.Test
         public async System.Threading.Tasks.Task TaskCreationWithSubtasks()
         {
             var addTasks = new List<Task>();
-            var synchronizeTasks = new List<Task>();
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
-                .Returns((IEnumerable<Task> tasks) => TaskService.FlattenTasks(tasks));
-            taskServiceMock
-                .Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>()))
-                .ReturnsAsync(new Dictionary<string, Task>());
-            taskServiceMock
-                .Setup(service => service.AddTask(It.IsAny<Task>()))
-                .Callback((Task task) => addTasks.Add(task));
-            taskServiceMock
-                .Setup(service => service.SynchronizeTasksByExternalId(It.IsAny<IDictionary<string, Task>>(), It.IsAny<List<Task>>(),
-                    It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<IEqualityComparer<Task>>()))
-                .Callback((IDictionary<string, Task> _, IList<Task> t, bool u, bool d, IEqualityComparer<Task> e) => synchronizeTasks.AddRange(t));
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback<AddTaskRequest>(addTaskRequest => addTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_subtasks.csv", false, taskServiceMock.Object);
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_subtasks.csv", false, taskService);
             await importAction.Execute();
-            
-            Assert.AreEqual(2, addTasks.Count);
+
+            Assert.AreEqual(10, addTasks.Count);
 
             {
                 var task = addTasks[0];
@@ -370,12 +358,12 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
                 var task = addTasks[1];
                 Assert.AreEqual("Project1", task.name);
                 Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual(expected:"Customer A", task.parentExternalId);
+                Assert.AreEqual(expected: "Customer A", task.parentExternalId);
                 Assert.IsNull(task.parentUuid);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
@@ -386,11 +374,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
-            Assert.AreEqual(expected:8, synchronizeTasks.Count);
-            
+
             {
-                var task = synchronizeTasks[0];
+                var task = addTasks[2];
                 Assert.AreEqual("Task1", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
                 Assert.AreEqual("Customer A|Project1", task.parentExternalId);
@@ -404,9 +390,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
-                var task = synchronizeTasks[1];
+                var task = addTasks[3];
                 Assert.AreEqual("Support", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1|Support", task.externalId);
                 Assert.AreEqual("Customer A|Project1|Task1", task.parentExternalId);
@@ -420,9 +406,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
-                var task = synchronizeTasks[2];
+                var task = addTasks[4];
                 Assert.AreEqual("Sales", task.name);
                 Assert.AreEqual("Customer A|Project1|Task1|Sales", task.externalId);
                 Assert.AreEqual("Customer A|Project1|Task1", task.parentExternalId);
@@ -436,11 +422,11 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             // Skip 3 because is it was created by AddTask
-            
+
             {
-                var task = synchronizeTasks[4];
+                var task = addTasks[6];
                 Assert.AreEqual("Subtask1", task.name);
                 Assert.AreEqual("Customer A|Project1|Subtask1", task.externalId);
                 Assert.AreEqual("Customer A|Project1", task.parentExternalId);
@@ -454,9 +440,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
-                var task = synchronizeTasks[5];
+                var task = addTasks[7];
                 Assert.AreEqual("Project3", task.name);
                 Assert.AreEqual("Customer A|Project3", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);
@@ -470,9 +456,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
-                var task = synchronizeTasks[6];
+                var task = addTasks[8];
                 Assert.AreEqual("Subtask3", task.name);
                 Assert.AreEqual("Customer A|Project3|Subtask3", task.externalId);
                 Assert.AreEqual("Customer A|Project3", task.parentExternalId);
@@ -486,9 +472,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-            
+
             {
-                var task = synchronizeTasks[7];
+                var task = addTasks[9];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);

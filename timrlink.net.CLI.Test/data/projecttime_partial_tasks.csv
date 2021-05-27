@@ -1,0 +1,9 @@
+User;Task;StartDateTime;EndDateTime;Break;Notes;Billable
+John Dow;Customer A|Project1|Task1;01.12.15 8:00;01.12.15 16:30;0:30;;false
+John Dow;Customer A|Project1|Task2;02.12.15 8:00;02.12.15 16:30;0:30;;false
+John Dow;Customer A|Project1|Task1;03.12.15 8:00;03.12.15 16:30;0:30;;false
+John Dow;Customer A|Project1|Task3;04.12.15 8:00;04.12.15 16:30;0:30;;false
+John Dow;Customer B|Project1|Task1;26.02.16 8:00;26.02.16 16:30;0:30;"Boring Company, Boring Stuff ";true
+John Dow;Customer B|Project1|Task1;16.03.16 8:00;16.03.16 16:30;0:30;"Boring Company, drilling... ";true
+John Dow;Customer B|Project2|Task1;29.06.16 8:00;29.06.16 16:30;0:30;"Boring Company, drilling... ";true
+John Dow;Customer B|Project2|Task1;29.06.16 8:00;29.06.16 16:30;0:30;"Boring Company, AWESOME Stuff!!! ";true

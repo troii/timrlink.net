@@ -39,7 +39,11 @@ namespace timrlink.net.CLI.Test
                 .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
@@ -120,7 +124,11 @@ namespace timrlink.net.CLI.Test
                 .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
@@ -201,7 +209,11 @@ namespace timrlink.net.CLI.Test
                 .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
@@ -269,7 +281,11 @@ namespace timrlink.net.CLI.Test
                 .Callback((IEnumerable<Core.API.ProjectTime> pts) => projectTimes.AddRange(pts));
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock.Setup(service => service.CreateExternalIdDictionary(It.IsAny<IEnumerable<Task>>(), It.IsAny<Func<Task, string>>())).ReturnsAsync(new Dictionary<string, Task>());
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
+                .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
 
             var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock

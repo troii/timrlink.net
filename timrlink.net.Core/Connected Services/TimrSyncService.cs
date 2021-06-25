@@ -18,45 +18,7 @@ namespace timrlink.net.Core.API
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.SetProjectTimesStatusResponse> SetProjectTimesStatusAsync(timrlink.net.Core.API.SetProjectTimesStatusRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningProjectTimesResponse> GetRunningProjectTimesAsync(timrlink.net.Core.API.GetRunningProjectTimesRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignTaskToUserResponse> AssignTaskToUserAsync(timrlink.net.Core.API.AssignTaskToUserRequest1 request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarResponse> DeleteCarAsync(timrlink.net.Core.API.DeleteCarRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskByUUIDResponse> GetTaskByUUIDAsync(timrlink.net.Core.API.GetTaskByUUIDRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemIdResponse> UpdateWorkItemIdAsync(timrlink.net.Core.API.UpdateWorkItemIdRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -70,42 +32,7 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateUserIdResponse> UpdateUserIdAsync(timrlink.net.Core.API.UpdateUserIdRequest1 request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.GetTasksResponse> GetTasksAsync(timrlink.net.Core.API.GetTasksRequest1 request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.SaveProjectTimeResponse> SaveProjectTimeAsync(timrlink.net.Core.API.SaveProjectTimeRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.AddWorkItemResponse> AddWorkItemAsync(timrlink.net.Core.API.AddWorkItemRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.AddUserResponse> AddUserAsync(timrlink.net.Core.API.AddUserRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.SetDriveLogsStatusResponse> SetDriveLogsStatusAsync(timrlink.net.Core.API.SetDriveLogsStatusRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -126,28 +53,14 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskResponse> UpdateTaskAsync(timrlink.net.Core.API.UpdateTaskRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteTaskResponse> DeleteTaskAsync(timrlink.net.Core.API.DeleteTaskRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveTaskFromUserResponse> RemoveTaskFromUserAsync(timrlink.net.Core.API.RemoveTaskFromUserRequest1 request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningDriveLogsResponse> GetRunningDriveLogsAsync(timrlink.net.Core.API.GetRunningDriveLogsRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveUserFromGroupResponse> RemoveUserFromGroupAsync(timrlink.net.Core.API.RemoveUserFromGroupRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -168,7 +81,21 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveCarFromUserResponse> RemoveCarFromUserAsync(timrlink.net.Core.API.RemoveCarFromUserRequest1 request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignLeaderToGroupResponse> AssignLeaderToGroupAsync(timrlink.net.Core.API.AssignLeaderToGroupRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AddUserResponse> AddUserAsync(timrlink.net.Core.API.AddUserRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveGroupFromTaskResponse> RemoveGroupFromTaskAsync(timrlink.net.Core.API.RemoveGroupFromTaskRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -176,13 +103,6 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningWorkTimesResponse> GetRunningWorkTimesAsync(timrlink.net.Core.API.GetRunningWorkTimesRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.GetProjectTimesResponse> GetProjectTimesAsync(timrlink.net.Core.API.GetProjectTimesRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -217,21 +137,7 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskIdResponse> UpdateTaskIdAsync(timrlink.net.Core.API.UpdateTaskIdRequest1 request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemResponse> UpdateWorkItemAsync(timrlink.net.Core.API.UpdateWorkItemRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.GetUsersResponse> GetUsersAsync(timrlink.net.Core.API.GetUsersRequest request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateGroupIdResponse> UpdateGroupIdAsync(timrlink.net.Core.API.UpdateGroupIdRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -245,14 +151,28 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignCarToUserResponse> AssignCarToUserAsync(timrlink.net.Core.API.AssignCarToUserRequest1 request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupUsersResponse> GetGroupUsersAsync(timrlink.net.Core.API.GetGroupUsersRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.GetCarsResponse> GetCarsAsync(timrlink.net.Core.API.GetCarsRequest request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignGroupToTaskResponse> AssignGroupToTaskAsync(timrlink.net.Core.API.AssignGroupToTaskRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.SetGroupExternalIdResponse> SetGroupExternalIdAsync(timrlink.net.Core.API.SetGroupExternalIdRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.SetDriveLogsStatusResponse> SetDriveLogsStatusAsync(timrlink.net.Core.API.SetDriveLogsStatusRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -273,6 +193,13 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetUsersResponse> GetUsersAsync(timrlink.net.Core.API.GetUsersRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskResponse> GetTaskAsync(timrlink.net.Core.API.GetTaskRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
@@ -280,7 +207,7 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteUserByUUIDResponse> DeleteUserByUUIDAsync(timrlink.net.Core.API.DeleteUserByUUIDRequest request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetProjectTimesResponse> GetProjectTimesAsync(timrlink.net.Core.API.GetProjectTimesRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -294,6 +221,27 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AddGroupResponse> AddGroupAsync(timrlink.net.Core.API.AddGroupRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateGroupResponse> UpdateGroupAsync(timrlink.net.Core.API.UpdateGroupRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteUserByUUIDResponse> DeleteUserByUUIDAsync(timrlink.net.Core.API.DeleteUserByUUIDRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.GetDriveLogsResponse> GetDriveLogsAsync(timrlink.net.Core.API.GetDriveLogsRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
@@ -301,14 +249,21 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteWorkItemByUUIDResponse> DeleteWorkItemByUUIDAsync(timrlink.net.Core.API.DeleteWorkItemByUUIDRequest request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetCarsResponse> GetCarsAsync(timrlink.net.Core.API.GetCarsRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="")]
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
-        System.Threading.Tasks.Task LockProjectTimesAsync(timrlink.net.Core.API.LockProjectTimesRequest request);
+        System.Threading.Tasks.Task<timrlink.net.Core.API.SetProjectTimesStatusResponse> SetProjectTimesStatusAsync(timrlink.net.Core.API.SetProjectTimesStatusRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupsResponse> GetGroupsAsync(timrlink.net.Core.API.GetGroupsRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -322,6 +277,13 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteWorkItemByUUIDResponse> DeleteWorkItemByUUIDAsync(timrlink.net.Core.API.DeleteWorkItemByUUIDRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.SetWorkTimesStatusResponse> SetWorkTimesStatusAsync(timrlink.net.Core.API.SetWorkTimesStatusRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
@@ -329,66 +291,352 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskByUUIDResponse> GetTaskByUUIDAsync(timrlink.net.Core.API.GetTaskByUUIDRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignUserToGroupResponse> AssignUserToGroupAsync(timrlink.net.Core.API.AssignUserToGroupRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AddWorkItemResponse> AddWorkItemAsync(timrlink.net.Core.API.AddWorkItemRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveCarFromUserResponse> RemoveCarFromUserAsync(timrlink.net.Core.API.RemoveCarFromUserRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignTaskToUserResponse> AssignTaskToUserAsync(timrlink.net.Core.API.AssignTaskToUserRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningProjectTimesResponse> GetRunningProjectTimesAsync(timrlink.net.Core.API.GetRunningProjectTimesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupLeadersResponse> GetGroupLeadersAsync(timrlink.net.Core.API.GetGroupLeadersRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemIdResponse> UpdateWorkItemIdAsync(timrlink.net.Core.API.UpdateWorkItemIdRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateUserIdResponse> UpdateUserIdAsync(timrlink.net.Core.API.UpdateUserIdRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.SaveProjectTimeResponse> SaveProjectTimeAsync(timrlink.net.Core.API.SaveProjectTimeRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskResponse> UpdateTaskAsync(timrlink.net.Core.API.UpdateTaskRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteTaskResponse> DeleteTaskAsync(timrlink.net.Core.API.DeleteTaskRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveTaskFromUserResponse> RemoveTaskFromUserAsync(timrlink.net.Core.API.RemoveTaskFromUserRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveLeaderFromGroupResponse> RemoveLeaderFromGroupAsync(timrlink.net.Core.API.RemoveLeaderFromGroupRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskIdResponse> UpdateTaskIdAsync(timrlink.net.Core.API.UpdateTaskIdRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemResponse> UpdateWorkItemAsync(timrlink.net.Core.API.UpdateWorkItemRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.AssignCarToUserResponse> AssignCarToUserAsync(timrlink.net.Core.API.AssignCarToUserRequest1 request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteGroupResponse> DeleteGroupAsync(timrlink.net.Core.API.DeleteGroupRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.InviteUserResponse> InviteUserAsync(timrlink.net.Core.API.InviteUserRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task LockProjectTimesAsync(timrlink.net.Core.API.LockProjectTimesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarByUUIDResponse> DeleteCarByUUIDAsync(timrlink.net.Core.API.DeleteCarByUUIDRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupResponse> GetGroupAsync(timrlink.net.Core.API.GetGroupRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteCarRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteCarRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteCarRequest1;
+        
+        public DeleteCarRequest()
+        {
+        }
+        
+        public DeleteCarRequest(string DeleteCarRequest1)
+        {
+            this.DeleteCarRequest1 = DeleteCarRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteCarResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteCarResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteCarResponse1;
+        
+        public DeleteCarResponse()
+        {
+        }
+        
+        public DeleteCarResponse(bool DeleteCarResponse1)
+        {
+            this.DeleteCarResponse1 = DeleteCarResponse1;
+        }
     }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class ProjectTimesStatusRequestType
+    public partial class Car
     {
         
-        private long[] idsField;
+        private string externalIdField;
         
-        private ProjectTimeStatus statusField;
+        private string nameField;
+        
+        private string plateField;
+        
+        private string uuidField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
-        public long[] ids
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
         {
             get
             {
-                return this.idsField;
+                return this.externalIdField;
             }
             set
             {
-                this.idsField = value;
+                this.externalIdField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public ProjectTimeStatus status
+        public string name
         {
             get
             {
-                return this.statusField;
+                return this.nameField;
             }
             set
             {
-                this.statusField = value;
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string plate
+        {
+            get
+            {
+                return this.plateField;
+            }
+            set
+            {
+                this.plateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
             }
         }
     }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public enum ProjectTimeStatus
+    public partial class Group
     {
         
-        /// <remarks/>
-        CHANGEABLE,
+        private string externalIdField;
+        
+        private string parentExternalIdField;
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private Group[] subgroupsField;
         
         /// <remarks/>
-        LOCKED,
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
         
         /// <remarks/>
-        CLEARED,
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string parentExternalId
+        {
+            get
+            {
+                return this.parentExternalIdField;
+            }
+            set
+            {
+                this.parentExternalIdField = value;
+            }
+        }
         
         /// <remarks/>
-        CLOSED,
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("subgroups", Order=4)]
+        public Group[] subgroups
+        {
+            get
+            {
+                return this.subgroupsField;
+            }
+            set
+            {
+                this.subgroupsField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1305,72 +1553,59 @@ namespace timrlink.net.Core.API
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class Car
+    public partial class ProjectTimesStatusRequestType
     {
         
-        private string externalIdField;
+        private long[] idsField;
         
-        private string nameField;
-        
-        private string plateField;
-        
-        private string uuidField;
+        private ProjectTimeStatus statusField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
+        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
+        public long[] ids
         {
             get
             {
-                return this.externalIdField;
+                return this.idsField;
             }
             set
             {
-                this.externalIdField = value;
+                this.idsField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string name
+        public ProjectTimeStatus status
         {
             get
             {
-                return this.nameField;
+                return this.statusField;
             }
             set
             {
-                this.nameField = value;
+                this.statusField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public enum ProjectTimeStatus
+    {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string plate
-        {
-            get
-            {
-                return this.plateField;
-            }
-            set
-            {
-                this.plateField = value;
-            }
-        }
+        CHANGEABLE,
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
+        LOCKED,
+        
+        /// <remarks/>
+        CLEARED,
+        
+        /// <remarks/>
+        CLOSED,
     }
     
     /// <remarks/>
@@ -1908,6 +2143,244 @@ namespace timrlink.net.Core.API
             set
             {
                 this.statusesField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class User
+    {
+        
+        private string externalIdField;
+        
+        private string loginField;
+        
+        private string firstnameField;
+        
+        private string lastnameField;
+        
+        private string emailField;
+        
+        private bool isAdminField;
+        
+        private System.Nullable<System.DateTime> resignDateField;
+        
+        private bool resignDateFieldSpecified;
+        
+        private System.Nullable<decimal> workingHoursField;
+        
+        private bool workingHoursFieldSpecified;
+        
+        private System.Nullable<bool> isTeamLeaderField;
+        
+        private string uuidField;
+        
+        private System.Nullable<System.DateTime> entryDateField;
+        
+        private bool entryDateFieldSpecified;
+        
+        public User()
+        {
+            this.isTeamLeaderField = false;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string login
+        {
+            get
+            {
+                return this.loginField;
+            }
+            set
+            {
+                this.loginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string firstname
+        {
+            get
+            {
+                return this.firstnameField;
+            }
+            set
+            {
+                this.firstnameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string lastname
+        {
+            get
+            {
+                return this.lastnameField;
+            }
+            set
+            {
+                this.lastnameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string email
+        {
+            get
+            {
+                return this.emailField;
+            }
+            set
+            {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool isAdmin
+        {
+            get
+            {
+                return this.isAdminField;
+            }
+            set
+            {
+                this.isAdminField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=6)]
+        public System.Nullable<System.DateTime> resignDate
+        {
+            get
+            {
+                return this.resignDateField;
+            }
+            set
+            {
+                this.resignDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool resignDateSpecified
+        {
+            get
+            {
+                return this.resignDateFieldSpecified;
+            }
+            set
+            {
+                this.resignDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public System.Nullable<decimal> workingHours
+        {
+            get
+            {
+                return this.workingHoursField;
+            }
+            set
+            {
+                this.workingHoursField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool workingHoursSpecified
+        {
+            get
+            {
+                return this.workingHoursFieldSpecified;
+            }
+            set
+            {
+                this.workingHoursFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public System.Nullable<bool> isTeamLeader
+        {
+            get
+            {
+                return this.isTeamLeaderField;
+            }
+            set
+            {
+                this.isTeamLeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=10)]
+        public System.Nullable<System.DateTime> entryDate
+        {
+            get
+            {
+                return this.entryDateField;
+            }
+            set
+            {
+                this.entryDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool entryDateSpecified
+        {
+            get
+            {
+                return this.entryDateFieldSpecified;
+            }
+            set
+            {
+                this.entryDateFieldSpecified = value;
             }
         }
     }
@@ -2929,244 +3402,6 @@ namespace timrlink.net.Core.API
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class User
-    {
-        
-        private string externalIdField;
-        
-        private string loginField;
-        
-        private string firstnameField;
-        
-        private string lastnameField;
-        
-        private string emailField;
-        
-        private bool isAdminField;
-        
-        private System.Nullable<System.DateTime> resignDateField;
-        
-        private bool resignDateFieldSpecified;
-        
-        private System.Nullable<decimal> workingHoursField;
-        
-        private bool workingHoursFieldSpecified;
-        
-        private System.Nullable<bool> isTeamLeaderField;
-        
-        private string uuidField;
-        
-        private System.Nullable<System.DateTime> entryDateField;
-        
-        private bool entryDateFieldSpecified;
-        
-        public User()
-        {
-            this.isTeamLeaderField = false;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
-        {
-            get
-            {
-                return this.externalIdField;
-            }
-            set
-            {
-                this.externalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string login
-        {
-            get
-            {
-                return this.loginField;
-            }
-            set
-            {
-                this.loginField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string firstname
-        {
-            get
-            {
-                return this.firstnameField;
-            }
-            set
-            {
-                this.firstnameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string lastname
-        {
-            get
-            {
-                return this.lastnameField;
-            }
-            set
-            {
-                this.lastnameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string email
-        {
-            get
-            {
-                return this.emailField;
-            }
-            set
-            {
-                this.emailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public bool isAdmin
-        {
-            get
-            {
-                return this.isAdminField;
-            }
-            set
-            {
-                this.isAdminField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=6)]
-        public System.Nullable<System.DateTime> resignDate
-        {
-            get
-            {
-                return this.resignDateField;
-            }
-            set
-            {
-                this.resignDateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool resignDateSpecified
-        {
-            get
-            {
-                return this.resignDateFieldSpecified;
-            }
-            set
-            {
-                this.resignDateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public System.Nullable<decimal> workingHours
-        {
-            get
-            {
-                return this.workingHoursField;
-            }
-            set
-            {
-                this.workingHoursField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool workingHoursSpecified
-        {
-            get
-            {
-                return this.workingHoursFieldSpecified;
-            }
-            set
-            {
-                this.workingHoursFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        [System.ComponentModel.DefaultValueAttribute(false)]
-        public System.Nullable<bool> isTeamLeader
-        {
-            get
-            {
-                return this.isTeamLeaderField;
-            }
-            set
-            {
-                this.isTeamLeaderField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=10)]
-        public System.Nullable<System.DateTime> entryDate
-        {
-            get
-            {
-                return this.entryDateField;
-            }
-            set
-            {
-                this.entryDateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool entryDateSpecified
-        {
-            get
-            {
-                return this.entryDateFieldSpecified;
-            }
-            set
-            {
-                this.entryDateFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
     public partial class Task
     {
         
@@ -3678,347 +3913,6 @@ namespace timrlink.net.Core.API
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetProjectTimesStatusRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetProjectTimesStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.ProjectTimesStatusRequestType SetProjectTimesStatusRequest1;
-        
-        public SetProjectTimesStatusRequest()
-        {
-        }
-        
-        public SetProjectTimesStatusRequest(timrlink.net.Core.API.ProjectTimesStatusRequestType SetProjectTimesStatusRequest1)
-        {
-            this.SetProjectTimesStatusRequest1 = SetProjectTimesStatusRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetProjectTimesStatusResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetProjectTimesStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool SetProjectTimesStatusResponse1;
-        
-        public SetProjectTimesStatusResponse()
-        {
-        }
-        
-        public SetProjectTimesStatusResponse(bool SetProjectTimesStatusResponse1)
-        {
-            this.SetProjectTimesStatusResponse1 = SetProjectTimesStatusResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetRunningProjectTimesRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRunningProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public object GetRunningProjectTimesRequest1;
-        
-        public GetRunningProjectTimesRequest()
-        {
-        }
-        
-        public GetRunningProjectTimesRequest(object GetRunningProjectTimesRequest1)
-        {
-            this.GetRunningProjectTimesRequest1 = GetRunningProjectTimesRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetRunningProjectTimesResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRunningProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("runningProjectTimes", IsNullable=false)]
-        public timrlink.net.Core.API.RunningProjectTime[] GetRunningProjectTimesResponse1;
-        
-        public GetRunningProjectTimesResponse()
-        {
-        }
-        
-        public GetRunningProjectTimesResponse(timrlink.net.Core.API.RunningProjectTime[] GetRunningProjectTimesResponse1)
-        {
-            this.GetRunningProjectTimesResponse1 = GetRunningProjectTimesResponse1;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class AssignTaskToUserRequest
-    {
-        
-        private string externalUserIdField;
-        
-        private string externalTaskIdField;
-        
-        private string uuidUserField;
-        
-        private string uuidTaskField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalUserId
-        {
-            get
-            {
-                return this.externalUserIdField;
-            }
-            set
-            {
-                this.externalUserIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string externalTaskId
-        {
-            get
-            {
-                return this.externalTaskIdField;
-            }
-            set
-            {
-                this.externalTaskIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string uuidUser
-        {
-            get
-            {
-                return this.uuidUserField;
-            }
-            set
-            {
-                this.uuidUserField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string uuidTask
-        {
-            get
-            {
-                return this.uuidTaskField;
-            }
-            set
-            {
-                this.uuidTaskField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AssignTaskToUserRequest1
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.AssignTaskToUserRequest AssignTaskToUserRequest;
-        
-        public AssignTaskToUserRequest1()
-        {
-        }
-        
-        public AssignTaskToUserRequest1(timrlink.net.Core.API.AssignTaskToUserRequest AssignTaskToUserRequest)
-        {
-            this.AssignTaskToUserRequest = AssignTaskToUserRequest;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AssignTaskToUserResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignTaskToUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool AssignTaskToUserResponse1;
-        
-        public AssignTaskToUserResponse()
-        {
-        }
-        
-        public AssignTaskToUserResponse(bool AssignTaskToUserResponse1)
-        {
-            this.AssignTaskToUserResponse1 = AssignTaskToUserResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteCarRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteCarRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string DeleteCarRequest1;
-        
-        public DeleteCarRequest()
-        {
-        }
-        
-        public DeleteCarRequest(string DeleteCarRequest1)
-        {
-            this.DeleteCarRequest1 = DeleteCarRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteCarResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteCarResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool DeleteCarResponse1;
-        
-        public DeleteCarResponse()
-        {
-        }
-        
-        public DeleteCarResponse(bool DeleteCarResponse1)
-        {
-            this.DeleteCarResponse1 = DeleteCarResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetTaskByUUIDRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string GetTaskByUUIDRequest1;
-        
-        public GetTaskByUUIDRequest()
-        {
-        }
-        
-        public GetTaskByUUIDRequest(string GetTaskByUUIDRequest1)
-        {
-            this.GetTaskByUUIDRequest1 = GetTaskByUUIDRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetTaskByUUIDResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.Task GetTaskByUUIDResponse1;
-        
-        public GetTaskByUUIDResponse()
-        {
-        }
-        
-        public GetTaskByUUIDResponse(timrlink.net.Core.API.Task GetTaskByUUIDResponse1)
-        {
-            this.GetTaskByUUIDResponse1 = GetTaskByUUIDResponse1;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class UpdateWorkItemIdRequest
-    {
-        
-        private WorkItem workItemField;
-        
-        private string newExternalWorkItemIdField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public WorkItem workItem
-        {
-            get
-            {
-                return this.workItemField;
-            }
-            set
-            {
-                this.workItemField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string newExternalWorkItemId
-        {
-            get
-            {
-                return this.newExternalWorkItemIdField;
-            }
-            set
-            {
-                this.newExternalWorkItemIdField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateWorkItemIdRequest1
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.UpdateWorkItemIdRequest UpdateWorkItemIdRequest;
-        
-        public UpdateWorkItemIdRequest1()
-        {
-        }
-        
-        public UpdateWorkItemIdRequest1(timrlink.net.Core.API.UpdateWorkItemIdRequest UpdateWorkItemIdRequest)
-        {
-            this.UpdateWorkItemIdRequest = UpdateWorkItemIdRequest;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateWorkItemIdResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateWorkItemIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool UpdateWorkItemIdResponse1;
-        
-        public UpdateWorkItemIdResponse()
-        {
-        }
-        
-        public UpdateWorkItemIdResponse(bool UpdateWorkItemIdResponse1)
-        {
-            this.UpdateWorkItemIdResponse1 = UpdateWorkItemIdResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateCarRequest
     {
         
@@ -4051,84 +3945,6 @@ namespace timrlink.net.Core.API
         public UpdateCarResponse(bool UpdateCarResponse1)
         {
             this.UpdateCarResponse1 = UpdateCarResponse1;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class UpdateUserIdRequest
-    {
-        
-        private User userField;
-        
-        private string newExternalUserIdField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public User user
-        {
-            get
-            {
-                return this.userField;
-            }
-            set
-            {
-                this.userField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string newExternalUserId
-        {
-            get
-            {
-                return this.newExternalUserIdField;
-            }
-            set
-            {
-                this.newExternalUserIdField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateUserIdRequest1
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.UpdateUserIdRequest UpdateUserIdRequest;
-        
-        public UpdateUserIdRequest1()
-        {
-        }
-        
-        public UpdateUserIdRequest1(timrlink.net.Core.API.UpdateUserIdRequest UpdateUserIdRequest)
-        {
-            this.UpdateUserIdRequest = UpdateUserIdRequest;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateUserIdResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool UpdateUserIdResponse1;
-        
-        public UpdateUserIdResponse()
-        {
-        }
-        
-        public UpdateUserIdResponse(bool UpdateUserIdResponse1)
-        {
-            this.UpdateUserIdResponse1 = UpdateUserIdResponse1;
         }
     }
     
@@ -4294,158 +4110,6 @@ namespace timrlink.net.Core.API
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SaveProjectTimeRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SaveProjectTimeRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.ProjectTime SaveProjectTimeRequest1;
-        
-        public SaveProjectTimeRequest()
-        {
-        }
-        
-        public SaveProjectTimeRequest(timrlink.net.Core.API.ProjectTime SaveProjectTimeRequest1)
-        {
-            this.SaveProjectTimeRequest1 = SaveProjectTimeRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SaveProjectTimeResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SaveProjectTimeResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public long SaveProjectTimeResponse1;
-        
-        public SaveProjectTimeResponse()
-        {
-        }
-        
-        public SaveProjectTimeResponse(long SaveProjectTimeResponse1)
-        {
-            this.SaveProjectTimeResponse1 = SaveProjectTimeResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AddWorkItemRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddWorkItemRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.WorkItem AddWorkItemRequest1;
-        
-        public AddWorkItemRequest()
-        {
-        }
-        
-        public AddWorkItemRequest(timrlink.net.Core.API.WorkItem AddWorkItemRequest1)
-        {
-            this.AddWorkItemRequest1 = AddWorkItemRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AddWorkItemResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddWorkItemResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public long AddWorkItemResponse1;
-        
-        public AddWorkItemResponse()
-        {
-        }
-        
-        public AddWorkItemResponse(long AddWorkItemResponse1)
-        {
-            this.AddWorkItemResponse1 = AddWorkItemResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AddUserRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddUserRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.User AddUserRequest1;
-        
-        public AddUserRequest()
-        {
-        }
-        
-        public AddUserRequest(timrlink.net.Core.API.User AddUserRequest1)
-        {
-            this.AddUserRequest1 = AddUserRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AddUserResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public long AddUserResponse1;
-        
-        public AddUserResponse()
-        {
-        }
-        
-        public AddUserResponse(long AddUserResponse1)
-        {
-            this.AddUserResponse1 = AddUserResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetDriveLogsStatusRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetDriveLogsStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.DriveLogsStatusRequestType SetDriveLogsStatusRequest1;
-        
-        public SetDriveLogsStatusRequest()
-        {
-        }
-        
-        public SetDriveLogsStatusRequest(timrlink.net.Core.API.DriveLogsStatusRequestType SetDriveLogsStatusRequest1)
-        {
-            this.SetDriveLogsStatusRequest1 = SetDriveLogsStatusRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetDriveLogsStatusResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetDriveLogsStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool SetDriveLogsStatusResponse1;
-        
-        public SetDriveLogsStatusResponse()
-        {
-        }
-        
-        public SetDriveLogsStatusResponse(bool SetDriveLogsStatusResponse1)
-        {
-            this.SetDriveLogsStatusResponse1 = SetDriveLogsStatusResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveWorkTimeRequest
     {
         
@@ -4522,192 +4186,6 @@ namespace timrlink.net.Core.API
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateTaskRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.Task UpdateTaskRequest1;
-        
-        public UpdateTaskRequest()
-        {
-        }
-        
-        public UpdateTaskRequest(timrlink.net.Core.API.Task UpdateTaskRequest1)
-        {
-            this.UpdateTaskRequest1 = UpdateTaskRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateTaskResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool UpdateTaskResponse1;
-        
-        public UpdateTaskResponse()
-        {
-        }
-        
-        public UpdateTaskResponse(bool UpdateTaskResponse1)
-        {
-            this.UpdateTaskResponse1 = UpdateTaskResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteTaskRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string DeleteTaskRequest1;
-        
-        public DeleteTaskRequest()
-        {
-        }
-        
-        public DeleteTaskRequest(string DeleteTaskRequest1)
-        {
-            this.DeleteTaskRequest1 = DeleteTaskRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteTaskResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool DeleteTaskResponse1;
-        
-        public DeleteTaskResponse()
-        {
-        }
-        
-        public DeleteTaskResponse(bool DeleteTaskResponse1)
-        {
-            this.DeleteTaskResponse1 = DeleteTaskResponse1;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class RemoveTaskFromUserRequest
-    {
-        
-        private string externalUserIdField;
-        
-        private string externalTaskIdField;
-        
-        private string uuidUserField;
-        
-        private string uuidTaskField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalUserId
-        {
-            get
-            {
-                return this.externalUserIdField;
-            }
-            set
-            {
-                this.externalUserIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string externalTaskId
-        {
-            get
-            {
-                return this.externalTaskIdField;
-            }
-            set
-            {
-                this.externalTaskIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string uuidUser
-        {
-            get
-            {
-                return this.uuidUserField;
-            }
-            set
-            {
-                this.uuidUserField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string uuidTask
-        {
-            get
-            {
-                return this.uuidTaskField;
-            }
-            set
-            {
-                this.uuidTaskField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RemoveTaskFromUserRequest1
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.RemoveTaskFromUserRequest RemoveTaskFromUserRequest;
-        
-        public RemoveTaskFromUserRequest1()
-        {
-        }
-        
-        public RemoveTaskFromUserRequest1(timrlink.net.Core.API.RemoveTaskFromUserRequest RemoveTaskFromUserRequest)
-        {
-            this.RemoveTaskFromUserRequest = RemoveTaskFromUserRequest;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RemoveTaskFromUserResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveTaskFromUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool RemoveTaskFromUserResponse1;
-        
-        public RemoveTaskFromUserResponse()
-        {
-        }
-        
-        public RemoveTaskFromUserResponse(bool RemoveTaskFromUserResponse1)
-        {
-            this.RemoveTaskFromUserResponse1 = RemoveTaskFromUserResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningDriveLogsRequest
     {
         
@@ -4741,6 +4219,100 @@ namespace timrlink.net.Core.API
         public GetRunningDriveLogsResponse(timrlink.net.Core.API.RunningDriveLog[] GetRunningDriveLogsResponse1)
         {
             this.GetRunningDriveLogsResponse1 = GetRunningDriveLogsResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class RemoveUserFromGroupRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalGroupIdField;
+        
+        private string uuidUserField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalGroupId
+        {
+            get
+            {
+                return this.externalGroupIdField;
+            }
+            set
+            {
+                this.externalGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveUserFromGroupRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.RemoveUserFromGroupRequest RemoveUserFromGroupRequest;
+        
+        public RemoveUserFromGroupRequest1()
+        {
+        }
+        
+        public RemoveUserFromGroupRequest1(timrlink.net.Core.API.RemoveUserFromGroupRequest RemoveUserFromGroupRequest)
+        {
+            this.RemoveUserFromGroupRequest = RemoveUserFromGroupRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveUserFromGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveUserFromGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool RemoveUserFromGroupResponse1;
+        
+        public RemoveUserFromGroupResponse()
+        {
+        }
+        
+        public RemoveUserFromGroupResponse(bool RemoveUserFromGroupResponse1)
+        {
+            this.RemoveUserFromGroupResponse1 = RemoveUserFromGroupResponse1;
         }
     }
     
@@ -4825,16 +4397,14 @@ namespace timrlink.net.Core.API
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class RemoveCarFromUserRequest
+    public partial class AssignLeaderToGroupRequest
     {
         
         private string externalUserIdField;
         
-        private string externalCarIdField;
+        private string externalGroupIdField;
         
         private string uuidUserField;
-        
-        private string uuidCarField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
@@ -4852,15 +4422,15 @@ namespace timrlink.net.Core.API
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string externalCarId
+        public string externalGroupId
         {
             get
             {
-                return this.externalCarIdField;
+                return this.externalGroupIdField;
             }
             set
             {
-                this.externalCarIdField = value;
+                this.externalGroupIdField = value;
             }
         }
         
@@ -4877,57 +4447,175 @@ namespace timrlink.net.Core.API
                 this.uuidUserField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string uuidCar
-        {
-            get
-            {
-                return this.uuidCarField;
-            }
-            set
-            {
-                this.uuidCarField = value;
-            }
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RemoveCarFromUserRequest1
+    public partial class AssignLeaderToGroupRequest1
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.RemoveCarFromUserRequest RemoveCarFromUserRequest;
+        public timrlink.net.Core.API.AssignLeaderToGroupRequest AssignLeaderToGroupRequest;
         
-        public RemoveCarFromUserRequest1()
+        public AssignLeaderToGroupRequest1()
         {
         }
         
-        public RemoveCarFromUserRequest1(timrlink.net.Core.API.RemoveCarFromUserRequest RemoveCarFromUserRequest)
+        public AssignLeaderToGroupRequest1(timrlink.net.Core.API.AssignLeaderToGroupRequest AssignLeaderToGroupRequest)
         {
-            this.RemoveCarFromUserRequest = RemoveCarFromUserRequest;
+            this.AssignLeaderToGroupRequest = AssignLeaderToGroupRequest;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RemoveCarFromUserResponse
+    public partial class AssignLeaderToGroupResponse
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveCarFromUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool RemoveCarFromUserResponse1;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignLeaderToGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool AssignLeaderToGroupResponse1;
         
-        public RemoveCarFromUserResponse()
+        public AssignLeaderToGroupResponse()
         {
         }
         
-        public RemoveCarFromUserResponse(bool RemoveCarFromUserResponse1)
+        public AssignLeaderToGroupResponse(bool AssignLeaderToGroupResponse1)
         {
-            this.RemoveCarFromUserResponse1 = RemoveCarFromUserResponse1;
+            this.AssignLeaderToGroupResponse1 = AssignLeaderToGroupResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddUserRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddUserRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.User AddUserRequest1;
+        
+        public AddUserRequest()
+        {
+        }
+        
+        public AddUserRequest(timrlink.net.Core.API.User AddUserRequest1)
+        {
+            this.AddUserRequest1 = AddUserRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddUserResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public long AddUserResponse1;
+        
+        public AddUserResponse()
+        {
+        }
+        
+        public AddUserResponse(long AddUserResponse1)
+        {
+            this.AddUserResponse1 = AddUserResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class RemoveGroupFromTaskRequest
+    {
+        
+        private string externalGroupIdField;
+        
+        private string externalTaskIdField;
+        
+        private string uuidTaskField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalGroupId
+        {
+            get
+            {
+                return this.externalGroupIdField;
+            }
+            set
+            {
+                this.externalGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidTask
+        {
+            get
+            {
+                return this.uuidTaskField;
+            }
+            set
+            {
+                this.uuidTaskField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveGroupFromTaskRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.RemoveGroupFromTaskRequest RemoveGroupFromTaskRequest;
+        
+        public RemoveGroupFromTaskRequest1()
+        {
+        }
+        
+        public RemoveGroupFromTaskRequest1(timrlink.net.Core.API.RemoveGroupFromTaskRequest RemoveGroupFromTaskRequest)
+        {
+            this.RemoveGroupFromTaskRequest = RemoveGroupFromTaskRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveGroupFromTaskResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveGroupFromTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool RemoveGroupFromTaskResponse1;
+        
+        public RemoveGroupFromTaskResponse()
+        {
+        }
+        
+        public RemoveGroupFromTaskResponse(bool RemoveGroupFromTaskResponse1)
+        {
+            this.RemoveGroupFromTaskResponse1 = RemoveGroupFromTaskResponse1;
         }
     }
     
@@ -4967,45 +4655,6 @@ namespace timrlink.net.Core.API
         public GetRunningWorkTimesResponse(timrlink.net.Core.API.RunningWorkTime[] GetRunningWorkTimesResponse1)
         {
             this.GetRunningWorkTimesResponse1 = GetRunningWorkTimesResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetProjectTimesRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.ProjectTimeQuery GetProjectTimesRequest1;
-        
-        public GetProjectTimesRequest()
-        {
-        }
-        
-        public GetProjectTimesRequest(timrlink.net.Core.API.ProjectTimeQuery GetProjectTimesRequest1)
-        {
-            this.GetProjectTimesRequest1 = GetProjectTimesRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetProjectTimesResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("projectTimes", IsNullable=false)]
-        public timrlink.net.Core.API.ProjectTime[] GetProjectTimesResponse1;
-        
-        public GetProjectTimesResponse()
-        {
-        }
-        
-        public GetProjectTimesResponse(timrlink.net.Core.API.ProjectTime[] GetProjectTimesResponse1)
-        {
-            this.GetProjectTimesResponse1 = GetProjectTimesResponse1;
         }
     }
     
@@ -5205,6 +4854,2024 @@ namespace timrlink.net.Core.API
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class UpdateGroupIdRequest
+    {
+        
+        private Group groupField;
+        
+        private string newExternalGroupIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public Group group
+        {
+            get
+            {
+                return this.groupField;
+            }
+            set
+            {
+                this.groupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string newExternalGroupId
+        {
+            get
+            {
+                return this.newExternalGroupIdField;
+            }
+            set
+            {
+                this.newExternalGroupIdField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateGroupIdRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.UpdateGroupIdRequest UpdateGroupIdRequest;
+        
+        public UpdateGroupIdRequest1()
+        {
+        }
+        
+        public UpdateGroupIdRequest1(timrlink.net.Core.API.UpdateGroupIdRequest UpdateGroupIdRequest)
+        {
+            this.UpdateGroupIdRequest = UpdateGroupIdRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateGroupIdResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateGroupIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateGroupIdResponse1;
+        
+        public UpdateGroupIdResponse()
+        {
+        }
+        
+        public UpdateGroupIdResponse(bool UpdateGroupIdResponse1)
+        {
+            this.UpdateGroupIdResponse1 = UpdateGroupIdResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetWorkItemsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetWorkItemsRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public object GetWorkItemsRequest1;
+        
+        public GetWorkItemsRequest()
+        {
+        }
+        
+        public GetWorkItemsRequest(object GetWorkItemsRequest1)
+        {
+            this.GetWorkItemsRequest1 = GetWorkItemsRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetWorkItemsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetWorkItemsResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("workItem", IsNullable=false)]
+        public timrlink.net.Core.API.WorkItem[] GetWorkItemsResponse1;
+        
+        public GetWorkItemsResponse()
+        {
+        }
+        
+        public GetWorkItemsResponse(timrlink.net.Core.API.WorkItem[] GetWorkItemsResponse1)
+        {
+            this.GetWorkItemsResponse1 = GetWorkItemsResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupUsersRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupUsersRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetGroupUsersRequest1;
+        
+        public GetGroupUsersRequest()
+        {
+        }
+        
+        public GetGroupUsersRequest(string GetGroupUsersRequest1)
+        {
+            this.GetGroupUsersRequest1 = GetGroupUsersRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupUsersResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupUsersResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("users", IsNullable=false)]
+        public timrlink.net.Core.API.User[] GetGroupUsersResponse1;
+        
+        public GetGroupUsersResponse()
+        {
+        }
+        
+        public GetGroupUsersResponse(timrlink.net.Core.API.User[] GetGroupUsersResponse1)
+        {
+            this.GetGroupUsersResponse1 = GetGroupUsersResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class AssignGroupToTaskRequest
+    {
+        
+        private string externalGroupIdField;
+        
+        private string externalTaskIdField;
+        
+        private string uuidTaskField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalGroupId
+        {
+            get
+            {
+                return this.externalGroupIdField;
+            }
+            set
+            {
+                this.externalGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidTask
+        {
+            get
+            {
+                return this.uuidTaskField;
+            }
+            set
+            {
+                this.uuidTaskField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignGroupToTaskRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.AssignGroupToTaskRequest AssignGroupToTaskRequest;
+        
+        public AssignGroupToTaskRequest1()
+        {
+        }
+        
+        public AssignGroupToTaskRequest1(timrlink.net.Core.API.AssignGroupToTaskRequest AssignGroupToTaskRequest)
+        {
+            this.AssignGroupToTaskRequest = AssignGroupToTaskRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignGroupToTaskResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignGroupToTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool AssignGroupToTaskResponse1;
+        
+        public AssignGroupToTaskResponse()
+        {
+        }
+        
+        public AssignGroupToTaskResponse(bool AssignGroupToTaskResponse1)
+        {
+            this.AssignGroupToTaskResponse1 = AssignGroupToTaskResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class SetGroupExternalIdRequest
+    {
+        
+        private string nameField;
+        
+        private string parentExternalIdField;
+        
+        private string newExternalGroupIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string parentExternalId
+        {
+            get
+            {
+                return this.parentExternalIdField;
+            }
+            set
+            {
+                this.parentExternalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string newExternalGroupId
+        {
+            get
+            {
+                return this.newExternalGroupIdField;
+            }
+            set
+            {
+                this.newExternalGroupIdField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetGroupExternalIdRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.SetGroupExternalIdRequest SetGroupExternalIdRequest;
+        
+        public SetGroupExternalIdRequest1()
+        {
+        }
+        
+        public SetGroupExternalIdRequest1(timrlink.net.Core.API.SetGroupExternalIdRequest SetGroupExternalIdRequest)
+        {
+            this.SetGroupExternalIdRequest = SetGroupExternalIdRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetGroupExternalIdResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetGroupExternalIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool SetGroupExternalIdResponse1;
+        
+        public SetGroupExternalIdResponse()
+        {
+        }
+        
+        public SetGroupExternalIdResponse(bool SetGroupExternalIdResponse1)
+        {
+            this.SetGroupExternalIdResponse1 = SetGroupExternalIdResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetDriveLogsStatusRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetDriveLogsStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.DriveLogsStatusRequestType SetDriveLogsStatusRequest1;
+        
+        public SetDriveLogsStatusRequest()
+        {
+        }
+        
+        public SetDriveLogsStatusRequest(timrlink.net.Core.API.DriveLogsStatusRequestType SetDriveLogsStatusRequest1)
+        {
+            this.SetDriveLogsStatusRequest1 = SetDriveLogsStatusRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetDriveLogsStatusResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetDriveLogsStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool SetDriveLogsStatusResponse1;
+        
+        public SetDriveLogsStatusResponse()
+        {
+        }
+        
+        public SetDriveLogsStatusResponse(bool SetDriveLogsStatusResponse1)
+        {
+            this.SetDriveLogsStatusResponse1 = SetDriveLogsStatusResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UnlockProjectTimesRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UnlockProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("ids", IsNullable=false)]
+        public long[] UnlockProjectTimesRequest1;
+        
+        public UnlockProjectTimesRequest()
+        {
+        }
+        
+        public UnlockProjectTimesRequest(long[] UnlockProjectTimesRequest1)
+        {
+            this.UnlockProjectTimesRequest1 = UnlockProjectTimesRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UnlockProjectTimesResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UnlockProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UnlockProjectTimesResponse1;
+        
+        public UnlockProjectTimesResponse()
+        {
+        }
+        
+        public UnlockProjectTimesResponse(bool UnlockProjectTimesResponse1)
+        {
+            this.UnlockProjectTimesResponse1 = UnlockProjectTimesResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.User UpdateUserRequest1;
+        
+        public UpdateUserRequest()
+        {
+        }
+        
+        public UpdateUserRequest(timrlink.net.Core.API.User UpdateUserRequest1)
+        {
+            this.UpdateUserRequest1 = UpdateUserRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateUserResponse1;
+        
+        public UpdateUserResponse()
+        {
+        }
+        
+        public UpdateUserResponse(bool UpdateUserResponse1)
+        {
+            this.UpdateUserResponse1 = UpdateUserResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUsersRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUsersRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public object GetUsersRequest1;
+        
+        public GetUsersRequest()
+        {
+        }
+        
+        public GetUsersRequest(object GetUsersRequest1)
+        {
+            this.GetUsersRequest1 = GetUsersRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetUsersResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUsersResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("users", IsNullable=false)]
+        public timrlink.net.Core.API.User[] GetUsersResponse1;
+        
+        public GetUsersResponse()
+        {
+        }
+        
+        public GetUsersResponse(timrlink.net.Core.API.User[] GetUsersResponse1)
+        {
+            this.GetUsersResponse1 = GetUsersResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetTaskRequest1;
+        
+        public GetTaskRequest()
+        {
+        }
+        
+        public GetTaskRequest(string GetTaskRequest1)
+        {
+            this.GetTaskRequest1 = GetTaskRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Task GetTaskResponse1;
+        
+        public GetTaskResponse()
+        {
+        }
+        
+        public GetTaskResponse(timrlink.net.Core.API.Task GetTaskResponse1)
+        {
+            this.GetTaskResponse1 = GetTaskResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetProjectTimesRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.ProjectTimeQuery GetProjectTimesRequest1;
+        
+        public GetProjectTimesRequest()
+        {
+        }
+        
+        public GetProjectTimesRequest(timrlink.net.Core.API.ProjectTimeQuery GetProjectTimesRequest1)
+        {
+            this.GetProjectTimesRequest1 = GetProjectTimesRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetProjectTimesResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("projectTimes", IsNullable=false)]
+        public timrlink.net.Core.API.ProjectTime[] GetProjectTimesResponse1;
+        
+        public GetProjectTimesResponse()
+        {
+        }
+        
+        public GetProjectTimesResponse(timrlink.net.Core.API.ProjectTime[] GetProjectTimesResponse1)
+        {
+            this.GetProjectTimesResponse1 = GetProjectTimesResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteTaskByUUIDRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteTaskByUUIDRequest1;
+        
+        public DeleteTaskByUUIDRequest()
+        {
+        }
+        
+        public DeleteTaskByUUIDRequest(string DeleteTaskByUUIDRequest1)
+        {
+            this.DeleteTaskByUUIDRequest1 = DeleteTaskByUUIDRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteTaskByUUIDResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteTaskByUUIDResponse1;
+        
+        public DeleteTaskByUUIDResponse()
+        {
+        }
+        
+        public DeleteTaskByUUIDResponse(bool DeleteTaskByUUIDResponse1)
+        {
+            this.DeleteTaskByUUIDResponse1 = DeleteTaskByUUIDResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddGroupRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddGroupRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Group AddGroupRequest1;
+        
+        public AddGroupRequest()
+        {
+        }
+        
+        public AddGroupRequest(timrlink.net.Core.API.Group AddGroupRequest1)
+        {
+            this.AddGroupRequest1 = AddGroupRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public long AddGroupResponse1;
+        
+        public AddGroupResponse()
+        {
+        }
+        
+        public AddGroupResponse(long AddGroupResponse1)
+        {
+            this.AddGroupResponse1 = AddGroupResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateGroupRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateGroupRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Group UpdateGroupRequest1;
+        
+        public UpdateGroupRequest()
+        {
+        }
+        
+        public UpdateGroupRequest(timrlink.net.Core.API.Group UpdateGroupRequest1)
+        {
+            this.UpdateGroupRequest1 = UpdateGroupRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateGroupResponse1;
+        
+        public UpdateGroupResponse()
+        {
+        }
+        
+        public UpdateGroupResponse(bool UpdateGroupResponse1)
+        {
+            this.UpdateGroupResponse1 = UpdateGroupResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteUserByUUIDRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUserByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteUserByUUIDRequest1;
+        
+        public DeleteUserByUUIDRequest()
+        {
+        }
+        
+        public DeleteUserByUUIDRequest(string DeleteUserByUUIDRequest1)
+        {
+            this.DeleteUserByUUIDRequest1 = DeleteUserByUUIDRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteUserByUUIDResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUserByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteUserByUUIDResponse1;
+        
+        public DeleteUserByUUIDResponse()
+        {
+        }
+        
+        public DeleteUserByUUIDResponse(bool DeleteUserByUUIDResponse1)
+        {
+            this.DeleteUserByUUIDResponse1 = DeleteUserByUUIDResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetDriveLogsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDriveLogsRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.DriveLogQuery GetDriveLogsRequest1;
+        
+        public GetDriveLogsRequest()
+        {
+        }
+        
+        public GetDriveLogsRequest(timrlink.net.Core.API.DriveLogQuery GetDriveLogsRequest1)
+        {
+            this.GetDriveLogsRequest1 = GetDriveLogsRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetDriveLogsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDriveLogsResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("driveLogs", IsNullable=false)]
+        public timrlink.net.Core.API.DriveLog[] GetDriveLogsResponse1;
+        
+        public GetDriveLogsResponse()
+        {
+        }
+        
+        public GetDriveLogsResponse(timrlink.net.Core.API.DriveLog[] GetDriveLogsResponse1)
+        {
+            this.GetDriveLogsResponse1 = GetDriveLogsResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetCarsRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetCarsRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public object GetCarsRequest1;
+        
+        public GetCarsRequest()
+        {
+        }
+        
+        public GetCarsRequest(object GetCarsRequest1)
+        {
+            this.GetCarsRequest1 = GetCarsRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetCarsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetCarsResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("cars", IsNullable=false)]
+        public timrlink.net.Core.API.Car[] GetCarsResponse1;
+        
+        public GetCarsResponse()
+        {
+        }
+        
+        public GetCarsResponse(timrlink.net.Core.API.Car[] GetCarsResponse1)
+        {
+            this.GetCarsResponse1 = GetCarsResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetProjectTimesStatusRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetProjectTimesStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.ProjectTimesStatusRequestType SetProjectTimesStatusRequest1;
+        
+        public SetProjectTimesStatusRequest()
+        {
+        }
+        
+        public SetProjectTimesStatusRequest(timrlink.net.Core.API.ProjectTimesStatusRequestType SetProjectTimesStatusRequest1)
+        {
+            this.SetProjectTimesStatusRequest1 = SetProjectTimesStatusRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetProjectTimesStatusResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetProjectTimesStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool SetProjectTimesStatusResponse1;
+        
+        public SetProjectTimesStatusResponse()
+        {
+        }
+        
+        public SetProjectTimesStatusResponse(bool SetProjectTimesStatusResponse1)
+        {
+            this.SetProjectTimesStatusResponse1 = SetProjectTimesStatusResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class GetGroupsRequest
+    {
+        
+        private string nameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupsRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.GetGroupsRequest GetGroupsRequest;
+        
+        public GetGroupsRequest1()
+        {
+        }
+        
+        public GetGroupsRequest1(timrlink.net.Core.API.GetGroupsRequest GetGroupsRequest)
+        {
+            this.GetGroupsRequest = GetGroupsRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupsResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupsResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("groups", IsNullable=false)]
+        public timrlink.net.Core.API.Group[] GetGroupsResponse1;
+        
+        public GetGroupsResponse()
+        {
+        }
+        
+        public GetGroupsResponse(timrlink.net.Core.API.Group[] GetGroupsResponse1)
+        {
+            this.GetGroupsResponse1 = GetGroupsResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class SetTaskExternalIdRequest
+    {
+        
+        private string nameField;
+        
+        private string parentExternalIdField;
+        
+        private string newExternalTaskIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string parentExternalId
+        {
+            get
+            {
+                return this.parentExternalIdField;
+            }
+            set
+            {
+                this.parentExternalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string newExternalTaskId
+        {
+            get
+            {
+                return this.newExternalTaskIdField;
+            }
+            set
+            {
+                this.newExternalTaskIdField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetTaskExternalIdRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.SetTaskExternalIdRequest SetTaskExternalIdRequest;
+        
+        public SetTaskExternalIdRequest1()
+        {
+        }
+        
+        public SetTaskExternalIdRequest1(timrlink.net.Core.API.SetTaskExternalIdRequest SetTaskExternalIdRequest)
+        {
+            this.SetTaskExternalIdRequest = SetTaskExternalIdRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetTaskExternalIdResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetTaskExternalIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool SetTaskExternalIdResponse1;
+        
+        public SetTaskExternalIdResponse()
+        {
+        }
+        
+        public SetTaskExternalIdResponse(bool SetTaskExternalIdResponse1)
+        {
+            this.SetTaskExternalIdResponse1 = SetTaskExternalIdResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteWorkItemByUUIDRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteWorkItemByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteWorkItemByUUIDRequest1;
+        
+        public DeleteWorkItemByUUIDRequest()
+        {
+        }
+        
+        public DeleteWorkItemByUUIDRequest(string DeleteWorkItemByUUIDRequest1)
+        {
+            this.DeleteWorkItemByUUIDRequest1 = DeleteWorkItemByUUIDRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteWorkItemByUUIDResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteWorkItemByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteWorkItemByUUIDResponse1;
+        
+        public DeleteWorkItemByUUIDResponse()
+        {
+        }
+        
+        public DeleteWorkItemByUUIDResponse(bool DeleteWorkItemByUUIDResponse1)
+        {
+            this.DeleteWorkItemByUUIDResponse1 = DeleteWorkItemByUUIDResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetWorkTimesStatusRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetWorkTimesStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.WorkTimesStatusRequestType SetWorkTimesStatusRequest1;
+        
+        public SetWorkTimesStatusRequest()
+        {
+        }
+        
+        public SetWorkTimesStatusRequest(timrlink.net.Core.API.WorkTimesStatusRequestType SetWorkTimesStatusRequest1)
+        {
+            this.SetWorkTimesStatusRequest1 = SetWorkTimesStatusRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SetWorkTimesStatusResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetWorkTimesStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool SetWorkTimesStatusResponse1;
+        
+        public SetWorkTimesStatusResponse()
+        {
+        }
+        
+        public SetWorkTimesStatusResponse(bool SetWorkTimesStatusResponse1)
+        {
+            this.SetWorkTimesStatusResponse1 = SetWorkTimesStatusResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskByUUIDRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetTaskByUUIDRequest1;
+        
+        public GetTaskByUUIDRequest()
+        {
+        }
+        
+        public GetTaskByUUIDRequest(string GetTaskByUUIDRequest1)
+        {
+            this.GetTaskByUUIDRequest1 = GetTaskByUUIDRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskByUUIDResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Task GetTaskByUUIDResponse1;
+        
+        public GetTaskByUUIDResponse()
+        {
+        }
+        
+        public GetTaskByUUIDResponse(timrlink.net.Core.API.Task GetTaskByUUIDResponse1)
+        {
+            this.GetTaskByUUIDResponse1 = GetTaskByUUIDResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class AssignUserToGroupRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalGroupIdField;
+        
+        private string uuidUserField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalGroupId
+        {
+            get
+            {
+                return this.externalGroupIdField;
+            }
+            set
+            {
+                this.externalGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignUserToGroupRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.AssignUserToGroupRequest AssignUserToGroupRequest;
+        
+        public AssignUserToGroupRequest1()
+        {
+        }
+        
+        public AssignUserToGroupRequest1(timrlink.net.Core.API.AssignUserToGroupRequest AssignUserToGroupRequest)
+        {
+            this.AssignUserToGroupRequest = AssignUserToGroupRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignUserToGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignUserToGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool AssignUserToGroupResponse1;
+        
+        public AssignUserToGroupResponse()
+        {
+        }
+        
+        public AssignUserToGroupResponse(bool AssignUserToGroupResponse1)
+        {
+            this.AssignUserToGroupResponse1 = AssignUserToGroupResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddWorkItemRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddWorkItemRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.WorkItem AddWorkItemRequest1;
+        
+        public AddWorkItemRequest()
+        {
+        }
+        
+        public AddWorkItemRequest(timrlink.net.Core.API.WorkItem AddWorkItemRequest1)
+        {
+            this.AddWorkItemRequest1 = AddWorkItemRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AddWorkItemResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AddWorkItemResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public long AddWorkItemResponse1;
+        
+        public AddWorkItemResponse()
+        {
+        }
+        
+        public AddWorkItemResponse(long AddWorkItemResponse1)
+        {
+            this.AddWorkItemResponse1 = AddWorkItemResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class RemoveCarFromUserRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalCarIdField;
+        
+        private string uuidUserField;
+        
+        private string uuidCarField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalCarId
+        {
+            get
+            {
+                return this.externalCarIdField;
+            }
+            set
+            {
+                this.externalCarIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string uuidCar
+        {
+            get
+            {
+                return this.uuidCarField;
+            }
+            set
+            {
+                this.uuidCarField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveCarFromUserRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.RemoveCarFromUserRequest RemoveCarFromUserRequest;
+        
+        public RemoveCarFromUserRequest1()
+        {
+        }
+        
+        public RemoveCarFromUserRequest1(timrlink.net.Core.API.RemoveCarFromUserRequest RemoveCarFromUserRequest)
+        {
+            this.RemoveCarFromUserRequest = RemoveCarFromUserRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveCarFromUserResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveCarFromUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool RemoveCarFromUserResponse1;
+        
+        public RemoveCarFromUserResponse()
+        {
+        }
+        
+        public RemoveCarFromUserResponse(bool RemoveCarFromUserResponse1)
+        {
+            this.RemoveCarFromUserResponse1 = RemoveCarFromUserResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class AssignTaskToUserRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalTaskIdField;
+        
+        private string uuidUserField;
+        
+        private string uuidTaskField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string uuidTask
+        {
+            get
+            {
+                return this.uuidTaskField;
+            }
+            set
+            {
+                this.uuidTaskField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignTaskToUserRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.AssignTaskToUserRequest AssignTaskToUserRequest;
+        
+        public AssignTaskToUserRequest1()
+        {
+        }
+        
+        public AssignTaskToUserRequest1(timrlink.net.Core.API.AssignTaskToUserRequest AssignTaskToUserRequest)
+        {
+            this.AssignTaskToUserRequest = AssignTaskToUserRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class AssignTaskToUserResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignTaskToUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool AssignTaskToUserResponse1;
+        
+        public AssignTaskToUserResponse()
+        {
+        }
+        
+        public AssignTaskToUserResponse(bool AssignTaskToUserResponse1)
+        {
+            this.AssignTaskToUserResponse1 = AssignTaskToUserResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetRunningProjectTimesRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRunningProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public object GetRunningProjectTimesRequest1;
+        
+        public GetRunningProjectTimesRequest()
+        {
+        }
+        
+        public GetRunningProjectTimesRequest(object GetRunningProjectTimesRequest1)
+        {
+            this.GetRunningProjectTimesRequest1 = GetRunningProjectTimesRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetRunningProjectTimesResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetRunningProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("runningProjectTimes", IsNullable=false)]
+        public timrlink.net.Core.API.RunningProjectTime[] GetRunningProjectTimesResponse1;
+        
+        public GetRunningProjectTimesResponse()
+        {
+        }
+        
+        public GetRunningProjectTimesResponse(timrlink.net.Core.API.RunningProjectTime[] GetRunningProjectTimesResponse1)
+        {
+            this.GetRunningProjectTimesResponse1 = GetRunningProjectTimesResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupLeadersRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupLeadersRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetGroupLeadersRequest1;
+        
+        public GetGroupLeadersRequest()
+        {
+        }
+        
+        public GetGroupLeadersRequest(string GetGroupLeadersRequest1)
+        {
+            this.GetGroupLeadersRequest1 = GetGroupLeadersRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupLeadersResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupLeadersResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("leaders", IsNullable=false)]
+        public timrlink.net.Core.API.User[] GetGroupLeadersResponse1;
+        
+        public GetGroupLeadersResponse()
+        {
+        }
+        
+        public GetGroupLeadersResponse(timrlink.net.Core.API.User[] GetGroupLeadersResponse1)
+        {
+            this.GetGroupLeadersResponse1 = GetGroupLeadersResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class UpdateWorkItemIdRequest
+    {
+        
+        private WorkItem workItemField;
+        
+        private string newExternalWorkItemIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public WorkItem workItem
+        {
+            get
+            {
+                return this.workItemField;
+            }
+            set
+            {
+                this.workItemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string newExternalWorkItemId
+        {
+            get
+            {
+                return this.newExternalWorkItemIdField;
+            }
+            set
+            {
+                this.newExternalWorkItemIdField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateWorkItemIdRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.UpdateWorkItemIdRequest UpdateWorkItemIdRequest;
+        
+        public UpdateWorkItemIdRequest1()
+        {
+        }
+        
+        public UpdateWorkItemIdRequest1(timrlink.net.Core.API.UpdateWorkItemIdRequest UpdateWorkItemIdRequest)
+        {
+            this.UpdateWorkItemIdRequest = UpdateWorkItemIdRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateWorkItemIdResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateWorkItemIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateWorkItemIdResponse1;
+        
+        public UpdateWorkItemIdResponse()
+        {
+        }
+        
+        public UpdateWorkItemIdResponse(bool UpdateWorkItemIdResponse1)
+        {
+            this.UpdateWorkItemIdResponse1 = UpdateWorkItemIdResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class UpdateUserIdRequest
+    {
+        
+        private User userField;
+        
+        private string newExternalUserIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public User user
+        {
+            get
+            {
+                return this.userField;
+            }
+            set
+            {
+                this.userField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string newExternalUserId
+        {
+            get
+            {
+                return this.newExternalUserIdField;
+            }
+            set
+            {
+                this.newExternalUserIdField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserIdRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.UpdateUserIdRequest UpdateUserIdRequest;
+        
+        public UpdateUserIdRequest1()
+        {
+        }
+        
+        public UpdateUserIdRequest1(timrlink.net.Core.API.UpdateUserIdRequest UpdateUserIdRequest)
+        {
+            this.UpdateUserIdRequest = UpdateUserIdRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserIdResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateUserIdResponse1;
+        
+        public UpdateUserIdResponse()
+        {
+        }
+        
+        public UpdateUserIdResponse(bool UpdateUserIdResponse1)
+        {
+            this.UpdateUserIdResponse1 = UpdateUserIdResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SaveProjectTimeRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SaveProjectTimeRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.ProjectTime SaveProjectTimeRequest1;
+        
+        public SaveProjectTimeRequest()
+        {
+        }
+        
+        public SaveProjectTimeRequest(timrlink.net.Core.API.ProjectTime SaveProjectTimeRequest1)
+        {
+            this.SaveProjectTimeRequest1 = SaveProjectTimeRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class SaveProjectTimeResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="SaveProjectTimeResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public long SaveProjectTimeResponse1;
+        
+        public SaveProjectTimeResponse()
+        {
+        }
+        
+        public SaveProjectTimeResponse(long SaveProjectTimeResponse1)
+        {
+            this.SaveProjectTimeResponse1 = SaveProjectTimeResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateTaskRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Task UpdateTaskRequest1;
+        
+        public UpdateTaskRequest()
+        {
+        }
+        
+        public UpdateTaskRequest(timrlink.net.Core.API.Task UpdateTaskRequest1)
+        {
+            this.UpdateTaskRequest1 = UpdateTaskRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateTaskResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool UpdateTaskResponse1;
+        
+        public UpdateTaskResponse()
+        {
+        }
+        
+        public UpdateTaskResponse(bool UpdateTaskResponse1)
+        {
+            this.UpdateTaskResponse1 = UpdateTaskResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteTaskRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteTaskRequest1;
+        
+        public DeleteTaskRequest()
+        {
+        }
+        
+        public DeleteTaskRequest(string DeleteTaskRequest1)
+        {
+            this.DeleteTaskRequest1 = DeleteTaskRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteTaskResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteTaskResponse1;
+        
+        public DeleteTaskResponse()
+        {
+        }
+        
+        public DeleteTaskResponse(bool DeleteTaskResponse1)
+        {
+            this.DeleteTaskResponse1 = DeleteTaskResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class RemoveTaskFromUserRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalTaskIdField;
+        
+        private string uuidUserField;
+        
+        private string uuidTaskField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string uuidTask
+        {
+            get
+            {
+                return this.uuidTaskField;
+            }
+            set
+            {
+                this.uuidTaskField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveTaskFromUserRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.RemoveTaskFromUserRequest RemoveTaskFromUserRequest;
+        
+        public RemoveTaskFromUserRequest1()
+        {
+        }
+        
+        public RemoveTaskFromUserRequest1(timrlink.net.Core.API.RemoveTaskFromUserRequest RemoveTaskFromUserRequest)
+        {
+            this.RemoveTaskFromUserRequest = RemoveTaskFromUserRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveTaskFromUserResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveTaskFromUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool RemoveTaskFromUserResponse1;
+        
+        public RemoveTaskFromUserResponse()
+        {
+        }
+        
+        public RemoveTaskFromUserResponse(bool RemoveTaskFromUserResponse1)
+        {
+            this.RemoveTaskFromUserResponse1 = RemoveTaskFromUserResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
+    public partial class RemoveLeaderFromGroupRequest
+    {
+        
+        private string externalUserIdField;
+        
+        private string externalGroupIdField;
+        
+        private string uuidUserField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string externalGroupId
+        {
+            get
+            {
+                return this.externalGroupIdField;
+            }
+            set
+            {
+                this.externalGroupIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string uuidUser
+        {
+            get
+            {
+                return this.uuidUserField;
+            }
+            set
+            {
+                this.uuidUserField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveLeaderFromGroupRequest1
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.RemoveLeaderFromGroupRequest RemoveLeaderFromGroupRequest;
+        
+        public RemoveLeaderFromGroupRequest1()
+        {
+        }
+        
+        public RemoveLeaderFromGroupRequest1(timrlink.net.Core.API.RemoveLeaderFromGroupRequest RemoveLeaderFromGroupRequest)
+        {
+            this.RemoveLeaderFromGroupRequest = RemoveLeaderFromGroupRequest;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class RemoveLeaderFromGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="RemoveLeaderFromGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool RemoveLeaderFromGroupResponse1;
+        
+        public RemoveLeaderFromGroupResponse()
+        {
+        }
+        
+        public RemoveLeaderFromGroupResponse(bool RemoveLeaderFromGroupResponse1)
+        {
+            this.RemoveLeaderFromGroupResponse1 = RemoveLeaderFromGroupResponse1;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateTaskIdRequest
     {
         
@@ -5314,84 +6981,6 @@ namespace timrlink.net.Core.API
         public UpdateWorkItemResponse(bool UpdateWorkItemResponse1)
         {
             this.UpdateWorkItemResponse1 = UpdateWorkItemResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetUsersRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUsersRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public object GetUsersRequest1;
-        
-        public GetUsersRequest()
-        {
-        }
-        
-        public GetUsersRequest(object GetUsersRequest1)
-        {
-            this.GetUsersRequest1 = GetUsersRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetUsersResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetUsersResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("users", IsNullable=false)]
-        public timrlink.net.Core.API.User[] GetUsersResponse1;
-        
-        public GetUsersResponse()
-        {
-        }
-        
-        public GetUsersResponse(timrlink.net.Core.API.User[] GetUsersResponse1)
-        {
-            this.GetUsersResponse1 = GetUsersResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetWorkItemsRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetWorkItemsRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public object GetWorkItemsRequest1;
-        
-        public GetWorkItemsRequest()
-        {
-        }
-        
-        public GetWorkItemsRequest(object GetWorkItemsRequest1)
-        {
-            this.GetWorkItemsRequest1 = GetWorkItemsRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetWorkItemsResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetWorkItemsResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("workItem", IsNullable=false)]
-        public timrlink.net.Core.API.WorkItem[] GetWorkItemsResponse1;
-        
-        public GetWorkItemsResponse()
-        {
-        }
-        
-        public GetWorkItemsResponse(timrlink.net.Core.API.WorkItem[] GetWorkItemsResponse1)
-        {
-            this.GetWorkItemsResponse1 = GetWorkItemsResponse1;
         }
     }
     
@@ -5508,307 +7097,76 @@ namespace timrlink.net.Core.API
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetCarsRequest
+    public partial class DeleteGroupRequest
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetCarsRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public object GetCarsRequest1;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteGroupRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string DeleteGroupRequest1;
         
-        public GetCarsRequest()
+        public DeleteGroupRequest()
         {
         }
         
-        public GetCarsRequest(object GetCarsRequest1)
+        public DeleteGroupRequest(string DeleteGroupRequest1)
         {
-            this.GetCarsRequest1 = GetCarsRequest1;
+            this.DeleteGroupRequest1 = DeleteGroupRequest1;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetCarsResponse
+    public partial class DeleteGroupResponse
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetCarsResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("cars", IsNullable=false)]
-        public timrlink.net.Core.API.Car[] GetCarsResponse1;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public bool DeleteGroupResponse1;
         
-        public GetCarsResponse()
+        public DeleteGroupResponse()
         {
         }
         
-        public GetCarsResponse(timrlink.net.Core.API.Car[] GetCarsResponse1)
+        public DeleteGroupResponse(bool DeleteGroupResponse1)
         {
-            this.GetCarsResponse1 = GetCarsResponse1;
+            this.DeleteGroupResponse1 = DeleteGroupResponse1;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UnlockProjectTimesRequest
+    public partial class InviteUserRequest
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UnlockProjectTimesRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("ids", IsNullable=false)]
-        public long[] UnlockProjectTimesRequest1;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InviteUserRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.User InviteUserRequest1;
         
-        public UnlockProjectTimesRequest()
+        public InviteUserRequest()
         {
         }
         
-        public UnlockProjectTimesRequest(long[] UnlockProjectTimesRequest1)
+        public InviteUserRequest(timrlink.net.Core.API.User InviteUserRequest1)
         {
-            this.UnlockProjectTimesRequest1 = UnlockProjectTimesRequest1;
+            this.InviteUserRequest1 = InviteUserRequest1;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UnlockProjectTimesResponse
+    public partial class InviteUserResponse
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UnlockProjectTimesResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool UnlockProjectTimesResponse1;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="InviteUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public long InviteUserResponse1;
         
-        public UnlockProjectTimesResponse()
+        public InviteUserResponse()
         {
         }
         
-        public UnlockProjectTimesResponse(bool UnlockProjectTimesResponse1)
+        public InviteUserResponse(long InviteUserResponse1)
         {
-            this.UnlockProjectTimesResponse1 = UnlockProjectTimesResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateUserRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.User UpdateUserRequest1;
-        
-        public UpdateUserRequest()
-        {
-        }
-        
-        public UpdateUserRequest(timrlink.net.Core.API.User UpdateUserRequest1)
-        {
-            this.UpdateUserRequest1 = UpdateUserRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class UpdateUserResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool UpdateUserResponse1;
-        
-        public UpdateUserResponse()
-        {
-        }
-        
-        public UpdateUserResponse(bool UpdateUserResponse1)
-        {
-            this.UpdateUserResponse1 = UpdateUserResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetTaskRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string GetTaskRequest1;
-        
-        public GetTaskRequest()
-        {
-        }
-        
-        public GetTaskRequest(string GetTaskRequest1)
-        {
-            this.GetTaskRequest1 = GetTaskRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetTaskResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.Task GetTaskResponse1;
-        
-        public GetTaskResponse()
-        {
-        }
-        
-        public GetTaskResponse(timrlink.net.Core.API.Task GetTaskResponse1)
-        {
-            this.GetTaskResponse1 = GetTaskResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteUserByUUIDRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUserByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string DeleteUserByUUIDRequest1;
-        
-        public DeleteUserByUUIDRequest()
-        {
-        }
-        
-        public DeleteUserByUUIDRequest(string DeleteUserByUUIDRequest1)
-        {
-            this.DeleteUserByUUIDRequest1 = DeleteUserByUUIDRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteUserByUUIDResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUserByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool DeleteUserByUUIDResponse1;
-        
-        public DeleteUserByUUIDResponse()
-        {
-        }
-        
-        public DeleteUserByUUIDResponse(bool DeleteUserByUUIDResponse1)
-        {
-            this.DeleteUserByUUIDResponse1 = DeleteUserByUUIDResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteTaskByUUIDRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string DeleteTaskByUUIDRequest1;
-        
-        public DeleteTaskByUUIDRequest()
-        {
-        }
-        
-        public DeleteTaskByUUIDRequest(string DeleteTaskByUUIDRequest1)
-        {
-            this.DeleteTaskByUUIDRequest1 = DeleteTaskByUUIDRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteTaskByUUIDResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteTaskByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool DeleteTaskByUUIDResponse1;
-        
-        public DeleteTaskByUUIDResponse()
-        {
-        }
-        
-        public DeleteTaskByUUIDResponse(bool DeleteTaskByUUIDResponse1)
-        {
-            this.DeleteTaskByUUIDResponse1 = DeleteTaskByUUIDResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetDriveLogsRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDriveLogsRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.DriveLogQuery GetDriveLogsRequest1;
-        
-        public GetDriveLogsRequest()
-        {
-        }
-        
-        public GetDriveLogsRequest(timrlink.net.Core.API.DriveLogQuery GetDriveLogsRequest1)
-        {
-            this.GetDriveLogsRequest1 = GetDriveLogsRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GetDriveLogsResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetDriveLogsResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("driveLogs", IsNullable=false)]
-        public timrlink.net.Core.API.DriveLog[] GetDriveLogsResponse1;
-        
-        public GetDriveLogsResponse()
-        {
-        }
-        
-        public GetDriveLogsResponse(timrlink.net.Core.API.DriveLog[] GetDriveLogsResponse1)
-        {
-            this.GetDriveLogsResponse1 = GetDriveLogsResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteWorkItemByUUIDRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteWorkItemByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public string DeleteWorkItemByUUIDRequest1;
-        
-        public DeleteWorkItemByUUIDRequest()
-        {
-        }
-        
-        public DeleteWorkItemByUUIDRequest(string DeleteWorkItemByUUIDRequest1)
-        {
-            this.DeleteWorkItemByUUIDRequest1 = DeleteWorkItemByUUIDRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class DeleteWorkItemByUUIDResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteWorkItemByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool DeleteWorkItemByUUIDResponse1;
-        
-        public DeleteWorkItemByUUIDResponse()
-        {
-        }
-        
-        public DeleteWorkItemByUUIDResponse(bool DeleteWorkItemByUUIDResponse1)
-        {
-            this.DeleteWorkItemByUUIDResponse1 = DeleteWorkItemByUUIDResponse1;
+            this.InviteUserResponse1 = InviteUserResponse1;
         }
     }
     
@@ -5829,138 +7187,6 @@ namespace timrlink.net.Core.API
         public LockProjectTimesRequest(long[] LockProjectTimesRequest1)
         {
             this.LockProjectTimesRequest1 = LockProjectTimesRequest1;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
-    public partial class SetTaskExternalIdRequest
-    {
-        
-        private string nameField;
-        
-        private string parentExternalIdField;
-        
-        private string newExternalTaskIdField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string parentExternalId
-        {
-            get
-            {
-                return this.parentExternalIdField;
-            }
-            set
-            {
-                this.parentExternalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string newExternalTaskId
-        {
-            get
-            {
-                return this.newExternalTaskIdField;
-            }
-            set
-            {
-                this.newExternalTaskIdField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetTaskExternalIdRequest1
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.SetTaskExternalIdRequest SetTaskExternalIdRequest;
-        
-        public SetTaskExternalIdRequest1()
-        {
-        }
-        
-        public SetTaskExternalIdRequest1(timrlink.net.Core.API.SetTaskExternalIdRequest SetTaskExternalIdRequest)
-        {
-            this.SetTaskExternalIdRequest = SetTaskExternalIdRequest;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetTaskExternalIdResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetTaskExternalIdResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool SetTaskExternalIdResponse1;
-        
-        public SetTaskExternalIdResponse()
-        {
-        }
-        
-        public SetTaskExternalIdResponse(bool SetTaskExternalIdResponse1)
-        {
-            this.SetTaskExternalIdResponse1 = SetTaskExternalIdResponse1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetWorkTimesStatusRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetWorkTimesStatusRequest", Namespace="http://timr.com/timrsync", Order=0)]
-        public timrlink.net.Core.API.WorkTimesStatusRequestType SetWorkTimesStatusRequest1;
-        
-        public SetWorkTimesStatusRequest()
-        {
-        }
-        
-        public SetWorkTimesStatusRequest(timrlink.net.Core.API.WorkTimesStatusRequestType SetWorkTimesStatusRequest1)
-        {
-            this.SetWorkTimesStatusRequest1 = SetWorkTimesStatusRequest1;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class SetWorkTimesStatusResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="SetWorkTimesStatusResponse", Namespace="http://timr.com/timrsync", Order=0)]
-        public bool SetWorkTimesStatusResponse1;
-        
-        public SetWorkTimesStatusResponse()
-        {
-        }
-        
-        public SetWorkTimesStatusResponse(bool SetWorkTimesStatusResponse1)
-        {
-            this.SetWorkTimesStatusResponse1 = SetWorkTimesStatusResponse1;
         }
     }
     
@@ -5999,6 +7225,44 @@ namespace timrlink.net.Core.API
         public DeleteCarByUUIDResponse(bool DeleteCarByUUIDResponse1)
         {
             this.DeleteCarByUUIDResponse1 = DeleteCarByUUIDResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetGroupRequest1;
+        
+        public GetGroupRequest()
+        {
+        }
+        
+        public GetGroupRequest(string GetGroupRequest1)
+        {
+            this.GetGroupRequest1 = GetGroupRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetGroupResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetGroupResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Group GetGroupResponse1;
+        
+        public GetGroupResponse()
+        {
+        }
+        
+        public GetGroupResponse(timrlink.net.Core.API.Group GetGroupResponse1)
+        {
+            this.GetGroupResponse1 = GetGroupResponse1;
         }
     }
     
@@ -6052,34 +7316,9 @@ namespace timrlink.net.Core.API
         {
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.SetProjectTimesStatusResponse> SetProjectTimesStatusAsync(timrlink.net.Core.API.SetProjectTimesStatusRequest request)
-        {
-            return base.Channel.SetProjectTimesStatusAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningProjectTimesResponse> GetRunningProjectTimesAsync(timrlink.net.Core.API.GetRunningProjectTimesRequest request)
-        {
-            return base.Channel.GetRunningProjectTimesAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignTaskToUserResponse> AssignTaskToUserAsync(timrlink.net.Core.API.AssignTaskToUserRequest1 request)
-        {
-            return base.Channel.AssignTaskToUserAsync(request);
-        }
-        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarResponse> DeleteCarAsync(timrlink.net.Core.API.DeleteCarRequest request)
         {
             return base.Channel.DeleteCarAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskByUUIDResponse> GetTaskByUUIDAsync(timrlink.net.Core.API.GetTaskByUUIDRequest request)
-        {
-            return base.Channel.GetTaskByUUIDAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemIdResponse> UpdateWorkItemIdAsync(timrlink.net.Core.API.UpdateWorkItemIdRequest1 request)
-        {
-            return base.Channel.UpdateWorkItemIdAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateCarResponse> UpdateCarAsync(timrlink.net.Core.API.UpdateCarRequest request)
@@ -6087,34 +7326,9 @@ namespace timrlink.net.Core.API
             return base.Channel.UpdateCarAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateUserIdResponse> UpdateUserIdAsync(timrlink.net.Core.API.UpdateUserIdRequest1 request)
-        {
-            return base.Channel.UpdateUserIdAsync(request);
-        }
-        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTasksResponse> GetTasksAsync(timrlink.net.Core.API.GetTasksRequest1 request)
         {
             return base.Channel.GetTasksAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.SaveProjectTimeResponse> SaveProjectTimeAsync(timrlink.net.Core.API.SaveProjectTimeRequest request)
-        {
-            return base.Channel.SaveProjectTimeAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.AddWorkItemResponse> AddWorkItemAsync(timrlink.net.Core.API.AddWorkItemRequest request)
-        {
-            return base.Channel.AddWorkItemAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.AddUserResponse> AddUserAsync(timrlink.net.Core.API.AddUserRequest request)
-        {
-            return base.Channel.AddUserAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.SetDriveLogsStatusResponse> SetDriveLogsStatusAsync(timrlink.net.Core.API.SetDriveLogsStatusRequest request)
-        {
-            return base.Channel.SetDriveLogsStatusAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.SaveWorkTimeResponse> SaveWorkTimeAsync(timrlink.net.Core.API.SaveWorkTimeRequest request)
@@ -6127,24 +7341,14 @@ namespace timrlink.net.Core.API
             return base.Channel.AddCarAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskResponse> UpdateTaskAsync(timrlink.net.Core.API.UpdateTaskRequest request)
-        {
-            return base.Channel.UpdateTaskAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteTaskResponse> DeleteTaskAsync(timrlink.net.Core.API.DeleteTaskRequest request)
-        {
-            return base.Channel.DeleteTaskAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveTaskFromUserResponse> RemoveTaskFromUserAsync(timrlink.net.Core.API.RemoveTaskFromUserRequest1 request)
-        {
-            return base.Channel.RemoveTaskFromUserAsync(request);
-        }
-        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningDriveLogsResponse> GetRunningDriveLogsAsync(timrlink.net.Core.API.GetRunningDriveLogsRequest request)
         {
             return base.Channel.GetRunningDriveLogsAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveUserFromGroupResponse> RemoveUserFromGroupAsync(timrlink.net.Core.API.RemoveUserFromGroupRequest1 request)
+        {
+            return base.Channel.RemoveUserFromGroupAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteUserResponse> DeleteUserAsync(timrlink.net.Core.API.DeleteUserRequest request)
@@ -6157,19 +7361,24 @@ namespace timrlink.net.Core.API
             return base.Channel.GetWorkTimesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveCarFromUserResponse> RemoveCarFromUserAsync(timrlink.net.Core.API.RemoveCarFromUserRequest1 request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignLeaderToGroupResponse> AssignLeaderToGroupAsync(timrlink.net.Core.API.AssignLeaderToGroupRequest1 request)
         {
-            return base.Channel.RemoveCarFromUserAsync(request);
+            return base.Channel.AssignLeaderToGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AddUserResponse> AddUserAsync(timrlink.net.Core.API.AddUserRequest request)
+        {
+            return base.Channel.AddUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveGroupFromTaskResponse> RemoveGroupFromTaskAsync(timrlink.net.Core.API.RemoveGroupFromTaskRequest1 request)
+        {
+            return base.Channel.RemoveGroupFromTaskAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningWorkTimesResponse> GetRunningWorkTimesAsync(timrlink.net.Core.API.GetRunningWorkTimesRequest request)
         {
             return base.Channel.GetRunningWorkTimesAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetProjectTimesResponse> GetProjectTimesAsync(timrlink.net.Core.API.GetProjectTimesRequest request)
-        {
-            return base.Channel.GetProjectTimesAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteWorkItemResponse> DeleteWorkItemAsync(timrlink.net.Core.API.DeleteWorkItemRequest request)
@@ -6192,19 +7401,9 @@ namespace timrlink.net.Core.API
             return base.Channel.SaveDriveLogAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskIdResponse> UpdateTaskIdAsync(timrlink.net.Core.API.UpdateTaskIdRequest1 request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateGroupIdResponse> UpdateGroupIdAsync(timrlink.net.Core.API.UpdateGroupIdRequest1 request)
         {
-            return base.Channel.UpdateTaskIdAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemResponse> UpdateWorkItemAsync(timrlink.net.Core.API.UpdateWorkItemRequest request)
-        {
-            return base.Channel.UpdateWorkItemAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetUsersResponse> GetUsersAsync(timrlink.net.Core.API.GetUsersRequest request)
-        {
-            return base.Channel.GetUsersAsync(request);
+            return base.Channel.UpdateGroupIdAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetWorkItemsResponse> GetWorkItemsAsync(timrlink.net.Core.API.GetWorkItemsRequest request)
@@ -6212,14 +7411,24 @@ namespace timrlink.net.Core.API
             return base.Channel.GetWorkItemsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignCarToUserResponse> AssignCarToUserAsync(timrlink.net.Core.API.AssignCarToUserRequest1 request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupUsersResponse> GetGroupUsersAsync(timrlink.net.Core.API.GetGroupUsersRequest request)
         {
-            return base.Channel.AssignCarToUserAsync(request);
+            return base.Channel.GetGroupUsersAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetCarsResponse> GetCarsAsync(timrlink.net.Core.API.GetCarsRequest request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignGroupToTaskResponse> AssignGroupToTaskAsync(timrlink.net.Core.API.AssignGroupToTaskRequest1 request)
         {
-            return base.Channel.GetCarsAsync(request);
+            return base.Channel.AssignGroupToTaskAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.SetGroupExternalIdResponse> SetGroupExternalIdAsync(timrlink.net.Core.API.SetGroupExternalIdRequest1 request)
+        {
+            return base.Channel.SetGroupExternalIdAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.SetDriveLogsStatusResponse> SetDriveLogsStatusAsync(timrlink.net.Core.API.SetDriveLogsStatusRequest request)
+        {
+            return base.Channel.SetDriveLogsStatusAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.UnlockProjectTimesResponse> UnlockProjectTimesAsync(timrlink.net.Core.API.UnlockProjectTimesRequest request)
@@ -6232,14 +7441,19 @@ namespace timrlink.net.Core.API
             return base.Channel.UpdateUserAsync(request);
         }
         
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetUsersResponse> GetUsersAsync(timrlink.net.Core.API.GetUsersRequest request)
+        {
+            return base.Channel.GetUsersAsync(request);
+        }
+        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskResponse> GetTaskAsync(timrlink.net.Core.API.GetTaskRequest request)
         {
             return base.Channel.GetTaskAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteUserByUUIDResponse> DeleteUserByUUIDAsync(timrlink.net.Core.API.DeleteUserByUUIDRequest request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetProjectTimesResponse> GetProjectTimesAsync(timrlink.net.Core.API.GetProjectTimesRequest request)
         {
-            return base.Channel.DeleteUserByUUIDAsync(request);
+            return base.Channel.GetProjectTimesAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteTaskByUUIDResponse> DeleteTaskByUUIDAsync(timrlink.net.Core.API.DeleteTaskByUUIDRequest request)
@@ -6247,19 +7461,39 @@ namespace timrlink.net.Core.API
             return base.Channel.DeleteTaskByUUIDAsync(request);
         }
         
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AddGroupResponse> AddGroupAsync(timrlink.net.Core.API.AddGroupRequest request)
+        {
+            return base.Channel.AddGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateGroupResponse> UpdateGroupAsync(timrlink.net.Core.API.UpdateGroupRequest request)
+        {
+            return base.Channel.UpdateGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteUserByUUIDResponse> DeleteUserByUUIDAsync(timrlink.net.Core.API.DeleteUserByUUIDRequest request)
+        {
+            return base.Channel.DeleteUserByUUIDAsync(request);
+        }
+        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.GetDriveLogsResponse> GetDriveLogsAsync(timrlink.net.Core.API.GetDriveLogsRequest request)
         {
             return base.Channel.GetDriveLogsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteWorkItemByUUIDResponse> DeleteWorkItemByUUIDAsync(timrlink.net.Core.API.DeleteWorkItemByUUIDRequest request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetCarsResponse> GetCarsAsync(timrlink.net.Core.API.GetCarsRequest request)
         {
-            return base.Channel.DeleteWorkItemByUUIDAsync(request);
+            return base.Channel.GetCarsAsync(request);
         }
         
-        public System.Threading.Tasks.Task LockProjectTimesAsync(timrlink.net.Core.API.LockProjectTimesRequest request)
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.SetProjectTimesStatusResponse> SetProjectTimesStatusAsync(timrlink.net.Core.API.SetProjectTimesStatusRequest request)
         {
-            return base.Channel.LockProjectTimesAsync(request);
+            return base.Channel.SetProjectTimesStatusAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupsResponse> GetGroupsAsync(timrlink.net.Core.API.GetGroupsRequest1 request)
+        {
+            return base.Channel.GetGroupsAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.SetTaskExternalIdResponse> SetTaskExternalIdAsync(timrlink.net.Core.API.SetTaskExternalIdRequest1 request)
@@ -6267,14 +7501,124 @@ namespace timrlink.net.Core.API
             return base.Channel.SetTaskExternalIdAsync(request);
         }
         
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteWorkItemByUUIDResponse> DeleteWorkItemByUUIDAsync(timrlink.net.Core.API.DeleteWorkItemByUUIDRequest request)
+        {
+            return base.Channel.DeleteWorkItemByUUIDAsync(request);
+        }
+        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.SetWorkTimesStatusResponse> SetWorkTimesStatusAsync(timrlink.net.Core.API.SetWorkTimesStatusRequest request)
         {
             return base.Channel.SetWorkTimesStatusAsync(request);
         }
         
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskByUUIDResponse> GetTaskByUUIDAsync(timrlink.net.Core.API.GetTaskByUUIDRequest request)
+        {
+            return base.Channel.GetTaskByUUIDAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignUserToGroupResponse> AssignUserToGroupAsync(timrlink.net.Core.API.AssignUserToGroupRequest1 request)
+        {
+            return base.Channel.AssignUserToGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AddWorkItemResponse> AddWorkItemAsync(timrlink.net.Core.API.AddWorkItemRequest request)
+        {
+            return base.Channel.AddWorkItemAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveCarFromUserResponse> RemoveCarFromUserAsync(timrlink.net.Core.API.RemoveCarFromUserRequest1 request)
+        {
+            return base.Channel.RemoveCarFromUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignTaskToUserResponse> AssignTaskToUserAsync(timrlink.net.Core.API.AssignTaskToUserRequest1 request)
+        {
+            return base.Channel.AssignTaskToUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetRunningProjectTimesResponse> GetRunningProjectTimesAsync(timrlink.net.Core.API.GetRunningProjectTimesRequest request)
+        {
+            return base.Channel.GetRunningProjectTimesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupLeadersResponse> GetGroupLeadersAsync(timrlink.net.Core.API.GetGroupLeadersRequest request)
+        {
+            return base.Channel.GetGroupLeadersAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemIdResponse> UpdateWorkItemIdAsync(timrlink.net.Core.API.UpdateWorkItemIdRequest1 request)
+        {
+            return base.Channel.UpdateWorkItemIdAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateUserIdResponse> UpdateUserIdAsync(timrlink.net.Core.API.UpdateUserIdRequest1 request)
+        {
+            return base.Channel.UpdateUserIdAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.SaveProjectTimeResponse> SaveProjectTimeAsync(timrlink.net.Core.API.SaveProjectTimeRequest request)
+        {
+            return base.Channel.SaveProjectTimeAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskResponse> UpdateTaskAsync(timrlink.net.Core.API.UpdateTaskRequest request)
+        {
+            return base.Channel.UpdateTaskAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteTaskResponse> DeleteTaskAsync(timrlink.net.Core.API.DeleteTaskRequest request)
+        {
+            return base.Channel.DeleteTaskAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveTaskFromUserResponse> RemoveTaskFromUserAsync(timrlink.net.Core.API.RemoveTaskFromUserRequest1 request)
+        {
+            return base.Channel.RemoveTaskFromUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveLeaderFromGroupResponse> RemoveLeaderFromGroupAsync(timrlink.net.Core.API.RemoveLeaderFromGroupRequest1 request)
+        {
+            return base.Channel.RemoveLeaderFromGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateTaskIdResponse> UpdateTaskIdAsync(timrlink.net.Core.API.UpdateTaskIdRequest1 request)
+        {
+            return base.Channel.UpdateTaskIdAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateWorkItemResponse> UpdateWorkItemAsync(timrlink.net.Core.API.UpdateWorkItemRequest request)
+        {
+            return base.Channel.UpdateWorkItemAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.AssignCarToUserResponse> AssignCarToUserAsync(timrlink.net.Core.API.AssignCarToUserRequest1 request)
+        {
+            return base.Channel.AssignCarToUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteGroupResponse> DeleteGroupAsync(timrlink.net.Core.API.DeleteGroupRequest request)
+        {
+            return base.Channel.DeleteGroupAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.InviteUserResponse> InviteUserAsync(timrlink.net.Core.API.InviteUserRequest request)
+        {
+            return base.Channel.InviteUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task LockProjectTimesAsync(timrlink.net.Core.API.LockProjectTimesRequest request)
+        {
+            return base.Channel.LockProjectTimesAsync(request);
+        }
+        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarByUUIDResponse> DeleteCarByUUIDAsync(timrlink.net.Core.API.DeleteCarByUUIDRequest request)
         {
             return base.Channel.DeleteCarByUUIDAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetGroupResponse> GetGroupAsync(timrlink.net.Core.API.GetGroupRequest request)
+        {
+            return base.Channel.GetGroupAsync(request);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "options": {
     "inputs": [
-      "http://timrsync.timr.com/timr/timrsync.wsdl"
+      "https://timrsync.timr.com/timr/timrsync.wsdl"
     ],
     "collectionTypes": [
       "System.Collections.Generic.List`1"

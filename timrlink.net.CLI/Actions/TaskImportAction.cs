@@ -90,7 +90,7 @@ namespace timrlink.net.CLI.Actions
                 }
             }
 
-            await TaskService.SynchronizeTasksByExternalId(existingTasks, csvTasks, updateTasks: updateTasks);
+            await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, csvTasks, updateTasks: updateTasks);
         }
 
         private IList<CSVEntry> ParseFile()

@@ -39,7 +39,7 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", true, taskService);
             await importAction.Execute();
 
             Assert.AreEqual(5, tasks.Count);
@@ -131,7 +131,7 @@ namespace timrlink.net.CLI.Test
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_customfields.csv", false, taskService);
             await importAction.Execute();
 
-            Assert.AreEqual(5, tasks.Count);
+            Assert.AreEqual(4, tasks.Count);
 
             {
                 var task = tasks[0];
@@ -182,24 +182,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                // same as task[1] - but update will be performed
                 var task = tasks[3];
-                Assert.AreEqual("Project1", task.name);
-                Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual("Customer A", task.parentExternalId);
-                Assert.IsNull(task.parentUuid);
-                Assert.AreEqual(true, task.bookable);
-                Assert.AreEqual(true, task.billable);
-                Assert.IsTrue(String.IsNullOrEmpty(task.description));
-                Assert.IsNull(task.start);
-                Assert.IsNull(task.end);
-                Assert.IsEmpty(task.customField1);
-                Assert.IsEmpty(task.customField2);
-                Assert.IsEmpty(task.customField3);
-            }
-
-            {
-                var task = tasks[4];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);
@@ -246,10 +229,10 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", true, taskService);
             await importAction.Execute();
 
-            Assert.AreEqual(1, updatedTasks.Count);
+            Assert.AreEqual(2, updatedTasks.Count);
 
             {
                 var task = updatedTasks[0];
@@ -264,7 +247,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.end);
             }
 
-            Assert.AreEqual(4, addedTasks.Count);
+            Assert.AreEqual(3, addedTasks.Count);
 
             {
                 var task = addedTasks[0];
@@ -293,21 +276,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                // same as task[0] - but update will be performed
                 var task = addedTasks[2];
-                Assert.AreEqual("Project1", task.name);
-                Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual("Customer A", task.parentExternalId);
-                Assert.IsNull(task.parentUuid);
-                Assert.AreEqual(true, task.bookable);
-                Assert.AreEqual(true, task.billable);
-                Assert.IsTrue(String.IsNullOrEmpty(task.description));
-                Assert.IsNull(task.start);
-                Assert.IsNull(task.end);
-            }
-
-            {
-                var task = addedTasks[3];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);
@@ -341,7 +310,7 @@ namespace timrlink.net.CLI.Test
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_subtasks.csv", false, taskService);
             await importAction.Execute();
 
-            Assert.AreEqual(10, addTasks.Count);
+            Assert.AreEqual(9, addTasks.Count);
 
             {
                 var task = addTasks[0];
@@ -422,11 +391,9 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
-
-            // Skip 3 because is it was created by AddTask
-
+            
             {
-                var task = addTasks[6];
+                var task = addTasks[5];
                 Assert.AreEqual("Subtask1", task.name);
                 Assert.AreEqual("Customer A|Project1|Subtask1", task.externalId);
                 Assert.AreEqual("Customer A|Project1", task.parentExternalId);
@@ -442,7 +409,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = addTasks[7];
+                var task = addTasks[6];
                 Assert.AreEqual("Project3", task.name);
                 Assert.AreEqual("Customer A|Project3", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);
@@ -458,7 +425,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = addTasks[8];
+                var task = addTasks[7];
                 Assert.AreEqual("Subtask3", task.name);
                 Assert.AreEqual("Customer A|Project3|Subtask3", task.externalId);
                 Assert.AreEqual("Customer A|Project3", task.parentExternalId);
@@ -474,7 +441,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = addTasks[9];
+                var task = addTasks[8];
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);

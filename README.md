@@ -60,10 +60,10 @@ Options:
 CSV file has to be in the following format:
 
 ```
-Task;Bookable;Billable;Description;Start;End
-Customer A|Project1|Task1;True;False;Awesome;;
-Customer A|Project1;True;True;;;
-Customer A|Project2;false;true;;2019-05-16;
+Task;Bookable;Billable;Description;Start;End;DescriptionRequired
+Customer A|Project1|Task1;True;False;Awesome;;;True
+Customer A|Project1;True;True;;;;False
+Customer A|Project2;false;true;;2019-05-16;;true
 ```
 
 Optionally Custom Fields can be included, which then requires the following format:

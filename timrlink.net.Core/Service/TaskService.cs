@@ -94,6 +94,7 @@ namespace timrlink.net.Core.Service
                     externalId = currentPath,
                     bookable = bookable
                 };
+
                 await AddTask(newTask);
                 taskTokenDictionary.Add(currentPath, newTask);
             }

@@ -40,7 +40,7 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
@@ -125,7 +125,7 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
@@ -210,7 +210,7 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);
@@ -282,7 +282,7 @@ namespace timrlink.net.CLI.Test
 
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
-                .Setup(service => service.GetTaskHierarchy()).ReturnsAsync(new List<Task>());
+                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IEnumerable<Task>>()))
                 .Returns<IEnumerable<Task>>(TaskService.FlattenTasks);

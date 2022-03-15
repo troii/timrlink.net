@@ -2182,6 +2182,10 @@ namespace timrlink.net.Core.API
         
         private bool entryDateFieldSpecified;
         
+        private string ssoProviderField;
+        
+        private string ssoIdentifierField;
+        
         public User()
         {
             this.isTeamLeaderField = false;
@@ -2381,6 +2385,34 @@ namespace timrlink.net.Core.API
             set
             {
                 this.entryDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
+        public string ssoProvider
+        {
+            get
+            {
+                return this.ssoProviderField;
+            }
+            set
+            {
+                this.ssoProviderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
+        public string ssoIdentifier
+        {
+            get
+            {
+                return this.ssoIdentifierField;
+            }
+            set
+            {
+                this.ssoIdentifierField = value;
             }
         }
     }
@@ -2959,6 +2991,14 @@ namespace timrlink.net.Core.API
         
         private string taskUuidField;
         
+        private System.Nullable<decimal> hourlyRateField;
+        
+        private bool hourlyRateFieldSpecified;
+        
+        private System.Nullable<decimal> hourlyRateInternalField;
+        
+        private bool hourlyRateInternalFieldSpecified;
+        
         public ProjectTime()
         {
             this.statusField = ProjectTimeStatus.CHANGEABLE;
@@ -3172,6 +3212,62 @@ namespace timrlink.net.Core.API
             set
             {
                 this.taskUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=15)]
+        public System.Nullable<decimal> hourlyRate
+        {
+            get
+            {
+                return this.hourlyRateField;
+            }
+            set
+            {
+                this.hourlyRateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hourlyRateSpecified
+        {
+            get
+            {
+                return this.hourlyRateFieldSpecified;
+            }
+            set
+            {
+                this.hourlyRateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=16)]
+        public System.Nullable<decimal> hourlyRateInternal
+        {
+            get
+            {
+                return this.hourlyRateInternalField;
+            }
+            set
+            {
+                this.hourlyRateInternalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hourlyRateInternalSpecified
+        {
+            get
+            {
+                return this.hourlyRateInternalFieldSpecified;
+            }
+            set
+            {
+                this.hourlyRateInternalFieldSpecified = value;
             }
         }
     }
@@ -3464,6 +3560,28 @@ namespace timrlink.net.Core.API
         private string parentUuidField;
         
         private bool descriptionRequiredField;
+        
+        private string addressField;
+        
+        private string cityField;
+        
+        private string zipCodeField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private System.Nullable<double> latitudeField;
+        
+        private bool latitudeFieldSpecified;
+        
+        private System.Nullable<double> longitudeField;
+        
+        private bool longitudeFieldSpecified;
+        
+        private System.Nullable<int> locationRestrictionRadiusField;
+        
+        private bool locationRestrictionRadiusFieldSpecified;
         
         public Task()
         {
@@ -3887,6 +4005,160 @@ namespace timrlink.net.Core.API
             set
             {
                 this.descriptionRequiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=22)]
+        public string address
+        {
+            get
+            {
+                return this.addressField;
+            }
+            set
+            {
+                this.addressField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=23)]
+        public string city
+        {
+            get
+            {
+                return this.cityField;
+            }
+            set
+            {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=24)]
+        public string zipCode
+        {
+            get
+            {
+                return this.zipCodeField;
+            }
+            set
+            {
+                this.zipCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=25)]
+        public string state
+        {
+            get
+            {
+                return this.stateField;
+            }
+            set
+            {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=26)]
+        public string country
+        {
+            get
+            {
+                return this.countryField;
+            }
+            set
+            {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=27)]
+        public System.Nullable<double> latitude
+        {
+            get
+            {
+                return this.latitudeField;
+            }
+            set
+            {
+                this.latitudeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool latitudeSpecified
+        {
+            get
+            {
+                return this.latitudeFieldSpecified;
+            }
+            set
+            {
+                this.latitudeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=28)]
+        public System.Nullable<double> longitude
+        {
+            get
+            {
+                return this.longitudeField;
+            }
+            set
+            {
+                this.longitudeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool longitudeSpecified
+        {
+            get
+            {
+                return this.longitudeFieldSpecified;
+            }
+            set
+            {
+                this.longitudeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=29)]
+        public System.Nullable<int> locationRestrictionRadius
+        {
+            get
+            {
+                return this.locationRestrictionRadiusField;
+            }
+            set
+            {
+                this.locationRestrictionRadiusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool locationRestrictionRadiusSpecified
+        {
+            get
+            {
+                return this.locationRestrictionRadiusFieldSpecified;
+            }
+            set
+            {
+                this.locationRestrictionRadiusFieldSpecified = value;
             }
         }
     }

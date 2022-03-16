@@ -67,7 +67,6 @@ namespace timrlink.net.CLI.Actions
                 task.zipCode = entry.ZipCode;
                 task.state = entry.State;
                 task.country = entry.Country;
-                task.latitude = entry.Latitude;
 
                 // We only set latitude and longitude if we find both
                 if (entry.Latitude != null && entry.Longitude != null)

@@ -1,4 +1,3 @@
 Task;Bookable;Billable;Description;Start;End;DescriptionRequired;Address;City;ZipCode;State;Country;Latitude;Longitude
-Customer A|Project1|Task1;True;False;Awesome;;;False;Martinistraße 8/2;Leonding;4060;Oberösterreich;Österreich;48.24667401604659;14.261058142679113
-Customer A|Project1;True;True;;;;True;Martinistraße 8/2;;4060;;Österreich;48.24667401604659;14.261058142679113
-Customer A|Project2;false;true;;2019-05-16;;true;Martinistraße 8/2;Leonding;4060;Oberösterreich;Österreich;48.24667401604659;
+Orts basiert|Poolhall;True;True;;;;True;Wattstraße 6;Linz;4030;;Österreich;48,24676258791299;14,265460834572343
+Orts basiert|Burgerking;false;true;;2019-05-16;;true;Salzburger Str. 385;Linz;4030;Oberösterreich;Österreich;48,246955491407704;

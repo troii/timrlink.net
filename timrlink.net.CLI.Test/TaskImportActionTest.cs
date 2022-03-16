@@ -513,67 +513,63 @@ namespace timrlink.net.CLI.Test
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_address.csv", false, taskService);
             await importAction.Execute();
 
-            Assert.AreEqual(5, tasks.Count);
-
+            Assert.AreEqual(3, tasks.Count);
+            
             {
                 var task = tasks[0];
-                Assert.AreEqual("Customer A", task.name);
-                Assert.AreEqual("Customer A", task.externalId);
+                Assert.AreEqual("Orts basiert", task.name);
+                Assert.AreEqual("Orts basiert", task.externalId);
                 Assert.IsNull(task.parentExternalId);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(false, task.billable);
                 Assert.IsNull(task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
+                Assert.Null(task.address);
+                Assert.Null(task.city);
+                Assert.Null(task.zipCode);
+                Assert.Null(task.state);
+                Assert.Null(task.country);
+                Assert.Null(task.latitude);
+                Assert.Null(task.longitude);
             }
 
             {
                 var task = tasks[1];
-                Assert.AreEqual("Project1", task.name);
-                Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual("Customer A", task.parentExternalId);
-                Assert.AreEqual(false, task.bookable);
-                Assert.AreEqual(false, task.billable);
-                Assert.IsNull(task.description);
+                Assert.AreEqual("Poolhall", task.name);
+                Assert.AreEqual("Orts basiert|Poolhall", task.externalId);
+                Assert.AreEqual("Orts basiert", task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("", task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
+                Assert.AreEqual("Wattstraße 6", task.address);
+                Assert.AreEqual("Linz", task.city);
+                Assert.AreEqual("4030", task.zipCode);
+                Assert.AreEqual("",task.state);
+                Assert.AreEqual("Österreich", task.country);
+                Assert.AreEqual(48.24676258791299, task.latitude);
+                Assert.AreEqual(14.265460834572343, task.longitude);
             }
 
             {
                 var task = tasks[2];
-                Assert.AreEqual("Task1", task.name);
-                Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
-                Assert.AreEqual("Customer A|Project1", task.parentExternalId);
-                Assert.AreEqual(true, task.bookable);
-                Assert.AreEqual(false, task.billable);
-                Assert.AreEqual("Awesome", task.description);
-                Assert.IsNull(task.start);
-                Assert.IsNull(task.end);
-            }
-
-            {
-                // same as task[1] - but update will be performed
-                var task = tasks[3];
-                Assert.AreEqual("Project1", task.name);
-                Assert.AreEqual("Customer A|Project1", task.externalId);
-                Assert.AreEqual("Customer A", task.parentExternalId);
-                Assert.AreEqual(true, task.bookable);
-                Assert.AreEqual(true, task.billable);
-                Assert.IsTrue(String.IsNullOrEmpty(task.description));
-                Assert.IsNull(task.start);
-                Assert.IsNull(task.end);
-            }
-
-            {
-                var task = tasks[4];
-                Assert.AreEqual("Project2", task.name);
-                Assert.AreEqual("Customer A|Project2", task.externalId);
-                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.AreEqual("Burgerking", task.name);
+                Assert.AreEqual("Orts basiert|Burgerking", task.externalId);
+                Assert.AreEqual("Orts basiert", task.parentExternalId);
                 Assert.AreEqual(false, task.bookable);
                 Assert.AreEqual(true, task.billable);
-                Assert.IsTrue(String.IsNullOrEmpty(task.description));
+                Assert.AreEqual("",task.description);
                 Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
                 Assert.IsNull(task.end);
+                Assert.AreEqual("Salzburger Str. 385", task.address);
+                Assert.AreEqual("Linz", task.city);
+                Assert.AreEqual("4030", task.zipCode);
+                Assert.AreEqual("Oberösterreich", task.state);
+                Assert.AreEqual("Österreich", task.country);
+                Assert.IsNull(task.latitude);
+                Assert.IsNull(task.longitude);
             }
         }
     }

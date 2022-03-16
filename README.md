@@ -84,6 +84,14 @@ Customer A|Project1;True;True;;;;Support
 Customer A|Project2;false;true;;2019-05-16;;Development,Testing
 ```
 
+Optionally address information and latitude longitude can be specified in the following format:
+
+```
+Task;Bookable;Billable;Description;Start;End;DescriptionRequired;Address;City;ZipCode;State;Country;Latitude;Longitude
+Orts basiert|Poolhall;True;True;;;;True;Wattstraße 6;Linz;4030;;Österreich;48,24676258791299;14,265460834572343
+Orts basiert|Burgerking;false;true;;2019-05-16;;true;Martinistraße 8/2;Leonding;4060;Oberösterreich;Österreich;48,246955491407704;
+```
+
 Custom Fields and Subtasks can also be specified together.
 
 #### Export project times to DB

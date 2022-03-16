@@ -487,5 +487,94 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField3);
             }
         }
+
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationWithAddress()
+        {
+            var tasks = new List<Task>();
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => tasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => tasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_address.csv", false, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(5, tasks.Count);
+
+            {
+                var task = tasks[0];
+                Assert.AreEqual("Customer A", task.name);
+                Assert.AreEqual("Customer A", task.externalId);
+                Assert.IsNull(task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(false, task.billable);
+                Assert.IsNull(task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+            }
+
+            {
+                var task = tasks[1];
+                Assert.AreEqual("Project1", task.name);
+                Assert.AreEqual("Customer A|Project1", task.externalId);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(false, task.billable);
+                Assert.IsNull(task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+            }
+
+            {
+                var task = tasks[2];
+                Assert.AreEqual("Task1", task.name);
+                Assert.AreEqual("Customer A|Project1|Task1", task.externalId);
+                Assert.AreEqual("Customer A|Project1", task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(false, task.billable);
+                Assert.AreEqual("Awesome", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+            }
+
+            {
+                // same as task[1] - but update will be performed
+                var task = tasks[3];
+                Assert.AreEqual("Project1", task.name);
+                Assert.AreEqual("Customer A|Project1", task.externalId);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.IsTrue(String.IsNullOrEmpty(task.description));
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+            }
+
+            {
+                var task = tasks[4];
+                Assert.AreEqual("Project2", task.name);
+                Assert.AreEqual("Customer A|Project2", task.externalId);
+                Assert.AreEqual("Customer A", task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.IsTrue(String.IsNullOrEmpty(task.description));
+                Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
+                Assert.IsNull(task.end);
+            }
+        }
     }
 }

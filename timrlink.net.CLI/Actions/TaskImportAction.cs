@@ -137,6 +137,27 @@ namespace timrlink.net.CLI.Actions
 
             [Optional] 
             public bool DescriptionRequired { get; set; }
+            
+            [Optional] 
+            public string Address { get; set; }
+            
+            [Optional] 
+            public string City { get; set; }
+            
+            [Optional] 
+            public int ZipCode { get; set; }
+            
+            [Optional] 
+            public string State { get; set; }
+            
+            [Optional] 
+            public string Country { get; set; }
+            
+            [Optional] 
+            public float? Latitude { get; set; }
+            
+            [Optional] 
+            public float? Longitude { get; set; }
         }
     }
 }

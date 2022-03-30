@@ -102,7 +102,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Customer A", task.parentExternalId);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(true, task.billable);
-                Assert.IsNull(task.description);
+                Assert.IsEmpty(task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
             }
@@ -133,12 +133,8 @@ namespace timrlink.net.CLI.Test
 
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_customfields.csv", false, taskService);
             await importAction.Execute();
-
-<<<<<<< Updated upstream
-            Assert.AreEqual(4, tasks.Count);
-=======
+            
             Assert.AreEqual(4, addedTasks.Count);
->>>>>>> Stashed changes
 
             {
                 var task = addedTasks[0];
@@ -189,11 +185,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-<<<<<<< Updated upstream
-                var task = tasks[3];
-=======
                 var task = addedTasks[3];
->>>>>>> Stashed changes
                 Assert.AreEqual("Project2", task.name);
                 Assert.AreEqual("Customer A|Project2", task.externalId);
                 Assert.AreEqual("Customer A", task.parentExternalId);

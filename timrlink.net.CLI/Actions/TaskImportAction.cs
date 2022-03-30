@@ -31,7 +31,8 @@ namespace timrlink.net.CLI.Actions
         {
             var tasks = TaskService.FlattenTasks(await TaskService.GetTaskHierarchy());
             var taskTokenDictionary = tasks.ToTokenDictionary();
-
+            var addedTasks = new Dictionary<string, timrlink.net.Core.API.Task>();
+            
             Logger.LogInformation($"Found {tasks.Count} existing timr tasks.");
 
             var csvEntries = ParseFile();
@@ -43,7 +44,7 @@ namespace timrlink.net.CLI.Actions
             {
                 var taskTokens = entry.Task.Split("|");
                 var parentTaskTokens = taskTokens.SkipLast(1).ToList();
-                await TaskService.AddTaskTreeRecursive(null, parentTaskTokens, taskTokenDictionary, bookable: false);
+                await TaskService.AddTaskTreeRecursive(null, parentTaskTokens, taskTokenDictionary, addedTasks, bookable: false);
 
                 var parentExternalId = String.Join("|", parentTaskTokens);
                 var task = taskTokenDictionary.TryGetValue(entry.Task, out var existingTask) ? existingTask.Clone() : new Core.API.Task();
@@ -89,7 +90,7 @@ namespace timrlink.net.CLI.Actions
                 }
             }
 
-            await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, csvTasks, updateTasks: updateTasks);
+            await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, addedTasks, csvTasks, updateTasks: updateTasks);
         }
 
         private IList<CSVEntry> ParseFile()

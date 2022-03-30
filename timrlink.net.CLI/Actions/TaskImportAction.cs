@@ -72,7 +72,9 @@ namespace timrlink.net.CLI.Actions
                 if (entry.Latitude != null && entry.Longitude != null)
                 {
                     task.latitude = entry.Latitude;
+                    task.latitudeSpecified = true;
                     task.longitude = entry.Longitude;
+                    task.longitudeSpecified = true;
                 }
 
                 csvTasks.Add(task);

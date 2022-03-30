@@ -40,7 +40,7 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", true, taskService);
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
             await importAction.Execute();
 
             Assert.AreEqual(4, tasks.Count);

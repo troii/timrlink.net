@@ -97,6 +97,7 @@ namespace timrlink.net.Core.Service
 
                 await AddTask(newTask);
                 taskTokenDictionary.Add(currentPath, newTask);
+                addedTasks.Add(currentPath, newTask);
             }
             else if (task.externalId != currentPath)
             {
@@ -156,9 +157,9 @@ namespace timrlink.net.Core.Service
         {
             logger.LogDebug($"Checking Task(Name={task.name}, ExternalId={task.externalId})");
 
-            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask))
+            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask) && updateTask)
             {
-                if (updateTask && !equalityComparer.Equals(task, existingTask))
+                if (!equalityComparer.Equals(task, existingTask))
                 {
                     logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
                     await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);

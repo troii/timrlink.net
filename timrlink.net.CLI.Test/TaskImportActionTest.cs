@@ -209,7 +209,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Customer A", task.parentExternalId);
                 Assert.AreEqual(true, task.bookable);
                 Assert.AreEqual(true, task.billable);
-                Assert.IsNull(task.description);
+                Assert.IsEmpty(task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
             }

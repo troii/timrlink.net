@@ -31,7 +31,7 @@ namespace timrlink.net.CLI.Actions
         {
             var tasks = TaskService.FlattenTasks(await TaskService.GetTaskHierarchy());
             var taskTokenDictionary = tasks.ToTokenDictionary();
-            var addedTasks = new Dictionary<string, timrlink.net.Core.API.Task>();
+            var addedTasks = new Dictionary<string, Core.API.Task>();
             
             Logger.LogInformation($"Found {tasks.Count} existing timr tasks.");
 

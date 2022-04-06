@@ -61,6 +61,7 @@ namespace timrlink.net.CLI.Actions
                 task.customField1 = entry.CustomField1;
                 task.customField2 = entry.CustomField2;
                 task.customField3 = entry.CustomField3;
+                task.descriptionRequired = entry.DescriptionRequired;
 
                 csvTasks.Add(task);
 
@@ -133,6 +134,9 @@ namespace timrlink.net.CLI.Actions
 
             [Ignore]
             public string[] SubtasksSplitted => Subtasks.Split(",");
+
+            [Optional] 
+            public bool DescriptionRequired { get; set; }
         }
     }
 }

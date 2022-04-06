@@ -161,7 +161,7 @@ namespace timrlink.net.Core.Service
             {
                 if (!equalityComparer.Equals(task, existingTask))
                 {
-                    logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
+                    logger.LogInformation($"Updating existing Task(Name={task.name}, ExternalId={task.externalId})");
                     await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
                     existingTaskIDs[task.externalId] = task;
                 }
@@ -170,7 +170,7 @@ namespace timrlink.net.Core.Service
             {
                 if (!equalityComparer.Equals(task, newAddedTask))
                 {
-                    logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
+                    logger.LogInformation($"Updating Task that was created before (Name={task.name}, ExternalId={task.externalId})");
                     await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
                     existingTaskIDs[task.externalId] = task;
                 }    

@@ -491,7 +491,8 @@ namespace timrlink.net.CLI.Test
         [Test]
         public async System.Threading.Tasks.Task TaskCreationWithAddress()
         {
-            var tasks = new List<Task>();
+            var createdTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
@@ -501,11 +502,11 @@ namespace timrlink.net.CLI.Test
                 .ReturnsAsync(new GetTasksResponse(new Task[0]));
             timrSyncMock
                 .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
-                .Callback((AddTaskRequest addTaskRequest) => tasks.Add(addTaskRequest.AddTaskRequest1))
+                .Callback((AddTaskRequest addTaskRequest) => createdTasks.Add(addTaskRequest.AddTaskRequest1))
                 .ReturnsAsync(new AddTaskResponse());
             timrSyncMock
                 .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
-                .Callback<UpdateTaskRequest>(request => tasks.Add(request.UpdateTaskRequest1))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
                 .ReturnsAsync(new UpdateTaskResponse());
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
@@ -513,10 +514,10 @@ namespace timrlink.net.CLI.Test
             var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_address.csv", false, taskService);
             await importAction.Execute();
 
-            Assert.AreEqual(3, tasks.Count);
+            Assert.AreEqual(3, createdTasks.Count);
             
             {
-                var task = tasks[0];
+                var task = createdTasks[0];
                 Assert.AreEqual("Orts basiert", task.name);
                 Assert.AreEqual("Orts basiert", task.externalId);
                 Assert.IsNull(task.parentExternalId);
@@ -535,7 +536,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = tasks[1];
+                var task = createdTasks[1];
                 Assert.AreEqual("Poolhall", task.name);
                 Assert.AreEqual("Orts basiert|Poolhall", task.externalId);
                 Assert.AreEqual("Orts basiert", task.parentExternalId);
@@ -554,7 +555,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var task = tasks[2];
+                var task = createdTasks[2];
                 Assert.AreEqual("Burgerking", task.name);
                 Assert.AreEqual("Orts basiert|Burgerking", task.externalId);
                 Assert.AreEqual("Orts basiert", task.parentExternalId);
@@ -570,6 +571,27 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Österreich", task.country);
                 Assert.IsNull(task.latitude);
                 Assert.IsNull(task.longitude);
+            }
+            
+            Assert.AreEqual(1, updatedTasks.Count);
+            
+            {
+                var task = updatedTasks[0];
+                Assert.AreEqual("Orts basiert", task.name);
+                Assert.AreEqual("Orts basiert", task.externalId);
+                Assert.AreEqual("", task.parentExternalId);
+                Assert.IsTrue(task.bookable);
+                Assert.IsTrue(task.billable);
+                Assert.AreEqual("", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual("Martinistraße 8/2",task.address);
+                Assert.AreEqual("Leonding",task.city);
+                Assert.AreEqual("4060", task.zipCode);
+                Assert.AreEqual("", task.state);
+                Assert.AreEqual("Österreich", task.country);
+                Assert.AreEqual(48.246461, task.latitude);
+                Assert.AreEqual(14.261041, task.longitude);
             }
         }
     }

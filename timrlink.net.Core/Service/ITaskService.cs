@@ -6,7 +6,7 @@ namespace timrlink.net.Core.Service
 {
     public interface ITaskService
     {
-        Task<IList<API.Task>> GetTaskHierarchy();
+        Task<IList<API.Task>> GetTaskHierarchy(API.GetTasksRequest request = null);
 
         IList<API.Task> FlattenTasks(IEnumerable<API.Task> tasks);
         

@@ -15,10 +15,10 @@ namespace timrlink.net.Core.Service
 
         Task AddTask(API.Task task);
 
-        Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens, IDictionary<string, API.Task> taskTokenDictionary, bool bookable);
+        Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens, IDictionary<string, API.Task> taskTokenDictionary, IDictionary<string, API.Task> addedTasks,  bool bookable);
 
         Task UpdateTask(API.Task task);
 
-        Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null);
+        Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IDictionary<string, API.Task> addedTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null);
     }
 }

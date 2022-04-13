@@ -78,7 +78,7 @@ namespace timrlink.net.Core.Service
             await timrSync.AddTaskAsync(new API.AddTaskRequest(task)).ConfigureAwait(false);
         }
         
-        public async Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens, IDictionary<string, API.Task> taskTokenDictionary, bool bookable)
+        public async Task AddTaskTreeRecursive(string parentPath, IList<string> pathTokens, IDictionary<string, API.Task> taskTokenDictionary, IDictionary<string, API.Task> addedTasks, bool bookable)
         {
             if (pathTokens.Count == 0) return;
 
@@ -94,8 +94,10 @@ namespace timrlink.net.Core.Service
                     externalId = currentPath,
                     bookable = bookable
                 };
+
                 await AddTask(newTask);
                 taskTokenDictionary.Add(currentPath, newTask);
+                addedTasks.Add(currentPath, newTask);
             }
             else if (task.externalId != currentPath)
             {
@@ -103,7 +105,7 @@ namespace timrlink.net.Core.Service
                 await UpdateTask(task);
             }
 
-            await AddTaskTreeRecursive(currentPath, pathTokens.Skip(1).ToList(), taskTokenDictionary, bookable);
+            await AddTaskTreeRecursive(currentPath, pathTokens.Skip(1).ToList(), taskTokenDictionary, addedTasks, bookable);
         }
 
         public async Task UpdateTask(API.Task task)
@@ -112,7 +114,7 @@ namespace timrlink.net.Core.Service
             await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
         }
 
-        public async Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
+        public async Task SynchronizeTasksByExternalId(IDictionary<string, API.Task> existingTasks, IDictionary<string, API.Task> addedTasks, IList<API.Task> remoteTasks, bool updateTasks = false, bool disableMissingTasks = false, IEqualityComparer<API.Task> equalityComparer = null)
         {
             if (equalityComparer == null)
             {
@@ -138,7 +140,7 @@ namespace timrlink.net.Core.Service
             {
                 try
                 {
-                    await AddOrUpdateTask(existingTasks, task, updateTasks, equalityComparer).ConfigureAwait(false);
+                    await AddOrUpdateTask(existingTasks, addedTasks, task, updateTasks, equalityComparer).ConfigureAwait(false);
                 }
                 catch (FaultException e)
                 {
@@ -151,18 +153,27 @@ namespace timrlink.net.Core.Service
             }
         }
 
-        protected async Task AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
+        protected async Task AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, IDictionary<string, API.Task> addedTasks, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
         {
             logger.LogDebug($"Checking Task(Name={task.name}, ExternalId={task.externalId})");
 
-            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask))
+            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask) && updateTask)
             {
-                if (updateTask && !equalityComparer.Equals(task, existingTask))
+                if (!equalityComparer.Equals(task, existingTask))
                 {
-                    logger.LogInformation($"Updating Task(Name={task.name}, ExternalId={task.externalId})");
+                    logger.LogInformation($"Updating existing Task(Name={task.name}, ExternalId={task.externalId})");
                     await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
                     existingTaskIDs[task.externalId] = task;
                 }
+            }
+            else if (addedTasks.TryGetValue(task.externalId, out var newAddedTask))
+            {
+                if (!equalityComparer.Equals(task, newAddedTask))
+                {
+                    logger.LogInformation($"Updating Task that was created before (Name={task.name}, ExternalId={task.externalId})");
+                    await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
+                    existingTaskIDs[task.externalId] = task;
+                }    
             }
             else
             {

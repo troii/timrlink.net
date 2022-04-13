@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
@@ -64,7 +65,7 @@ namespace timrlink.net.CLI.Actions
                     continue;
                 }
 
-                await TaskService.AddTaskTreeRecursive(null, record.externalTaskId.Split("|"), taskTokenDictionary, bookable: true);
+                await TaskService.AddTaskTreeRecursive(null, record.externalTaskId.Split("|"), taskTokenDictionary, new Dictionary<string, Task>(), bookable: true);
                 await ProjectTimeService.SaveProjectTime(record);
             }
         }

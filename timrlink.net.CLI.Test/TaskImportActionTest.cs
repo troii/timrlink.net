@@ -549,7 +549,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Linz", task.city);
                 Assert.AreEqual("4030", task.zipCode);
                 Assert.AreEqual("",task.state);
-                Assert.AreEqual("Österreich", task.country);
+                Assert.AreEqual("AT", task.country);
                 Assert.AreEqual(48.24676258791299, task.latitude);
                 Assert.AreEqual(14.265460834572343, task.longitude);
             }
@@ -568,7 +568,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Linz", task.city);
                 Assert.AreEqual("4030", task.zipCode);
                 Assert.AreEqual("Oberösterreich", task.state);
-                Assert.AreEqual("Österreich", task.country);
+                Assert.AreEqual("DE", task.country);
                 Assert.IsNull(task.latitude);
                 Assert.IsNull(task.longitude);
             }
@@ -589,7 +589,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Leonding",task.city);
                 Assert.AreEqual("4060", task.zipCode);
                 Assert.AreEqual("", task.state);
-                Assert.AreEqual("Österreich", task.country);
+                Assert.AreEqual("AT", task.country);
                 Assert.AreEqual(48.246461, task.latitude);
                 Assert.AreEqual(14.261041, task.longitude);
             }

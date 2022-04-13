@@ -20,9 +20,9 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public async Task<IList<API.Task>> GetTaskHierarchy()
+        public async Task<IList<API.Task>> GetTaskHierarchy(API.GetTasksRequest request = null)
         {
-            var getTasksResponse = await timrSync.GetTasksAsync(new API.GetTasksRequest1(new API.GetTasksRequest())).ConfigureAwait(false);
+            var getTasksResponse = await timrSync.GetTasksAsync(new API.GetTasksRequest1(request ?? new API.GetTasksRequest())).ConfigureAwait(false);
             var rootTaskArray = getTasksResponse.GetTasksResponse1;
             logger.LogDebug($"Root task count: {rootTaskArray.Length}");
 

@@ -64,6 +64,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
+                Assert.IsFalse(task.descriptionRequired);
             }
 
             {
@@ -76,6 +77,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Awesome", task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
+                Assert.IsFalse(task.descriptionRequired);
             }
 
             {
@@ -88,6 +90,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsTrue(String.IsNullOrEmpty(task.description));
                 Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
                 Assert.IsNull(task.end);
+                Assert.IsTrue(task.descriptionRequired);
             }
             
             Assert.AreEqual(1, updatedTasks.Count);
@@ -102,6 +105,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsEmpty(task.description);
                 Assert.IsNull(task.start);
                 Assert.IsNull(task.end);
+                Assert.IsTrue(task.descriptionRequired);
             }
         }
 

@@ -62,6 +62,20 @@ namespace timrlink.net.CLI.Actions
                 task.customField2 = entry.CustomField2;
                 task.customField3 = entry.CustomField3;
                 task.descriptionRequired = entry.DescriptionRequired;
+                task.address = entry.Address;
+                task.city = entry.City;
+                task.zipCode = entry.ZipCode;
+                task.state = entry.State;
+                task.country = entry.Country;
+
+                // We only set latitude and longitude if we find both
+                if (entry.Latitude != null && entry.Longitude != null)
+                {
+                    task.latitude = entry.Latitude;
+                    task.latitudeSpecified = true;
+                    task.longitude = entry.Longitude;
+                    task.longitudeSpecified = true;
+                }
 
                 csvTasks.Add(task);
 
@@ -137,6 +151,27 @@ namespace timrlink.net.CLI.Actions
 
             [Optional] 
             public bool DescriptionRequired { get; set; }
+            
+            [Optional] 
+            public string Address { get; set; }
+            
+            [Optional] 
+            public string City { get; set; }
+            
+            [Optional] 
+            public string ZipCode { get; set; }
+            
+            [Optional] 
+            public string State { get; set; }
+            
+            [Optional] 
+            public string Country { get; set; }
+            
+            [Optional] 
+            public double? Latitude { get; set; }
+            
+            [Optional] 
+            public double? Longitude { get; set; }
         }
     }
 }

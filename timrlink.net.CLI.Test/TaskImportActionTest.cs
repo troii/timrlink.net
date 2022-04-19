@@ -487,5 +487,112 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField3);
             }
         }
+
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationWithAddress()
+        {
+            var createdTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => createdTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_address.csv", false, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(3, createdTasks.Count);
+            
+            {
+                var task = createdTasks[0];
+                Assert.AreEqual("Orts basiert", task.name);
+                Assert.AreEqual("Orts basiert", task.externalId);
+                Assert.IsNull(task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(false, task.billable);
+                Assert.IsNull(task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.Null(task.address);
+                Assert.Null(task.city);
+                Assert.Null(task.zipCode);
+                Assert.Null(task.state);
+                Assert.Null(task.country);
+                Assert.Null(task.latitude);
+                Assert.Null(task.longitude);
+            }
+
+            {
+                var task = createdTasks[1];
+                Assert.AreEqual("Poolhall", task.name);
+                Assert.AreEqual("Orts basiert|Poolhall", task.externalId);
+                Assert.AreEqual("Orts basiert", task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual("Wattstraße 6", task.address);
+                Assert.AreEqual("Linz", task.city);
+                Assert.AreEqual("4030", task.zipCode);
+                Assert.AreEqual("",task.state);
+                Assert.AreEqual("AT", task.country);
+                Assert.AreEqual(48.24676258791299, task.latitude);
+                Assert.AreEqual(14.265460834572343, task.longitude);
+            }
+
+            {
+                var task = createdTasks[2];
+                Assert.AreEqual("Burgerking", task.name);
+                Assert.AreEqual("Orts basiert|Burgerking", task.externalId);
+                Assert.AreEqual("Orts basiert", task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("",task.description);
+                Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual("Salzburger Str. 385", task.address);
+                Assert.AreEqual("Linz", task.city);
+                Assert.AreEqual("4030", task.zipCode);
+                Assert.AreEqual("Oberösterreich", task.state);
+                Assert.AreEqual("DE", task.country);
+                Assert.IsNull(task.latitude);
+                Assert.IsNull(task.longitude);
+            }
+            
+            Assert.AreEqual(1, updatedTasks.Count);
+            
+            {
+                var task = updatedTasks[0];
+                Assert.AreEqual("Orts basiert", task.name);
+                Assert.AreEqual("Orts basiert", task.externalId);
+                Assert.AreEqual("", task.parentExternalId);
+                Assert.IsTrue(task.bookable);
+                Assert.IsTrue(task.billable);
+                Assert.AreEqual("", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual("Martinistraße 8/2",task.address);
+                Assert.AreEqual("Leonding",task.city);
+                Assert.AreEqual("4060", task.zipCode);
+                Assert.AreEqual("", task.state);
+                Assert.AreEqual("AT", task.country);
+                Assert.AreEqual(48.246461, task.latitude);
+                Assert.AreEqual(14.261041, task.longitude);
+            }
+        }
     }
 }

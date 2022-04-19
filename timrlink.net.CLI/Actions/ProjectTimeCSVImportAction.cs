@@ -56,7 +56,7 @@ namespace timrlink.net.CLI.Actions
             public string Break { get; set; }
             public string Notes { get; set; }
             public bool Billable { get; set; }
-
+            
             public override string ToString()
             {
                 return $"Record(User={User}, Task={Task}, StartDateTime={StartDateTime}, EndDateTime={EndDateTime}, Break={Break}, Notes={Notes}, Billable={Billable}";

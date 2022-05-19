@@ -137,7 +137,7 @@ For creating a self contained package run the following command:
 dotnet publish timrlink.net.CLI/ -c Release -r win7-x64 --self-contained
 ```
 
-The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/win7-x64/publish`
+The artifacts can then be found at `timrlink.net.CLI/bin/Release/net6.0/win7-x64/publish/`
 
 ##### MacOS
 
@@ -145,7 +145,7 @@ The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/w
 dotnet publish timrlink.net.CLI/ -c Release -r osx-x64 --self-contained
 ```
 
-The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/osx-x64/publish`
+The artifacts can then be found at `timrlink.net.CLI/bin/Release/net6.0/osx-x64/publish`
 
 
 ##### Ubuntu
@@ -154,7 +154,7 @@ The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/o
 dotnet publish timrlink.net.CLI/ -c Release -r ubuntu.18.04-x64 --self-contained
 ```
 
-The artifacts can then be found at `timrlink.net.CLI/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/publish`
+The artifacts can then be found at `timrlink.net.CLI/bin/Release/net6.0/ubuntu.18.04-x64/publish`
 
 
 More on publishing dotnet core apps:

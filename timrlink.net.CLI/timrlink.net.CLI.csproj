@@ -2,7 +2,7 @@
   
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <StartupObject>timrlink.net.CLI.Program</StartupObject>
     <Company>troii Software GmbH</Company>
     <Product>timrlink.net CLI</Product>

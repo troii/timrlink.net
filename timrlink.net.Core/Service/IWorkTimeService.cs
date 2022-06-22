@@ -6,7 +6,7 @@ namespace timrlink.net.Core.Service
 {
     public interface IWorkTimeService
     {
-        Task<IList<API.WorkTime>> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
+        Task<IList<API.WorkTime>> GetWorkTimes(DateTime? start = null, DateTime? end = null, DateTime? lastModified = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null);
 
         Task SaveWorkTime(API.WorkTime workTime);
 

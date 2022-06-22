@@ -18,7 +18,7 @@ namespace timrlink.net.Core.Service
             this.timrSync = timrSync;
         }
 
-        public async Task<IList<API.WorkTime>> GetWorkTimes(DateTime? start = null, DateTime? end = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
+        public async Task<IList<API.WorkTime>> GetWorkTimes(DateTime? start = null, DateTime? end = null, DateTime? lastModified = null, List<API.WorkTimeStatus> statuses = null, string externalUserId = null, string externalWorkItemId = null)
         {
             var getWorkTimesResponse = await timrSync.GetWorkTimesAsync(new API.GetWorkTimesRequest(new API.WorkTimeQuery
             {
@@ -26,6 +26,8 @@ namespace timrlink.net.Core.Service
                 startSpecified = start != null,
                 end = end,
                 endSpecified = end != null,
+                lastModified = lastModified,
+                lastModifiedSpecified = lastModified != null,
                 statuses = statuses?.ToArray(),
                 externalUserId = externalUserId,
                 externalWorkItemId = externalWorkItemId

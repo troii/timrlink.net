@@ -10,7 +10,7 @@ namespace timrlink.net.Core.API
 
         public override string ToString()
         {
-            return $"ProjectTime({nameof(externalUserId)}: {externalUserId}, {nameof(externalTaskId)}: {externalTaskId}, {nameof(startTime)}: {startTime}, {nameof(endTime)}: {endTime})";
+            return $"ProjectTime({nameof(uuid)}: '{uuid}', {nameof(startTime)}: {startTime}, {nameof(endTime)}: {endTime}, {nameof(description)}: '{description}', {nameof(externalUserId)}: {externalUserId}, {nameof(userUuid)}: '{userUuid}', {nameof(externalTaskId)}: {externalTaskId}, {nameof(taskUuid)}: {taskUuid}, {nameof(status)}: {status})";
         }
     }
 }

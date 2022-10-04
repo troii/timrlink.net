@@ -79,7 +79,9 @@ namespace timrlink.net.CLI
 
             var exportProjectTimeCommand = new Command("export-projecttime", "Export Project times");
             exportProjectTimeCommand.AddOption(new Option<string>("connectionstring"));
-            exportProjectTimeCommand.Handler = CommandHandler.Create<string>(ExportProjectTime);
+            exportProjectTimeCommand.AddOption(new Option<string>(alias:"from"));
+            exportProjectTimeCommand.AddOption(new Option<string>(alias:"to"));
+            exportProjectTimeCommand.Handler = CommandHandler.Create<string, string, string>(ExportProjectTime);
 
             var rootCommand = new RootCommand("timrlink command line interface")
             {
@@ -116,9 +118,9 @@ namespace timrlink.net.CLI
             await new TaskImportAction(LoggerFactory, filename, update, TaskService).Execute();
         }
 
-        private async Task ExportProjectTime(string connectionString)
+        private async Task ExportProjectTime(string connectionString, string from, string to)
         {
-            await new ProjectTimeDatabaseExportAction(LoggerFactory, connectionString, UserService, TaskService, ProjectTimeService).Execute();
+            await new ProjectTimeDatabaseExportAction(LoggerFactory, connectionString, from: from, to: to, UserService, TaskService, ProjectTimeService).Execute();
         }
     }
 }

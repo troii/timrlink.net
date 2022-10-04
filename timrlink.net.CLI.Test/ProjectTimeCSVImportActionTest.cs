@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using Serilog;
 using timrlink.net.CLI.Actions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;

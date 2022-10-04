@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using timrlink.net.Core.API;
@@ -17,11 +18,16 @@ namespace timrlink.net.CLI.Actions
         private readonly IProjectTimeService projectTimeService;
         private readonly ITaskService taskService;
         private readonly IUserService userService;
+        private readonly string from;
+        private readonly string to;
+        private string dateFormatToParse = "yyyy-MM-dd HH:mm";
 
-        public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
+        public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
             logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
             context = new DatabaseContext(connectionString);
+            this.from = from;
+            this.to = to;
             this.userService = userService;
             this.taskService = taskService;
             this.projectTimeService = projectTimeService;
@@ -30,20 +36,50 @@ namespace timrlink.net.CLI.Actions
         public async Task Execute()
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
+            
+            if (String.IsNullOrEmpty(from) && !String.IsNullOrEmpty(to))
+            {
+                throw new ArgumentException("To date specified but no from date specified");
+            }
+            if (!String.IsNullOrEmpty(from) && String.IsNullOrEmpty(to))
+            {
+                throw new ArgumentException("From date specified but no to date specified");
+            }
+
+            DateTime? fromDate = null;
+            DateTime? toDate = null;
+            
+            if (!String.IsNullOrEmpty(from) && !String.IsNullOrEmpty(to))
+            {
+                fromDate = DateTime.ParseExact(from, dateFormatToParse, CultureInfo.InvariantCulture);
+                toDate = DateTime.ParseExact(to, dateFormatToParse, CultureInfo.InvariantCulture);
+            }
+
+            if (fromDate > toDate)
+            {
+                throw new ArgumentException("From date is after to date. Aborting.");
+            }
 
             await context.Database.EnsureCreatedAsync();
-
+            //await context.Database.MigrateAsync();
+            
             DateTime? lastProjectTimeImport = null;
-            var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
-            if (DateTime.TryParseExact(metadata?.Value, "o", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            if (fromDate == null)
             {
-                lastProjectTimeImport = date;
+                var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
+                if (DateTime.TryParseExact(metadata?.Value, "o", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                        out var date))
+                {
+                    lastProjectTimeImport = date;
+                }
             }
 
             logger.LogInformation("Export project times with modifications since: " + lastProjectTimeImport);
 
             var importTime = DateTime.Now;
-            var projectTimes = await projectTimeService.GetProjectTimes(lastModified: lastProjectTimeImport);
+            var projectTimes = await projectTimeService.GetProjectTimes(fromDate, toDate, lastProjectTimeImport);
+            
+            var projectTimeUUIDs = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
 
             if (projectTimes.Count > 0)
             {
@@ -57,7 +93,7 @@ namespace timrlink.net.CLI.Actions
                 // var taskDict = taskList.ToDictionary(t => t.uuid); // timr 4.16.x is currently affected by a bug returning Tasks duplicated
                 var taskDict = taskList.GroupBy(t => t.uuid).ToDictionary(g => g.Key, g => g.First());
                 logger.LogDebug($"Found {taskDict.Count} unique tasks");
-
+                
                 var dbEntities = projectTimes.Select(pt =>
                 {
                     var user = userDict.GetValueOrDefault(pt.userUuid);
@@ -78,15 +114,36 @@ namespace timrlink.net.CLI.Actions
                         Task = JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name).ToArray()),
                         Description = pt.description,
                         Billable = pt.billable
+                        //Del = false
                     };
                 });
-
-                await context.ProjectTimes.AddOrUpdateRange(dbEntities);
-                await context.SaveChangesAsync();
+                
+                await context.ProjectTimes.AddOrUpdateRange(dbEntities);    
             }
+        
+            if (fromDate != null)
+            {
+                // Flag records that are not found anymore Deleted.
+                var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
+                        projectTime.StartTime > fromDate && projectTime.EndTime < toDate)
+                    .ToList();
+                    
+                foreach (var projectTime in projectTimesInDatabase)
+                {
+                    if (!projectTimeUUIDs.Contains(projectTime.UUID))
+                    {
+                        //projectTime.Del = true;
+                    }
+                }
+            }
+                
+            await context.SaveChangesAsync();
 
-            await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
-
+            if (fromDate != null)
+            {
+                await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
+            }
+            
             logger.LogDebug("ProjectTimeDatabaseExportAction finished");
         }
 

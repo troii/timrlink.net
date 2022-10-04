@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,6 @@ namespace timrlink.net.CLI
         {
             modelBuilder.Entity<Metadata>();
             modelBuilder.Entity<ProjectTime>();
-            //modelBuilder.Entity<ProjectTime>().Property(projectTime => projectTime.Del).IsRequired(false);
         }
 
         public async Task<Metadata> GetMetadata(string key) => await Metadata.SingleOrDefaultAsync(m => m.Key == key);
@@ -84,26 +84,11 @@ namespace timrlink.net.CLI
         public DateTime LastModifiedTime { get; set; }
         public string Task { get; set; }
         public string Description { get; set; }
+        
         public bool Billable { get; set; }
-        
-        public Guid UserUUID { get; set; }
 
-        public string UserExternalId { get; set; }
-        
-        public string UserEmployeeNr { get; set; }
-        
-        public DateTimeOffset StartTimeOffset { get; set; }
-        
-        public DateTimeOffset EndTimeOffset { get; set; }
-        
-        public DateTimeOffset LastModifiedOffset { get; set; } 
-        
-        public Guid TaskUUID { get; set; }
-
-        public string TaskExternalId { get; set; }
-        
-        //[NotMapped]
-        //public bool? Del { get; set; }
+        [NotMapped]
+        public DateTimeOffset? Deleted { get; set; }
     }
 
     internal static class DbSetExtensions

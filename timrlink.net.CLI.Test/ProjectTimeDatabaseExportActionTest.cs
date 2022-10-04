@@ -67,7 +67,7 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, "test", "2022-10-01 09:01", to: "2022-10-01 12:9999", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
-            Assert.ThrowsAsync<FormatException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
         }
         
         [Test]
@@ -85,7 +85,7 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, "test", "2022-10-01 09:9999", to: "2022-10-01 12:00", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
-            Assert.ThrowsAsync<FormatException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
         }
         
         [Test]

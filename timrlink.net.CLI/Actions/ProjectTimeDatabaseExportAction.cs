@@ -37,22 +37,29 @@ namespace timrlink.net.CLI.Actions
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
             
-            if (String.IsNullOrEmpty(from) && !String.IsNullOrEmpty(to))
+            DateTime? fromDate = null;
+            DateTime? toDate = null;
+
+            if (DateTime.TryParseExact(from, dateFormatToParse, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out var date1))
+            {   
+                fromDate = date1;
+            }
+
+            if (DateTime.TryParseExact(to, dateFormatToParse, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out var date2))
+            {
+                toDate = date2;
+            }
+
+            if (fromDate == null && toDate != null)
             {
                 throw new ArgumentException("To date specified but no from date specified");
             }
-            if (!String.IsNullOrEmpty(from) && String.IsNullOrEmpty(to))
+            
+            if (fromDate != null && toDate == null)
             {
                 throw new ArgumentException("From date specified but no to date specified");
-            }
-
-            DateTime? fromDate = null;
-            DateTime? toDate = null;
-            
-            if (!String.IsNullOrEmpty(from) && !String.IsNullOrEmpty(to))
-            {
-                fromDate = DateTime.ParseExact(from, dateFormatToParse, CultureInfo.InvariantCulture);
-                toDate = DateTime.ParseExact(to, dateFormatToParse, CultureInfo.InvariantCulture);
             }
 
             if (fromDate > toDate)
@@ -68,9 +75,9 @@ namespace timrlink.net.CLI.Actions
             {
                 var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
                 if (DateTime.TryParseExact(metadata?.Value, "o", CultureInfo.InvariantCulture, DateTimeStyles.None,
-                        out var date))
+                        out var date3))
                 {
-                    lastProjectTimeImport = date;
+                    lastProjectTimeImport = date3;
                 }
             }
 
@@ -113,8 +120,8 @@ namespace timrlink.net.CLI.Actions
                         LastModifiedTime = pt.lastModifiedTime,
                         Task = JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name).ToArray()),
                         Description = pt.description,
-                        Billable = pt.billable
-                        //Del = false
+                        Billable = pt.billable,
+                        Deleted = DateTimeOffset.Now
                     };
                 });
                 
@@ -132,7 +139,7 @@ namespace timrlink.net.CLI.Actions
                 {
                     if (!projectTimeUUIDs.Contains(projectTime.UUID))
                     {
-                        //projectTime.Del = true;
+                        projectTime.Deleted = null;
                     }
                 }
             }

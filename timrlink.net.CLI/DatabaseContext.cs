@@ -87,7 +87,7 @@ namespace timrlink.net.CLI
         
         public bool Billable { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public DateTimeOffset? Deleted { get; set; }
     }
 

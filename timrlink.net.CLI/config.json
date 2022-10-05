@@ -1,7 +1,9 @@
 {
   "timrSync": {
-    "identifier": "",
-    "token": ""
+    "identifier": "gugmaster",
+    "token": "09cd770cffa34db69c65d3ec8fb48572",
+    "host": "https://timrsync.mobile.troii.dev/timr",
+    "debug": true
   },
   "Serilog": {
     "MinimumLevel": {

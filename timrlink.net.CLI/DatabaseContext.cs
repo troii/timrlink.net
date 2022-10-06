@@ -6,16 +6,21 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace timrlink.net.CLI
 {
     public class DatabaseContext : DbContext
     {
-        private readonly string connectionString;
+        private readonly string? connectionString;
 
         public DbSet<ProjectTime> ProjectTimes { get; set; }
-        private DbSet<Metadata> Metadata { get; set; }
-        
+        public DbSet<Metadata> Metadata { get; set; }
+
+        public DatabaseContext()
+        {
+        }
+
         public DatabaseContext(string connectionString)
         {
             this.connectionString = connectionString;
@@ -23,7 +28,14 @@ namespace timrlink.net.CLI
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            if (connectionString == null)
+            {
+                optionsBuilder.UseInMemoryDatabase("timrlinkMemoryDatabase");
+            }   
+            else
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

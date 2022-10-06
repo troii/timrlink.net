@@ -120,7 +120,8 @@ namespace timrlink.net.CLI
 
         private async Task ExportProjectTime(string connectionString, string from, string to)
         {
-            await new ProjectTimeDatabaseExportAction(LoggerFactory, connectionString, from: from, to: to, UserService, TaskService, ProjectTimeService).Execute();
+            var context = new DatabaseContext(connectionString);
+            await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService, TaskService, ProjectTimeService).Execute();
         }
     }
 }

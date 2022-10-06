@@ -22,10 +22,10 @@ namespace timrlink.net.CLI.Actions
         private readonly string to;
         private string dateFormatToParse = "yyyy-MM-dd HH:mm";
 
-        public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
+        public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
             logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
-            context = new DatabaseContext(connectionString);
+            this.context = context;
             this.from = from;
             this.to = to;
             this.userService = userService;
@@ -104,24 +104,29 @@ namespace timrlink.net.CLI.Actions
                 {
                     var user = userDict.GetValueOrDefault(pt.userUuid);
 
-                    return new ProjectTime
-                    {
-                        UUID = Guid.Parse(pt.uuid),
-                        User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid,
-                        StartTime = pt.startTime,
-                        EndTime = pt.endTime,
-                        Duration = pt.duration,
-                        BreakTime = pt.breakTime,
-                        Changed = pt.changed,
-                        Closed = pt.closed,
-                        StartPosition = LatLon(pt.startPosition),
-                        EndPosition = LatLon(pt.endPosition),
-                        LastModifiedTime = pt.lastModifiedTime,
-                        Task = JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name).ToArray()),
-                        Description = pt.description,
-                        Billable = pt.billable,
-                        Deleted = DateTimeOffset.Now
-                    };
+                    var projectTime = context.ProjectTimes
+                        .Where(projectTime => projectTime.UUID.ToString() == pt.uuid)
+                        .FirstOrDefault() ?? new ProjectTime();
+
+                    projectTime.UUID = Guid.Parse(pt.uuid);
+                    projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
+                    projectTime.StartTime = pt.startTime;
+                    projectTime.EndTime = pt.endTime;
+                    projectTime.Duration = pt.duration;
+                    projectTime.BreakTime = pt.breakTime;
+                    projectTime.Changed = pt.changed;
+                    projectTime.Closed = pt.closed;
+                    projectTime.StartPosition = LatLon(pt.startPosition);
+                    projectTime.EndPosition = LatLon(pt.endPosition);
+                    projectTime.LastModifiedTime = pt.lastModifiedTime;
+                    projectTime.Task =
+                        JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name)
+                            .ToArray());
+                    projectTime.Description = pt.description;
+                    projectTime.Billable = pt.billable;
+                    projectTime.Deleted = null;
+
+                    return projectTime;
                 });
                 
                 await context.ProjectTimes.AddOrUpdateRange(dbEntities);    
@@ -138,14 +143,14 @@ namespace timrlink.net.CLI.Actions
                 {
                     if (!projectTimeUUIDs.Contains(projectTime.UUID))
                     {
-                        projectTime.Deleted = null;
+                        projectTime.Deleted = DateTimeOffset.Now;
                     }
                 }
             }
                 
             await context.SaveChangesAsync();
 
-            if (fromDate != null)
+            if (fromDate == null)
             {
                 await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
             }

@@ -5,6 +5,18 @@
 ​
 Enthält das Datenmodell und den vollständigen Datenzugriff über Entity Framework Core.
 ​
+### Preperation on M1 Mac
+
+Zu Beginn hatte ich Probleme dotnet ef auszuführen. Nach einiger Recherge bin ich darauf gestossen:
+
+https://stackoverflow.com/questions/70929949/on-mac-m1-machine-not-able-to-run-ef-core-migrations-add-update-in-asp-net-co
+
+Folgender Befehl hat mir geholfen um die dotnet ef ausführen zu können. 
+
+```
+export DOTNET_ROLL_FORWARD=LatestMajor
+```
+
 ### Migration
 ​
 Wenn Model-Änderungen gemacht werden muss eine Migration angelegt werden.

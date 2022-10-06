@@ -100,7 +100,13 @@ Custom Fields and Subtasks can also be specified together.
 Currently only Microsoft SQL Server is supported. The connection string for the database has to be specified as argument.
 
 ```
-timrlink export-projecttime connectionstring <connectionstring>
+timrlink export-projecttime connectionstring <connectionstring> [from] [to]
+
+Options:
+from    Specifies Date from which on Project times are exported    
+to      Specifies Date until project times are exported (Only working if both parameters are specified in the following formate: 'yyyy-MM-dd HH:mm')
+        Works only if to date is after from date. If this is not specified the old behavior comes in where after each run a timestamp is stored. At the
+        next run it starts where the last period ended.
 ```
 
 Project times will get exported to the specified database. Required tables get created automatically.

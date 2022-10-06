@@ -77,15 +77,18 @@ namespace timrlink.net.CLI.Actions
                         out var date3))
                 {
                     lastProjectTimeImport = date3;
+                    logger.LogInformation("Export project times with modifications since: " + lastProjectTimeImport);
                 }
             }
-
-            logger.LogInformation("Export project times with modifications since: " + lastProjectTimeImport);
-
+            else
+            {
+                logger.LogInformation("Export project times from: " + fromDate + " to: " + toDate);
+            }
+            
             var importTime = DateTime.Now;
             var projectTimes = await projectTimeService.GetProjectTimes(fromDate, toDate, lastProjectTimeImport);
             
-            var projectTimeUUIDs = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
+            var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
 
             if (projectTimes.Count > 0)
             {
@@ -141,7 +144,7 @@ namespace timrlink.net.CLI.Actions
                     
                 foreach (var projectTime in projectTimesInDatabase)
                 {
-                    if (!projectTimeUUIDs.Contains(projectTime.UUID))
+                    if (!projectTimeUuids.Contains(projectTime.UUID))
                     {
                         projectTime.Deleted = DateTimeOffset.Now;
                     }

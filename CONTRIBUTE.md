@@ -5,6 +5,16 @@
 ​
 Enthält das Datenmodell und den vollständigen Datenzugriff über Entity Framework Core.
 ​
+### Vorbereitungen
+
+Zu Beginn müssen die dotnet ef tools installiert werden.
+
+https://learn.microsoft.com/en-gb/ef/core/cli/dotnet
+
+Das hab ich direkt in Rider als Paket (Nu Get) hinzugefügt (War einfacher).
+
+dotnet add package Microsoft.EntityFrameworkCore.Design
+
 ### Preperation on M1 Mac
 
 Zu Beginn hatte ich Probleme dotnet ef auszuführen. Nach einiger Recherge bin ich darauf gestossen:

@@ -1,7 +1,7 @@
-# POS Transaktions Server
+# TIMRLINK CLI
 ​
 ​
-## TransactionServer.Data
+## timrlink.net.CLI.Migrations
 ​
 Enthält das Datenmodell und den vollständigen Datenzugriff über Entity Framework Core.
 ​
@@ -10,42 +10,17 @@ Enthält das Datenmodell und den vollständigen Datenzugriff über Entity Framew
 Wenn Model-Änderungen gemacht werden muss eine Migration angelegt werden.
 Dazu werden die [Entity Framework Core tools](https://docs.microsoft.com/en-gb/ef/core/miscellaneous/cli/dotnet) verwendet. 
 ​
-Um eine Migration anzulegen muss folgender Command ausgeführt werden:
+Um eine Migration anzulegen muss folgender Befehl ausgeführt werden (Wird nur benötigt um in Zukunft neue Migrationen zu erstellen)
 ​
 ```
-dotnet dotnet-ef --project TransactionServer.Data --startup-project TransactionServer.API migrations add <migration_name>
+dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI migrations add AddDeletedColumnToProjectTimes 
 ```
 ​
 Dabei wird die in TransactionServer.API verwendete DataSource als Referenz vom alten Schema genommen.
 ​
-Um die aktuell konfigurierte Datenbank auf das aktuellste Schema upzudaten:
+Um die aktuell konfigurierte Datenbank auf das aktuellste Schema zu aktualisieren:
 ​
 ```
-dotnet dotnet-ef --project TransactionServer.Data --startup-project TransactionServer.API database update
+dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI database  update AddDeletedColumnToProjectTimes -- "Server=[ADRESSE]; Database=[DATENBANK_NAME]; User Id=[BENUTZER_NAME]; Password=[PASSWORT];"
+
 ```
-​
-Das SQL Script zum manuellen migrieren einer DB kann folgendermaßen generiert werden:
-​
-```
-dotnet dotnet-ef --project TransactionServer.Data --startup-project TransactionServer.API migrations script
-```
-​
-Um ein manulles Migrations-Skript zu erzeugen welches unabhängig von den bereits angewendeten Migration ist kann folgender Aufruf verwendet werden:
-​
-```
-dotnet dotnet-ef --project TransactionServer.Data --startup-project TransactionServer.API migrations script --idempotent --output migration.sql   
-```
-​
-Um die Datenbank völlig zurückzusetzen (ohne Löschen zu müssen) können alle Migrationen mit folgendem Command reverted werden:
-​
-```
-dotnet dotnet-ef --project TransactionServer.Data --startup-project TransactionServer.API database update 0    
-```
-​
-## TransactionServer.API
-​
-ASP.NET Core WebApi (REST API) zum übermitteln der Transactions aus SignPosServer
-​
-## TransactionServer.Frontend
-​
-ASP.NET Core WebApi (REST API) + Angular Frontend.

@@ -11,7 +11,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace timrlink.net.CLI.Actions
 {
-    internal class ProjectTimeDatabaseExportAction
+    public class ProjectTimeDatabaseExportAction
     {
         private readonly DatabaseContext context;
         private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
@@ -68,7 +68,6 @@ namespace timrlink.net.CLI.Actions
             }
 
             await context.Database.EnsureCreatedAsync();
-            //await context.Database.MigrateAsync();
             
             DateTime? lastProjectTimeImport = null;
             if (fromDate == null)

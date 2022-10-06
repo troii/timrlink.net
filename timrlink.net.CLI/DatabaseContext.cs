@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace timrlink.net.CLI
 {
-    internal class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext
     {
         private readonly string connectionString;
 
         public DbSet<ProjectTime> ProjectTimes { get; set; }
         private DbSet<Metadata> Metadata { get; set; }
-
+        
         public DatabaseContext(string connectionString)
         {
             this.connectionString = connectionString;
@@ -51,7 +51,7 @@ namespace timrlink.net.CLI
         }
     }
 
-    internal class Metadata
+    public class Metadata
     {
         public const string KEY_LAST_PROJECTTIME_IMPORT = "lastprojecttimeimport";
 
@@ -67,7 +67,7 @@ namespace timrlink.net.CLI
         public string Value { get; set; }
     }
 
-    internal class ProjectTime
+    public class ProjectTime
     {
         [Key]
         public Guid UUID { get; set; }
@@ -84,10 +84,9 @@ namespace timrlink.net.CLI
         public DateTime LastModifiedTime { get; set; }
         public string Task { get; set; }
         public string Description { get; set; }
-        
+
         public bool Billable { get; set; }
 
-        //[NotMapped]
         public DateTimeOffset? Deleted { get; set; }
     }
 

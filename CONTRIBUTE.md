@@ -1,5 +1,4 @@
-# TIMRLINK CLI
-​
+# TIMRLINK CLI Datenbank Migrationen 
 ​
 ## timrlink.net.CLI.Migrations
 ​
@@ -13,9 +12,11 @@ https://learn.microsoft.com/en-gb/ef/core/cli/dotnet
 
 Das hab ich direkt in Rider als Paket (Nu Get) hinzugefügt (War einfacher).
 
+```
 dotnet add package Microsoft.EntityFrameworkCore.Design
+```
 
-### Preperation on M1 Mac
+### Vorbereitungen für Apple Silicon Macs
 
 Zu Beginn hatte ich Probleme dotnet ef auszuführen. Nach einiger Recherge bin ich darauf gestossen:
 

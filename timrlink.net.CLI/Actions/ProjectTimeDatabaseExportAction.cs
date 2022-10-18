@@ -20,7 +20,7 @@ namespace timrlink.net.CLI.Actions
         private readonly IUserService userService;
         private readonly string from;
         private readonly string to;
-        private string dateFormatToParse = "yyyy-MM-dd HH:mm";
+        private string dateFormatToParse = "yyyy-MM-dd";
 
         public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
@@ -33,25 +33,16 @@ namespace timrlink.net.CLI.Actions
             this.projectTimeService = projectTimeService;
         }
 
+        public static DateTime? TryParse(string text) =>
+            DateTime.TryParse(text, out var date) ? date : (DateTime?) null;
+        
         public async Task Execute()
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
             
-            DateTime? fromDate = null;
-            DateTime? toDate = null;
-
-            if (DateTime.TryParseExact(from, dateFormatToParse, CultureInfo.InvariantCulture, DateTimeStyles.None,
-                    out var date1))
-            {   
-                fromDate = date1;
-            }
-
-            if (DateTime.TryParseExact(to, dateFormatToParse, CultureInfo.InvariantCulture, DateTimeStyles.None,
-                    out var date2))
-            {
-                toDate = date2;
-            }
-
+            DateTime? fromDate = TryParse(from);
+            DateTime? toDate = TryParse(to);
+            
             if (fromDate == null && toDate != null)
             {
                 throw new ArgumentException("To date specified but no from date specified");
@@ -62,31 +53,40 @@ namespace timrlink.net.CLI.Actions
                 throw new ArgumentException("From date specified but no to date specified");
             }
 
-            if (fromDate > toDate)
+            DateSpan? dateSpan = null;
+            
+            if (fromDate.HasValue && toDate.HasValue)
+            {
+                dateSpan = new DateSpan
+                {
+                    from = fromDate.Value,
+                    to = toDate.Value
+                };
+            } 
+
+            if (dateSpan != null && (dateSpan.from > dateSpan.to))
             {
                 throw new ArgumentException("From date is after to date. Aborting.");
             }
 
             await context.Database.EnsureCreatedAsync();
+
+            IList<Core.API.ProjectTime> projectTimes;
             
-            DateTime? lastProjectTimeImport = null;
-            if (fromDate == null)
+            var importTime = DateTime.Now;
+
+            if (dateSpan == null)
             {
                 var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
-                if (DateTime.TryParseExact(metadata?.Value, "o", CultureInfo.InvariantCulture, DateTimeStyles.None,
-                        out var date3))
-                {
-                    lastProjectTimeImport = date3;
-                    logger.LogInformation("Export project times with modifications since: " + lastProjectTimeImport);
-                }
+                var lastProjectTimeImport = TryParse(metadata.Value);
+                
+                projectTimes = await projectTimeService.GetProjectTimes(null, null, lastProjectTimeImport);
             }
             else
             {
-                logger.LogInformation("Export project times from: " + fromDate + " to: " + toDate);
+                logger.LogInformation("Export project times from: " + dateSpan.from + " to: " + dateSpan.to);
+                projectTimes = await projectTimeService.GetProjectTimes(dateSpan.from, dateSpan.to, null);
             }
-            
-            var importTime = DateTime.Now;
-            var projectTimes = await projectTimeService.GetProjectTimes(fromDate, toDate, lastProjectTimeImport);
             
             var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
 
@@ -108,8 +108,7 @@ namespace timrlink.net.CLI.Actions
                     var user = userDict.GetValueOrDefault(pt.userUuid);
 
                     var projectTime = context.ProjectTimes
-                        .Where(projectTime => projectTime.UUID.ToString() == pt.uuid)
-                        .FirstOrDefault() ?? new ProjectTime();
+                        .FirstOrDefault(projectTime => projectTime.UUID.ToString() == pt.uuid) ?? new ProjectTime();
 
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
@@ -134,26 +133,25 @@ namespace timrlink.net.CLI.Actions
                 
                 await context.ProjectTimes.AddOrUpdateRange(dbEntities);    
             }
-        
-            if (fromDate != null)
+
+            if (dateSpan != null)
             {
                 // Flag records that are not found anymore Deleted.
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime > fromDate && projectTime.EndTime < toDate)
+                        projectTime.StartTime.Date >= dateSpan.from && projectTime.EndTime <= dateSpan.to)
                     .ToList();
-                    
+
                 foreach (var projectTime in projectTimesInDatabase)
                 {
                     if (!projectTimeUuids.Contains(projectTime.UUID))
                     {
-                        projectTime.Deleted = DateTimeOffset.Now;
+                        projectTime.Deleted = importTime;
                     }
                 }
-            }
-                
-            await context.SaveChangesAsync();
 
-            if (fromDate == null)
+                await context.SaveChangesAsync();
+            }
+            else 
             {
                 await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
             }

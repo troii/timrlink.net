@@ -61,7 +61,6 @@ namespace timrlink.net.CLI
     {
         [Key]
         public Guid UUID { get; set; }
-
         public string User { get; set; }
         public Guid? UserUUID { get; set; }
         public string? UserExternalId { get; set; }
@@ -81,6 +80,20 @@ namespace timrlink.net.CLI
         public DateTimeOffset? Deleted { get; set; }
         public Guid? TaskUUID { get; set; }
         public string? TaskExternalId { get; set; }
+    }
+
+    internal class Group
+    {
+        [Key] 
+        public long Id { get; set; }
+
+        public string ExternalId { get; set; }
+
+        public string ParentalExternalId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
     }
 
     internal static class DbSetExtensions

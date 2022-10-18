@@ -138,7 +138,7 @@ namespace timrlink.net.CLI.Actions
             {
                 // Flag records that are not found anymore Deleted.
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime.Date >= dateSpan.from && projectTime.EndTime <= dateSpan.to)
+                        projectTime.StartTime >= dateSpan.from && projectTime.EndTime <= dateSpan.to)
                     .ToList();
 
                 foreach (var projectTime in projectTimesInDatabase)

@@ -13,6 +13,9 @@ namespace timrlink.net.CLI
         public DbSet<ProjectTime> ProjectTimes { get; set; }
         public DbSet<Metadata> Metadata { get; set; }
 
+        public DbSet<Group> Group { get; set; }
+        public DbSet<GroupUsers> GroupUsers { get; set; }
+        
         public DatabaseContext(DbContextOptions options) : base(options)
         {
         }
@@ -21,11 +24,15 @@ namespace timrlink.net.CLI
         {
             modelBuilder.Entity<Metadata>();
             
-            modelBuilder
-                .Entity<ProjectTime>()
-                .HasMany<Group>(p => p.Groups)
-                .WithMany(p => p.ProjectTimes)
-                .UsingEntity(j => j.ToTable("ProjectTimesGroups"));
+            modelBuilder.Entity<GroupUsers>()
+                .HasOne<Group>()
+                .WithMany(g => g.GroupUsers)
+                .HasForeignKey(gu => gu.UserUUID);
+
+            modelBuilder.Entity<GroupUsers>()
+                .HasOne<ProjectTime>()
+                .WithMany(p => p.GroupUsers)
+                .HasForeignKey(gu => gu.GroupId);
         }
 
         public async Task<Metadata> GetMetadata(string key) => await Metadata.SingleOrDefaultAsync(m => m.Key == key);
@@ -86,6 +93,8 @@ namespace timrlink.net.CLI
         public DateTimeOffset? Deleted { get; set; }
         public Guid? TaskUUID { get; set; }
         public string? TaskExternalId { get; set; }
+        
+        public ICollection<GroupUsers> GroupUsers { get; set; }
     }
 
     public class Group
@@ -102,7 +111,13 @@ namespace timrlink.net.CLI
 
         public string Description { get; set; }
         
-        public IEnumerable<ProjectTime> ProjectTimes { get; set; }
+        public IEnumerable<GroupUsers> GroupUsers { get; set; }
+    }
+
+    public class GroupUsers
+    {
+        public string GroupId { get; set; }
+        public string UserUUID { get; set; }
     }
 
     internal static class DbSetExtensions

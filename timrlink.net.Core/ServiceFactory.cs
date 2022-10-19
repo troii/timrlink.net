@@ -86,5 +86,10 @@ namespace timrlink.net.Core
         {
             return new WorkItemService(loggerFactory.CreateLogger<WorkItemService>(), timrSync);
         }
+        
+        public static IGroupService BuildGroupService(ILoggerFactory loggerFactory, TimrSync timrSync)
+        {
+            return new GroupService(loggerFactory.CreateLogger<GroupService>(), timrSync);
+        }
     }
 }

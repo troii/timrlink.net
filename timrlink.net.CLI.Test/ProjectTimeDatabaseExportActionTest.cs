@@ -396,5 +396,85 @@ namespace timrlink.net.CLI.Test
             var metadata = memoryContext.Metadata.FirstOrDefault();
             Assert.IsNull(metadata);
         }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TestIfTimezoneAreWorkingCorrectly()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            const string userUuid = "32c8c87e-43ea-11ed-b878-0242ac120002";
+            const string taskUuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102";
+            
+            var users = new List<User>
+            {
+                new User 
+                { 
+                    externalId = "John Carmack", 
+                    uuid = userUuid
+                }
+            };
+
+            var task = new Task
+            {
+                name = "Customer B",
+                uuid = taskUuid
+            };
+            var tasks = new List<Task> { task };
+
+            var projectTime = new API.ProjectTime();
+            projectTime.startTime = new DateTime(2022, 10, 2, 10, 30, 0);
+            projectTime.startTimeZone = "+07:00";
+            projectTime.endTime = new DateTime(2022, 10, 2, 11, 30, 0);
+            projectTime.endTimeZone = "+07:00";
+            projectTime.userUuid = userUuid;
+            projectTime.uuid = "83f1bd14-43ea-11ed-b878-0242ac120002";
+            projectTime.taskUuid = taskUuid;
+            projectTime.billable = true;
+            projectTime.changed = true;
+            projectTime.breakTime = 12;
+            projectTime.duration = 1000;
+            projectTime.closed = false;
+
+
+            var projectTimes = new List<API.ProjectTime> { projectTime };
+            
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            projectTimeServiceMock
+                .Setup(service => service.GetProjectTimes(It.IsAny<DateTime>(), It.IsAny<DateTime>(), null, null, null, null, null))
+                .ReturnsAsync(projectTimes);
+            
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            userServiceMock
+                .Setup(service => service.GetUsers())
+                .ReturnsAsync(users);
+            
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
+            taskServiceMock
+                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
+            taskServiceMock
+                .Setup(service => service.FlattenTasks(It.IsAny<IList<Task>>()))
+                .Returns(tasks);
+
+            var memoryContext = new DatabaseContext();
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02", to: "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute();
+            
+            var projectTimeDatabase = memoryContext.ProjectTimes.First();
+            
+            var expectedStartTime = new DateTime(2022, 10, 2, 15, 30, 0);
+            var expectedEndTime = new DateTime(2022, 10, 2, 16, 30, 0);
+            
+            Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
+            Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTime);
+            Assert.AreEqual( true, projectTimeDatabase.Billable);
+            Assert.AreEqual( true, projectTimeDatabase.Changed);
+            Assert.AreEqual( false, projectTimeDatabase.Closed);
+            Assert.AreEqual( 12, projectTimeDatabase.BreakTime);
+            Assert.AreEqual( 1000, projectTimeDatabase.Duration);
+            Assert.IsNull(projectTimeDatabase.Deleted);
+
+            var metadata = memoryContext.Metadata.FirstOrDefault();
+            Assert.IsNull(metadata);
+        }
     }
 }

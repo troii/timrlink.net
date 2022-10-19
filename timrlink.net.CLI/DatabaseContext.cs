@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,12 @@ namespace timrlink.net.CLI
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Metadata>();
-            modelBuilder.Entity<ProjectTime>();
+            
+            modelBuilder
+                .Entity<ProjectTime>()
+                .HasMany<Group>(p => p.Groups)
+                .WithMany(p => p.ProjectTimes)
+                .UsingEntity(j => j.ToTable("ProjectTimesGroups"));
         }
 
         public async Task<Metadata> GetMetadata(string key) => await Metadata.SingleOrDefaultAsync(m => m.Key == key);
@@ -82,9 +88,10 @@ namespace timrlink.net.CLI
         public string? TaskExternalId { get; set; }
     }
 
-    internal class Group
+    public class Group
     {
-        [Key] 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         public string ExternalId { get; set; }
@@ -94,6 +101,8 @@ namespace timrlink.net.CLI
         public string Name { get; set; }
 
         public string Description { get; set; }
+        
+        public IEnumerable<ProjectTime> ProjectTimes { get; set; }
     }
 
     internal static class DbSetExtensions

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.Service;
 
@@ -18,6 +19,10 @@ namespace timrlink.net.CLI.Actions
             this.userService = userService;
             this.taskService = taskService;
             this.projectTimeService = projectTimeService;
+        }
+
+        public async Task Execute()
+        {
         }
     }
 }

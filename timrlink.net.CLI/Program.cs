@@ -88,14 +88,15 @@ namespace timrlink.net.CLI
             exportProjectTimeCommand.Handler = CommandHandler.Create<string>(ExportProjectTime);
             
             var exportGroupsTimeCommand = new Command("export-groups", "Export Groups (Organizations)");
-            exportProjectTimeCommand.AddOption(new Option<string>("connectionstring"));
-            exportProjectTimeCommand.Handler = CommandHandler.Create<string>(ExportProjectTime);
+            exportGroupsTimeCommand.AddOption(new Option<string>("connectionstring"));
+            exportGroupsTimeCommand.Handler = CommandHandler.Create<string>(ExportGroups);
 
             var rootCommand = new RootCommand("timrlink command line interface")
             {
                 projectTimeCommand,
                 taskCommand,
                 exportProjectTimeCommand,
+                exportGroupsTimeCommand,
             };
             rootCommand.Name = "timrlink";
             rootCommand.TreatUnmatchedTokensAsErrors = true;
@@ -146,7 +147,8 @@ namespace timrlink.net.CLI
 
         private async Task ExportGroups(string connectionString)
         {
-            await new GroupExportAction()
+            await new GroupExportAction(LoggerFactory, connectionString, UserService, TaskService, ProjectTimeService)
+                .Execute();
         }
     }
 }

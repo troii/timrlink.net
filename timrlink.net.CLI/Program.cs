@@ -79,8 +79,8 @@ namespace timrlink.net.CLI
 
             var exportProjectTimeCommand = new Command("export-projecttime", "Export Project times");
             exportProjectTimeCommand.AddOption(new Option<string>("connectionstring"));
-            exportProjectTimeCommand.AddOption(new Option<string>(alias:"from"));
-            exportProjectTimeCommand.AddOption(new Option<string>(alias:"to"));
+            exportProjectTimeCommand.AddOption(new Option<string>("from"));
+            exportProjectTimeCommand.AddOption(new Option<string>("to"));
             exportProjectTimeCommand.Handler = CommandHandler.Create<string, string, string>(ExportProjectTime);
 
             var rootCommand = new RootCommand("timrlink command line interface")

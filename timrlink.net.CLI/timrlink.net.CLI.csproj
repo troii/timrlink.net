@@ -56,4 +56,13 @@
     <Folder Include="Migrations" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\CONTRIBUTE.md">
+      <Link>CONTRIBUTE.md</Link>
+    </Content>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
+  </ItemGroup>
+
 </Project>

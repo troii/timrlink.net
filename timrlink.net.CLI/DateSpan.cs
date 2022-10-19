@@ -4,7 +4,7 @@ namespace timrlink.net.CLI
 {
     public class DateSpan
     {
-        public DateTime from { get; set; }
-        public DateTime to { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
     }
 }

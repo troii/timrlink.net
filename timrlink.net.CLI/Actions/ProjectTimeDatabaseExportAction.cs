@@ -59,12 +59,12 @@ namespace timrlink.net.CLI.Actions
             {
                 dateSpan = new DateSpan
                 {
-                    from = fromDate.Value,
-                    to = toDate.Value
+                    From = fromDate.Value,
+                    To = toDate.Value
                 };
             } 
 
-            if (dateSpan != null && (dateSpan.from > dateSpan.to))
+            if (dateSpan != null && dateSpan.From > dateSpan.To)
             {
                 throw new ArgumentException("From date is after to date. Aborting.");
             }
@@ -80,12 +80,13 @@ namespace timrlink.net.CLI.Actions
                 var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
                 var lastProjectTimeImport = TryParse(metadata.Value);
                 
+                logger.LogInformation($"Export project times with modifications since: {lastProjectTimeImport}");
                 projectTimes = await projectTimeService.GetProjectTimes(null, null, lastProjectTimeImport);
             }
             else
             {
-                logger.LogInformation("Export project times from: " + dateSpan.from + " to: " + dateSpan.to);
-                projectTimes = await projectTimeService.GetProjectTimes(dateSpan.from, dateSpan.to, null);
+                logger.LogInformation($"Export project times from: {dateSpan.From} to: {dateSpan.To}");
+                projectTimes = await projectTimeService.GetProjectTimes(dateSpan.From, dateSpan.To, null);
             }
             
             var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
@@ -138,7 +139,7 @@ namespace timrlink.net.CLI.Actions
             {
                 // Flag records that are not found anymore Deleted.
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime >= dateSpan.from && projectTime.EndTime <= dateSpan.to)
+                        projectTime.StartTime >= dateSpan.From && projectTime.EndTime <= dateSpan.To)
                     .ToList();
 
                 foreach (var projectTime in projectTimesInDatabase)
@@ -148,14 +149,13 @@ namespace timrlink.net.CLI.Actions
                         projectTime.Deleted = importTime;
                     }
                 }
-
-                await context.SaveChangesAsync();
             }
             else 
             {
                 await context.SetMetadata(new Metadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT, importTime.ToString("o", CultureInfo.InvariantCulture)));
             }
             
+            await context.SaveChangesAsync();
             logger.LogDebug("ProjectTimeDatabaseExportAction finished");
         }
 

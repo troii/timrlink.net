@@ -1,49 +1,36 @@
-# TIMRLINK CLI Datenbank Migrationen 
-​
-## timrlink.net.CLI.Migrations
-​
-Enthält das Datenmodell und den vollständigen Datenzugriff über Entity Framework Core.
-​
-### Vorbereitungen
+# TIMRLINK CLI Database Migrations
 
-Zu Beginn müssen die dotnet ef tools installiert werden.
+Contains the data model and full access via Entity Framework Core.
+
+## Preperations
+
+First you have to install dotnet ef tools.
 
 https://learn.microsoft.com/en-gb/ef/core/cli/dotnet
 
-Das hab ich direkt in Rider als Paket (Nu Get) hinzugefügt (War einfacher).
+## Preperations for Apple Silicon Macs
 
-```
-dotnet add package Microsoft.EntityFrameworkCore.Design
-```
-
-### Vorbereitungen für Apple Silicon Macs
-
-Zu Beginn hatte ich Probleme dotnet ef auszuführen. Nach einiger Recherge bin ich darauf gestossen:
-
-https://stackoverflow.com/questions/70929949/on-mac-m1-machine-not-able-to-run-ef-core-migrations-add-update-in-asp-net-co
-
-Folgender Befehl hat mir geholfen um die dotnet ef ausführen zu können. 
+This command is needed so we can finally run `dotnet ef tools`
 
 ```
 export DOTNET_ROLL_FORWARD=LatestMajor
 ```
 
-### Migration
-​
-Wenn Model-Änderungen gemacht werden muss eine Migration angelegt werden.
-Dazu werden die [Entity Framework Core tools](https://docs.microsoft.com/en-gb/ef/core/miscellaneous/cli/dotnet) verwendet. 
-​
-Um eine Migration anzulegen muss folgender Befehl ausgeführt werden (Wird nur benötigt um in Zukunft neue Migrationen zu erstellen)
-​
-```
-dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI migrations add AddDeletedColumnToProjectTimes 
-```
-​
-Dabei wird die in TransactionServer.API verwendete DataSource als Referenz vom alten Schema genommen.
-​
-Um die aktuell konfigurierte Datenbank auf das aktuellste Schema zu aktualisieren:
-​
-```
-dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI database  update AddDeletedColumnToProjectTimes -- "Server=[ADRESSE]; Database=[DATENBANK_NAME]; User Id=[BENUTZER_NAME]; Password=[PASSWORT];"
+## Migrations
 
+With this command your database will be updated to match the current datamodel defined in .Net
+
+```
+dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI database update [migration_name] -- "Server=[ADRESSE]; Database=[DATENBANK_NAME]; User Id=[BENUTZER_NAME]; Password='[PASSWORT]';"
+
+```
+
+### Create new Migration during development
+
+**IMPORTANT:** This step is only needed during development
+
+To create a new migration add new properties in DatabaseContext.cs. Then run the following command and a migration is created.
+
+```
+dotnet ef --project timrlink.net.CLI --startup-project timrlink.net.CLI migrations add [migration_name] -- "Server=[ADRESSE]; Database=[DATENBANK_NAME]; User Id=[BENUTZER_NAME]; Password='[PASSWORT]';"
 ```

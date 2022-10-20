@@ -7,7 +7,7 @@ using timrlink.net.Core.Service;
 
 namespace timrlink.net.CLI.Actions
 {
-    internal class GroupExportAction
+    internal class GroupUsersDatabaseExportAction
     {
         private readonly DatabaseContext context;
         private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
@@ -15,7 +15,7 @@ namespace timrlink.net.CLI.Actions
         private readonly IUserService userService;
         private readonly IGroupService groupService;
 
-        public GroupExportAction(ILoggerFactory loggerFactory, string connectionString, IUserService userService, IProjectTimeService projectTimeService, IGroupService groupService)
+        public GroupUsersDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, IUserService userService, IProjectTimeService projectTimeService, IGroupService groupService)
         {
             logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
             context = new DatabaseContext(connectionString);
@@ -26,6 +26,8 @@ namespace timrlink.net.CLI.Actions
 
         public async Task Execute()
         {
+            await context.Database.EnsureCreatedAsync();
+            
             var groups = await groupService.GetGroups();
             var flatGroups = groupService.FlattenGroups(groups);
             
@@ -35,33 +37,49 @@ namespace timrlink.net.CLI.Actions
             {
                 group.externalId = Guid.NewGuid().ToString();
                 groupService.UpdateGroup(group);
+                logger.LogInformation($"Created externalId {group.externalId} for Group named: {group.name}");
             }
 
             groups = await groupService.GetGroups();
             flatGroups = groupService.FlattenGroups(groups);
+
+            var allDatabaseGroups = context.Group.ToList();
+            var groupDictionary = allDatabaseGroups.ToDictionary(g => g.Id, g => g);
             
             foreach (var group in flatGroups)
             {
                 var databaseGroup = context.Group
-                    .FirstOrDefault(g => g.ExternalId == group.externalId);
+                    .FirstOrDefault(g => g.ExternalId == group.externalId) ?? new Group();
 
                 databaseGroup.Description = group.description;
                 databaseGroup.ExternalId = group.externalId;
                 databaseGroup.Name = group.name;
                 databaseGroup.ParentalExternalId = group.parentExternalId;
                 
+                context.Update(databaseGroup);
+                logger.LogInformation($"Created or updated Group with Name: {databaseGroup.Name}");
+                
+                groupDictionary.Remove(databaseGroup.Id);
+                
                 var groupUsers = await groupService.GetGroupUsers(group);
 
                 foreach (var user in groupUsers)
                 {
-                    var groupUser = new GroupUsers
-                    {
-                        GroupId = group.externalId,
-                        UserUUID = user.uuid
-                    };
+                    var groupUser = context.GroupUsers.FirstOrDefault(gu => gu.GroupId == databaseGroup.Id && gu.UserUUID == user.uuid) ?? new GroupUsers();
 
+                    groupUser.GroupId = databaseGroup.Id;
+                    groupUser.UserUUID = user.uuid;
+                    
                     context.Update(groupUser);
+                    logger.LogInformation($"Created or updated GroupUsers with GroupID: {groupUser.GroupId} UserUUID: {groupUser.UserUUID}");
                 }
+            }
+
+            // Remove groups that were deleted in timr
+            foreach (var groupToDelete in groupDictionary.Values)
+            {
+                context.Remove(groupToDelete);
+                logger.LogInformation($"Removed Group with Name: {groupToDelete.Name}");
             }
 
             await context.SaveChangesAsync();

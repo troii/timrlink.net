@@ -147,7 +147,7 @@ namespace timrlink.net.CLI
 
         private async Task ExportGroups(string connectionString)
         {
-            await new GroupExportAction(LoggerFactory, connectionString, UserService, ProjectTimeService, GroupService).Execute();
+            await new GroupUsersDatabaseExportAction(LoggerFactory, connectionString, UserService, ProjectTimeService, GroupService).Execute();
         }
     }
 }

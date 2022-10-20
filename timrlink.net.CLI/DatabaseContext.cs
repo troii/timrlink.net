@@ -11,7 +11,7 @@ namespace timrlink.net.CLI
     public class DatabaseContext : DbContext
     {
         public DbSet<ProjectTime> ProjectTimes { get; set; }
-        public DbSet<Metadata> Metadata { get; set; }
+        private DbSet<Metadata> Metadata { get; set; }
 
         public DbSet<Group> Group { get; set; }
         public DbSet<GroupUsers> GroupUsers { get; set; }
@@ -23,15 +23,13 @@ namespace timrlink.net.CLI
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Metadata>();
-            
+
+            modelBuilder.Entity<GroupUsers>()
+                .HasKey(gu => new {gu.GroupId, gu.UserUUID });
+
             modelBuilder.Entity<GroupUsers>()
                 .HasOne<Group>()
                 .WithMany(g => g.GroupUsers)
-                .HasForeignKey(gu => gu.UserUUID);
-
-            modelBuilder.Entity<GroupUsers>()
-                .HasOne<ProjectTime>()
-                .WithMany(p => p.GroupUsers)
                 .HasForeignKey(gu => gu.GroupId);
         }
 
@@ -102,7 +100,7 @@ namespace timrlink.net.CLI
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-
+        
         public string ExternalId { get; set; }
 
         public string ParentalExternalId { get; set; }
@@ -111,13 +109,17 @@ namespace timrlink.net.CLI
 
         public string Description { get; set; }
         
-        public IEnumerable<GroupUsers> GroupUsers { get; set; }
+        public List<GroupUsers> GroupUsers { get; set; }
     }
 
+    [Keyless]
     public class GroupUsers
     {
-        public string GroupId { get; set; }
+        public long GroupId { get; set; }
+        
         public string UserUUID { get; set; }
+        
+        public Group Group { get; set; }
     }
 
     internal static class DbSetExtensions

@@ -29,50 +29,49 @@ namespace timrlink.net.CLI.Actions
             await context.Database.EnsureCreatedAsync();
             
             var groups = await groupService.GetGroups();
-            var flatGroups = groupService.FlattenGroups(groups);
+            groupService.SetMissingExternalIds(groups);
             
             var users = await userService.GetUsers();
             
-            foreach (var group in flatGroups.Where(g => String.IsNullOrEmpty(g.externalId)))
-            {
-                group.externalId = Guid.NewGuid().ToString();
-                groupService.UpdateGroup(group);
-                logger.LogInformation($"Created externalId {group.externalId} for Group named: {group.name}");
-            }
-
-            groups = await groupService.GetGroups();
-            flatGroups = groupService.FlattenGroups(groups);
-
             var allDatabaseGroups = context.Group.ToList();
             var groupDictionary = allDatabaseGroups.ToDictionary(g => g.Id, g => g);
+            
+            groups = await groupService.GetGroups();
+            var flatGroups = groupService.FlattenGroups(groups);
             
             foreach (var group in flatGroups)
             {
                 var databaseGroup = context.Group
                     .FirstOrDefault(g => g.ExternalId == group.externalId) ?? new Group();
-
+                
                 databaseGroup.Description = group.description;
                 databaseGroup.ExternalId = group.externalId;
                 databaseGroup.Name = group.name;
                 databaseGroup.ParentalExternalId = group.parentExternalId;
-                
+
                 context.Update(databaseGroup);
+                await context.SaveChangesAsync();
+
                 logger.LogInformation($"Created or updated Group with Name: {databaseGroup.Name}");
                 
                 groupDictionary.Remove(databaseGroup.Id);
                 
                 var groupUsers = await groupService.GetGroupUsers(group);
-
+                var groupUsersDatabase = new List<GroupUsers>();
+                
                 foreach (var user in groupUsers)
                 {
                     var groupUser = context.GroupUsers.FirstOrDefault(gu => gu.GroupId == databaseGroup.Id && gu.UserUUID == user.uuid) ?? new GroupUsers();
 
                     groupUser.GroupId = databaseGroup.Id;
                     groupUser.UserUUID = user.uuid;
-                    
-                    context.Update(groupUser);
+
+                    groupUsersDatabase.Add(groupUser);
                     logger.LogInformation($"Created or updated GroupUsers with GroupID: {groupUser.GroupId} UserUUID: {groupUser.UserUUID}");
                 }
+
+                await context.GroupUsers.AddOrUpdateRange<GroupUsers>(groupUsersDatabase);
+                await context.SaveChangesAsync();
             }
 
             // Remove groups that were deleted in timr

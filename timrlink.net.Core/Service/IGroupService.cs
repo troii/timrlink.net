@@ -9,10 +9,12 @@ namespace timrlink.net.Core.Service
     {
         Task<IList<Group>> GetGroups();
 
-        IList<API.Group> FlattenGroups(IEnumerable<API.Group> groups);
+        Task SetMissingExternalIds(IEnumerable<API.Group> groups);
+        
+        IList<Group> FlattenGroups(IEnumerable<API.Group> groups);
 
         Task<IList<User>> GetGroupUsers(Group group);
         
-        Task UpdateGroup(Group group);
+        Task SetExternalId(Group group);
     }
 }

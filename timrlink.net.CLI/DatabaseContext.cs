@@ -118,8 +118,6 @@ namespace timrlink.net.CLI
         public long GroupId { get; set; }
         
         public string UserUUID { get; set; }
-        
-        public Group Group { get; set; }
     }
 
     internal static class DbSetExtensions

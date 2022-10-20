@@ -29,16 +29,40 @@ namespace timrlink.net.Core.Service
             return groups;
         }
 
+        async Task IGroupService.SetMissingExternalIds(IEnumerable<API.Group> groups)
+        {
+            await SetMissingExternalIds(groups, null);
+        }
+
+        private async Task SetMissingExternalIds(IEnumerable<API.Group> groups, string parentExternalId)
+        {
+            foreach (var group in groups)
+            {
+                group.parentExternalId = parentExternalId;
+                if (String.IsNullOrEmpty(group.externalId))
+                {
+                    group.externalId = Guid.NewGuid().ToString();
+                    await SetExternalId(group);
+                }
+                
+                if (group.subgroups != null)
+                {
+                    await SetMissingExternalIds(group.subgroups, group.externalId);
+                }
+            }
+        }
+        
         IList<API.Group> IGroupService.FlattenGroups(IEnumerable<API.Group> groups)
         {
             return GroupService.FlattenGroups(groups);
         }
 
-        internal static IList<API.Group> FlattenGroups(IEnumerable<API.Group> groups)
+        private static IList<API.Group> FlattenGroups(IEnumerable<API.Group> groups)
         {
             return groups.SelectMany(group =>
             {
-                var list = new List<API.Group> { group };
+                var list = new List<API.Group> {group};
+                
                 if (group.subgroups != null)
                 {
                     list.AddRange(FlattenGroups(group.subgroups));
@@ -59,10 +83,19 @@ namespace timrlink.net.Core.Service
             return users;
         }
 
-        public async Task UpdateGroup(Group group)
+        public async Task SetExternalId(Group group)
         {
-            logger.LogInformation($"Updating Group(Name={group.name}, ExternalId={group.externalId})");
-            timrSync.UpdateGroupAsync(new UpdateGroupRequest(group)).ConfigureAwait(false);
+            var setGroupExternalIdRequest = new SetGroupExternalIdRequest1(
+                new SetGroupExternalIdRequest
+            {
+                name = group.name,
+                parentExternalId = group.parentExternalId,
+                newExternalGroupId = group.externalId
+            });
+            
+            logger.LogInformation($"Set externalId: {group.externalId} for group with name: {group.name}");
+            timrSync.SetGroupExternalIdAsync(setGroupExternalIdRequest)
+                .ConfigureAwait(false);
         }
     }
 }

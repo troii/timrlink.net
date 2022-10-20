@@ -98,7 +98,6 @@ namespace timrlink.net.CLI
         public string Description { get; set; }
 
         public bool Billable { get; set; }
-
         public DateTimeOffset? Deleted { get; set; }
     }
 

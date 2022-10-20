@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using timrlink.net.Core.API;
@@ -68,8 +69,13 @@ namespace timrlink.net.CLI.Actions
             {
                 throw new ArgumentException("From date is after to date. Aborting.");
             }
-
-            await context.Database.EnsureCreatedAsync();
+            
+            var pendingMigrations = context.Database.GetPendingMigrations().ToList();
+            if (pendingMigrations.Any())
+            {
+                logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                context.Database.Migrate();
+            }
 
             IList<Core.API.ProjectTime> projectTimes;
             
@@ -78,8 +84,12 @@ namespace timrlink.net.CLI.Actions
             if (dateSpan == null)
             {
                 var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
-                var lastProjectTimeImport = TryParse(metadata.Value);
-                
+                DateTime? lastProjectTimeImport = null;
+                if (metadata != null)
+                {
+                    lastProjectTimeImport = TryParse(metadata.Value);
+                }
+
                 logger.LogInformation($"Export project times with modifications since: {lastProjectTimeImport}");
                 projectTimes = await projectTimeService.GetProjectTimes(null, null, lastProjectTimeImport);
             }

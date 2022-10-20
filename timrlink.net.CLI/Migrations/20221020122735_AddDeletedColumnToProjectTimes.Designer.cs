@@ -10,15 +10,15 @@ using timrlink.net.CLI;
 namespace timrlink.net.CLI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221006075900_AddDeletedColumnToProjectTimes")]
+    [Migration("20221020122735_AddDeletedColumnToProjectTimes")]
     partial class AddDeletedColumnToProjectTimes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.29")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("timrlink.net.CLI.Metadata", b =>

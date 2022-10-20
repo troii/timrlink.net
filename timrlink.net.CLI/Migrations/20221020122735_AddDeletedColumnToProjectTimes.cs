@@ -10,6 +10,7 @@ namespace timrlink.net.CLI.Migrations
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name: "Deleted",
                 table: "ProjectTimes",
+                type: "datetimeoffset",
                 nullable: true);
         }
 

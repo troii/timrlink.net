@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ namespace timrlink.net.CLI.Actions
         private readonly IUserService userService;
         private readonly string from;
         private readonly string to;
-        private string dateFormatToParse = "yyyy-MM-dd";
+        private static string dateFormatToParse = "yyyy-MM-dd";
 
         public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
@@ -34,15 +35,15 @@ namespace timrlink.net.CLI.Actions
             this.projectTimeService = projectTimeService;
         }
 
-        public static DateTime? TryParse(string text) =>
-            DateTime.TryParse(text, out var date) ? date : (DateTime?) null;
-        
+        public static DateTime? TryParse(string text, string format) => 
+            DateTime.TryParseExact(text, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) ? date : (DateTime?) null;
+
         public async Task Execute()
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
             
-            DateTime? fromDate = TryParse(from);
-            DateTime? toDate = TryParse(to);
+            DateTime? fromDate = TryParse(from, dateFormatToParse);
+            DateTime? toDate = TryParse(to, dateFormatToParse);
             
             DateSpan? dateSpan;
             
@@ -92,7 +93,7 @@ namespace timrlink.net.CLI.Actions
                 DateTime? lastProjectTimeImport = null;
                 if (metadata != null)
                 {
-                    lastProjectTimeImport = TryParse(metadata.Value);
+                    lastProjectTimeImport = TryParse(metadata.Value, "o");
                 }
 
                 logger.LogInformation($"Export project times with modifications since: {lastProjectTimeImport}");

@@ -167,11 +167,11 @@ namespace timrlink.net.CLI.Test
             await importAction.Execute();
 
             var projectTimeDatabase = memoryContext.ProjectTimes.First();
-            Assert.AreEqual( true, projectTimeDatabase.Billable);
-            Assert.AreEqual( true, projectTimeDatabase.Changed);
-            Assert.AreEqual( false, projectTimeDatabase.Closed);
-            Assert.AreEqual( 12, projectTimeDatabase.BreakTime);
-            Assert.AreEqual( 1000, projectTimeDatabase.Duration);
+            Assert.AreEqual(true, projectTimeDatabase.Billable);
+            Assert.AreEqual(true, projectTimeDatabase.Changed);
+            Assert.AreEqual(false, projectTimeDatabase.Closed);
+            Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+            Assert.AreEqual(1000, projectTimeDatabase.Duration);
             Assert.IsNull(projectTimeDatabase.Deleted);
             
             var metadata = memoryContext.Metadata.FirstOrDefault();
@@ -241,11 +241,11 @@ namespace timrlink.net.CLI.Test
             await importAction.Execute();
             
             var projectTimeDatabase = memoryContext.ProjectTimes.First();
-            Assert.AreEqual( true, projectTimeDatabase.Billable);
-            Assert.AreEqual( true, projectTimeDatabase.Changed);
-            Assert.AreEqual( false, projectTimeDatabase.Closed);
-            Assert.AreEqual( 12, projectTimeDatabase.BreakTime);
-            Assert.AreEqual( 1000, projectTimeDatabase.Duration);
+            Assert.AreEqual(true, projectTimeDatabase.Billable);
+            Assert.AreEqual(true, projectTimeDatabase.Changed);
+            Assert.AreEqual(false, projectTimeDatabase.Closed);
+            Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+            Assert.AreEqual(1000, projectTimeDatabase.Duration);
             Assert.IsNull(projectTimeDatabase.Deleted);
             
             projectTimeServiceMock
@@ -254,12 +254,11 @@ namespace timrlink.net.CLI.Test
             
             await importAction.Execute();
 
-            //var projectTimeDatabase = memoryContext.ProjectTimes.First();
-            Assert.AreEqual( true, projectTimeDatabase.Billable);
-            Assert.AreEqual( true, projectTimeDatabase.Changed);
-            Assert.AreEqual( false, projectTimeDatabase.Closed);
-            Assert.AreEqual( 12, projectTimeDatabase.BreakTime);
-            Assert.AreEqual( 1000, projectTimeDatabase.Duration);
+            Assert.AreEqual(true, projectTimeDatabase.Billable);
+            Assert.AreEqual(true, projectTimeDatabase.Changed);
+            Assert.AreEqual(false, projectTimeDatabase.Closed);
+            Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+            Assert.AreEqual(1000, projectTimeDatabase.Duration);
             Assert.IsNotNull(projectTimeDatabase.Deleted);
             
             var metadata = memoryContext.Metadata.FirstOrDefault();
@@ -456,11 +455,11 @@ namespace timrlink.net.CLI.Test
             
             Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
             Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTime);
-            Assert.AreEqual( true, projectTimeDatabase.Billable);
-            Assert.AreEqual( true, projectTimeDatabase.Changed);
-            Assert.AreEqual( false, projectTimeDatabase.Closed);
-            Assert.AreEqual( 12, projectTimeDatabase.BreakTime);
-            Assert.AreEqual( 1000, projectTimeDatabase.Duration);
+            Assert.AreEqual(true, projectTimeDatabase.Billable);
+            Assert.AreEqual(true, projectTimeDatabase.Changed);
+            Assert.AreEqual(false, projectTimeDatabase.Closed);
+            Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+            Assert.AreEqual(1000, projectTimeDatabase.Duration);
             Assert.IsNull(projectTimeDatabase.Deleted);
 
             var metadata = memoryContext.Metadata.FirstOrDefault();

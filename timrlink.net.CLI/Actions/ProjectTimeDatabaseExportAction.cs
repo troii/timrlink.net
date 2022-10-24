@@ -44,30 +44,32 @@ namespace timrlink.net.CLI.Actions
             DateTime? fromDate = TryParse(from);
             DateTime? toDate = TryParse(to);
             
-            if (fromDate == null && toDate != null)
-            {
-                throw new ArgumentException("To date specified but no from date specified");
-            }
-            
-            if (fromDate != null && toDate == null)
-            {
-                throw new ArgumentException("From date specified but no to date specified");
-            }
-
-            DateSpan? dateSpan = null;
+            DateSpan? dateSpan;
             
             if (fromDate.HasValue && toDate.HasValue)
             {
+                if (fromDate.Value > toDate.Value)
+                {
+                    throw new ArgumentException("From date is after to date. Aborting.");
+                }
+                
                 dateSpan = new DateSpan
                 {
                     From = fromDate.Value,
                     To = toDate.Value
                 };
-            } 
-
-            if (dateSpan != null && dateSpan.From > dateSpan.To)
+            }
+            else if (fromDate == null && toDate != null)
             {
-                throw new ArgumentException("From date is after to date. Aborting.");
+                throw new ArgumentException("To date specified but no from date specified");
+            }
+            else if (fromDate != null && toDate == null)
+            {
+                throw new ArgumentException("From date specified but no to date specified");
+            }
+            else
+            {
+                dateSpan = null;
             }
             
             var pendingMigrations = context.Database.GetPendingMigrations().ToList();

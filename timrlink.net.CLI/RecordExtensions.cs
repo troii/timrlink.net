@@ -16,7 +16,7 @@ public static class RecordExtensions
             TimeSpan.Parse(record.endTimeZone.Trim('+')));
     }
 
-    public static DateTimeOffset LastModifiedOffset(this Record record)
+    public static DateTimeOffset GetLastModifiedOffset(this Record record)
     {
         return new DateTimeOffset(new DateTimeOffset(record.lastModifiedTime).UtcDateTime).ToOffset(
             TimeSpan.Parse(record.lastModifiedTimeZone.Trim('+')));

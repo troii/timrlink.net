@@ -12,6 +12,8 @@ https://learn.microsoft.com/en-gb/ef/core/cli/dotnet
 
 This command is needed so we can finally run `dotnet ef tools`
 
+Explanation can be found [here](https://stackoverflow.com/questions/70929949/on-mac-m1-machine-not-able-to-run-ef-core-migrations-add-update-in-asp-net-co). 
+
 ```
 export DOTNET_ROLL_FORWARD=LatestMajor
 ```

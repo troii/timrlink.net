@@ -20,7 +20,7 @@ namespace timrlink.net.CLI.Test
         }
 
         [Test]
-        public System.Threading.Tasks.Task FromDateNullAndToDateValid()
+        public void FromDateNullAndToDateValid()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
@@ -34,12 +34,10 @@ namespace timrlink.net.CLI.Test
             var memoryContext = new DatabaseContext();
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01", to: null, userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
-            
-            return System.Threading.Tasks.Task.CompletedTask;
         }
         
         [Test]
-        public System.Threading.Tasks.Task FromDateValidAndToDateNull()
+        public void FromDateValidAndToDateNull()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
@@ -53,12 +51,10 @@ namespace timrlink.net.CLI.Test
             var memoryContext = new DatabaseContext();
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, null, to: "2022-10-01", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
-            
-            return System.Threading.Tasks.Task.CompletedTask;
         }
         
         [Test]
-        public System.Threading.Tasks.Task FromDateValidAndToDateInvalid()
+        public void FromDateValidAndToDateInvalid()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
@@ -72,12 +68,10 @@ namespace timrlink.net.CLI.Test
             var memoryContext = new DatabaseContext();
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01", to: "2022-10-01:9999", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
-            
-            return System.Threading.Tasks.Task.CompletedTask;
         }
         
         [Test]
-        public System.Threading.Tasks.Task FromDateInvalidAndToDateValid()
+        public void FromDateInvalidAndToDateValid()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
@@ -91,12 +85,10 @@ namespace timrlink.net.CLI.Test
             var memoryContext = new DatabaseContext();
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01:9999", to: "2022-10-01", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
-            
-            return System.Threading.Tasks.Task.CompletedTask;
         }
 
         [Test]
-        public System.Threading.Tasks.Task FromDateAferToDate()
+        public void FromDateAferToDate()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
@@ -110,8 +102,6 @@ namespace timrlink.net.CLI.Test
             var memoryContext = new DatabaseContext();
             var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02", to: "2022-10-01", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
-            
-            return System.Threading.Tasks.Task.CompletedTask;
         }
         
         [Test]

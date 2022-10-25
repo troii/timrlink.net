@@ -126,11 +126,14 @@ namespace timrlink.net.CLI.Actions
 
                     var projectTime = context.ProjectTimes
                         .FirstOrDefault(projectTime => projectTime.UUID.ToString() == pt.uuid) ?? new ProjectTime();
+                    
+                    var start1 = pt.GetStartTimeOffset().DateTime;
+                    var end1 = pt.GetEndTimeOffset().DateTime;
 
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
-                    projectTime.StartTime = pt.GetStartTimeOffset().DateTime;
-                    projectTime.EndTime = pt.GetEndTimeOffset().DateTime;
+                    projectTime.StartTime = pt.startTime;
+                    projectTime.EndTime = pt.endTime;
                     projectTime.Duration = pt.duration;
                     projectTime.BreakTime = pt.breakTime;
                     projectTime.Changed = pt.changed;

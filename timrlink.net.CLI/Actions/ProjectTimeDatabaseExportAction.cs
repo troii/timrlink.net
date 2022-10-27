@@ -132,8 +132,8 @@ namespace timrlink.net.CLI.Actions
 
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
-                    projectTime.StartTime = pt.startTime;
-                    projectTime.EndTime = pt.endTime;
+                    projectTime.StartTime = pt.GetStartTimeOffset().LocalDateTime;
+                    projectTime.EndTime = pt.GetEndTimeOffset().LocalDateTime;
                     projectTime.Duration = pt.duration;
                     projectTime.BreakTime = pt.breakTime;
                     projectTime.Changed = pt.changed;

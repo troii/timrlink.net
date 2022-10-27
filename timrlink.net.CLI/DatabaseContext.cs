@@ -30,7 +30,7 @@ namespace timrlink.net.CLI
         {
             if (connectionString == null)
             {
-                optionsBuilder.UseInMemoryDatabase("timrlinkMemoryDatabase");
+                optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
             }   
             else
             {

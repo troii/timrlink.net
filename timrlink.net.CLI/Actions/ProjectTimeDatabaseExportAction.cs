@@ -127,13 +127,10 @@ namespace timrlink.net.CLI.Actions
                     var projectTime = context.ProjectTimes
                         .FirstOrDefault(projectTime => projectTime.UUID.ToString() == pt.uuid) ?? new ProjectTime();
                     
-                    var start1 = pt.GetStartTimeOffset().DateTime;
-                    var end1 = pt.GetEndTimeOffset().DateTime;
-
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
-                    projectTime.StartTime = pt.GetStartTimeOffset().LocalDateTime;
-                    projectTime.EndTime = pt.GetEndTimeOffset().LocalDateTime;
+                    projectTime.StartTime = pt.GetStartTimeOffset().DateTime;
+                    projectTime.EndTime = pt.GetEndTimeOffset().DateTime;
                     projectTime.Duration = pt.duration;
                     projectTime.BreakTime = pt.breakTime;
                     projectTime.Changed = pt.changed;
@@ -156,9 +153,12 @@ namespace timrlink.net.CLI.Actions
 
             if (dateSpan != null)
             {
-                // Flag records that are not found anymore Deleted.
+                var test = context.ProjectTimes.ToList();
+                
+                // Flag records that are not found anymore Deleted. We add 1 day to TO DateTime so project times on this
+                // day are included
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime >= dateSpan.From && projectTime.EndTime <= dateSpan.To)
+                        projectTime.StartTime >= dateSpan.From && projectTime.EndTime <= dateSpan.To.AddDays(1))
                     .ToList();
 
                 foreach (var projectTime in projectTimesInDatabase)

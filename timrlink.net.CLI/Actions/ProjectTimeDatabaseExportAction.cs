@@ -75,7 +75,7 @@ namespace timrlink.net.CLI.Actions
             
             IList<Core.API.ProjectTime> projectTimes;
             // We don't migrate when in memory database is used, otherwise unit tests would fail.
-            if (context.Database.IsRelational())
+            if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
             {
                 var pendingMigrations = context.Database.GetPendingMigrations().ToList();
                 if (pendingMigrations.Any())

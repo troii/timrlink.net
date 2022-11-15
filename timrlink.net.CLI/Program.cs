@@ -4,6 +4,7 @@ using System.CommandLine.Invocation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -120,7 +121,9 @@ namespace timrlink.net.CLI
 
         private async Task ExportProjectTime(string connectionString, string from, string to)
         {
-            var context = new DatabaseContext(connectionString);
+            var context = new DatabaseContext(new DbContextOptionsBuilder()
+                .UseSqlServer(connectionString)
+                .Options);
             await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService, TaskService, ProjectTimeService).Execute();
         }
     }

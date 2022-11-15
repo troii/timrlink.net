@@ -1,41 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace timrlink.net.CLI
 {
     public class DatabaseContext : DbContext
     {
-        private readonly string? connectionString;
-
         public DbSet<ProjectTime> ProjectTimes { get; set; }
         public DbSet<Metadata> Metadata { get; set; }
 
-        public DatabaseContext()
+        public DatabaseContext(DbContextOptions options) : base(options)
         {
-        }
-
-        public DatabaseContext(string connectionString)
-        {
-            this.connectionString = connectionString;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (connectionString == null)
-            {
-                optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
-            }   
-            else
-            {
-                optionsBuilder.UseSqlServer(connectionString);
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

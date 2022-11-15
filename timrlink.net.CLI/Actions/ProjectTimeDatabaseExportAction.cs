@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using timrlink.net.Core.API;
@@ -106,7 +104,7 @@ namespace timrlink.net.CLI.Actions
             }
             
             
-            var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
+            var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid)).ToList();
 
             if (projectTimes.Count > 0)
             {
@@ -159,12 +157,10 @@ namespace timrlink.net.CLI.Actions
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
                         projectTime.StartTime >= dateSpan.Value.From && projectTime.EndTime <= dateSpan.Value.To.AddDays(1))
                     .ToList();
-
-                var projectTimeUuidList = projectTimeUuids.ToList();
                 
                 foreach (var projectTime in projectTimesInDatabase)
                 {
-                    if (!projectTimeUuidList.Contains(projectTime.UUID))
+                    if (!projectTimeUuids.Contains(projectTime.UUID))
                     {
                         projectTime.Deleted = importTime;
                     }

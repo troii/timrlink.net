@@ -64,7 +64,7 @@ namespace timrlink.net.CLI.Actions
             {
                 throw new ArgumentException("To date specified but no from date specified");
             }
-            else if (fromDate != null && toDate == null)
+            else if (fromDate != null)
             {
                 throw new ArgumentException("From date specified but no to date specified");
             }
@@ -87,7 +87,12 @@ namespace timrlink.net.CLI.Actions
             
             var importTime = DateTime.Now;
 
-            if (dateSpan == null)
+            if (dateSpan.HasValue)
+            {
+                logger.LogInformation($"Export project times from: {dateSpan.Value.From} to: {dateSpan.Value.To}");
+                projectTimes = await projectTimeService.GetProjectTimes(dateSpan.Value.From, dateSpan.Value.To, null);
+            }
+            else
             {
                 var metadata = await context.GetMetadata(Metadata.KEY_LAST_PROJECTTIME_IMPORT);
                 DateTime? lastProjectTimeImport = null;
@@ -99,11 +104,7 @@ namespace timrlink.net.CLI.Actions
                 logger.LogInformation($"Export project times with modifications since: {lastProjectTimeImport}");
                 projectTimes = await projectTimeService.GetProjectTimes(null, null, lastProjectTimeImport);
             }
-            else
-            {
-                logger.LogInformation($"Export project times from: {dateSpan.From} to: {dateSpan.To}");
-                projectTimes = await projectTimeService.GetProjectTimes(dateSpan.From, dateSpan.To, null);
-            }
+            
             
             var projectTimeUuids = projectTimes.Select(projectTime => Guid.Parse(projectTime.uuid));
 
@@ -150,20 +151,20 @@ namespace timrlink.net.CLI.Actions
                 
                 await context.ProjectTimes.AddOrUpdateRange(dbEntities);    
             }
-
-            if (dateSpan != null)
+            
+            if (dateSpan.HasValue)
             {
-                var test = context.ProjectTimes.ToList();
-                
                 // Flag records that are not found anymore Deleted. We add 1 day to TO DateTime so project times on this
                 // day are included
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime >= dateSpan.From && projectTime.EndTime <= dateSpan.To.AddDays(1))
+                        projectTime.StartTime >= dateSpan.Value.From && projectTime.EndTime <= dateSpan.Value.To.AddDays(1))
                     .ToList();
 
+                var projectTimeUuidList = projectTimeUuids.ToList();
+                
                 foreach (var projectTime in projectTimesInDatabase)
                 {
-                    if (!projectTimeUuids.Contains(projectTime.UUID))
+                    if (!projectTimeUuidList.Contains(projectTime.UUID))
                     {
                         projectTime.Deleted = importTime;
                     }

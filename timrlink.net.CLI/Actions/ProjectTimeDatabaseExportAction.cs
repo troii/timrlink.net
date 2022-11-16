@@ -152,10 +152,11 @@ namespace timrlink.net.CLI.Actions
             
             if (dateSpan.HasValue)
             {
-                // Flag records that are not found anymore Deleted. We add 1 day to TO DateTime so project times on this
+                // Flag records that are not found anymore Deleted. We add 1 day to To DateTime so project times on this
                 // day are included
                 var projectTimesInDatabase = context.ProjectTimes.Where(projectTime =>
-                        projectTime.StartTime >= dateSpan.Value.From && projectTime.EndTime <= dateSpan.Value.To.AddDays(1))
+                        projectTime.StartTime >= dateSpan.Value.From && projectTime.StartTime < dateSpan.Value.To.AddDays(1))
+                    
                     .ToList();
                 
                 foreach (var projectTime in projectTimesInDatabase)

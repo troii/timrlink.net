@@ -118,10 +118,9 @@ namespace timrlink.net.CLI.Test
         public async System.Threading.Tasks.Task InsertProjectTimeToDatabase()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-
             ProjectTimeDatabaseExportAction importAction;
+            
             {
                 var user = new User
                 {
@@ -609,99 +608,199 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(metadata);
             }
         }
-
+        
         [Test]
-        public async System.Threading.Tasks.Task TestWithTimesIncludedInToDate()
+        public async System.Threading.Tasks.Task TestProjectTimeShouldNotGetDeletedIfRangeGetsReducedFrom2To1Day()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-
-            const string userUuid = "32c8c87e-43ea-11ed-b878-0242ac120002";
-            const string taskUuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102";
-
-            var users = new List<User>
+            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            ProjectTimeDatabaseExportAction importAction;
+            User user;
+            Task task;
+            
             {
-                new User
+                user = new User
                 {
                     externalId = "John Carmack",
-                    uuid = userUuid
-                }
-            };
+                    uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
+                };
 
-            var task = new Task
+                task = new Task
+                {
+                    name = "Customer B",
+                    uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
+                };
+
+                var projectTime = new API.ProjectTime
+                {
+                    startTime = DateTime.Parse("2022-12-22T00:00:00+02:00"),
+                    startTimeZone = "+02:00",
+                    endTime = DateTime.Parse("2022-12-22T12:00:00+02:00"),
+                    endTimeZone = "+02:00",
+                    userUuid = user.uuid,
+                    uuid = "83f1bd14-43ea-11ed-b878-0242ac120002",
+                    taskUuid = task.uuid,
+                    billable = true,
+                    changed = true,
+                    breakTime = 12,
+                    duration = 1000,
+                    closed = false,
+                    description = "Blau"
+                };
+                
+                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
+
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userService, taskService, projectTimeService);
+            }
+
+            // Initial import
+            await importAction.Execute();
+            
+            var expectedStartTimeTimezonePlusTen = new DateTime(2022, 12, 22, 00, 00, 0);
+            var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 12, 22, 12, 00, 0);
+            
             {
-                name = "Customer B",
-                uuid = taskUuid
-            };
-            var tasks = new List<Task> { task };
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
+                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
+                Assert.AreEqual(true, projectTimeDatabase.Billable);
+                Assert.AreEqual(true, projectTimeDatabase.Changed);
+                Assert.AreEqual(false, projectTimeDatabase.Closed);
+                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+                Assert.AreEqual(1000, projectTimeDatabase.Duration);
+                Assert.AreEqual("Blau", projectTimeDatabase.Description);
+                Assert.IsNull(projectTimeDatabase.Deleted);
+            }
 
-            var projectTime1 = new API.ProjectTime();
+            {
+                var projectTimeService = BuildProjectTimeServiceMock();
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
 
-            var startTimeTimezonePlusTen = DateTime.Parse("2022-10-03T23:00:00+10:00");
-            var endTimeTimeZonePlusTen = DateTime.Parse("2022-10-03T23:30:00+10:00");
-
-            projectTime1.startTime = startTimeTimezonePlusTen;
-            projectTime1.startTimeZone = "+10:00";
-            projectTime1.endTime = endTimeTimeZonePlusTen;
-            projectTime1.endTimeZone = "+10:00";
-            projectTime1.userUuid = userUuid;
-            projectTime1.uuid = "83f1bd14-43ea-11ed-b878-0242ac120002";
-            projectTime1.taskUuid = taskUuid;
-            projectTime1.billable = true;
-            projectTime1.changed = true;
-            projectTime1.breakTime = 12;
-            projectTime1.duration = 1000;
-            projectTime1.closed = false;
-
-            var projectTimes = new List<API.ProjectTime> { projectTime1 };
-
-            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
-            projectTimeServiceMock
-                .Setup(service =>
-                    service.GetProjectTimes(It.IsAny<DateTime>(), It.IsAny<DateTime>(), null, null, null, null, null))
-                .ReturnsAsync(projectTimes);
-
-            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
-            userServiceMock
-                .Setup(service => service.GetUsers())
-                .ReturnsAsync(users);
-
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
-            taskServiceMock
-                .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>())).ReturnsAsync(new List<Task>());
-            taskServiceMock
-                .Setup(service => service.FlattenTasks(It.IsAny<IList<Task>>()))
-                .Returns(tasks);
-
-            var memoryContext = new DatabaseContext(InMemoryContextOptions(Guid.NewGuid().ToString()));
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-21", userService, taskService, projectTimeService);
+            }
+            
+            // Do it again just to verify that the entry is not going to be deleted.
             await importAction.Execute();
+                
+            {
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
 
-            projectTimeServiceMock
-                .Setup(service =>
-                    service.GetProjectTimes(It.IsAny<DateTime>(), It.IsAny<DateTime>(), null, null, null, null, null))
-                .ReturnsAsync(new List<API.ProjectTime>());
+                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
+                Assert.AreEqual(true, projectTimeDatabase.Billable);
+                Assert.AreEqual(true, projectTimeDatabase.Changed);
+                Assert.AreEqual(false, projectTimeDatabase.Closed);
+                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+                Assert.AreEqual(1000, projectTimeDatabase.Duration);
+                Assert.AreEqual("Blau", projectTimeDatabase.Description);
+                Assert.IsNull(projectTimeDatabase.Deleted);
 
-            await importAction.Execute();
-
-            var projectTimeDatabase1 = memoryContext.ProjectTimes.First();
-
-            var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 03, 23, 00, 0);
-            var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 03, 23, 30, 0);
-
-            Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase1.StartTime);
-            Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase1.EndTime);
-            Assert.AreEqual(true, projectTimeDatabase1.Billable);
-            Assert.AreEqual(true, projectTimeDatabase1.Changed);
-            Assert.AreEqual(false, projectTimeDatabase1.Closed);
-            Assert.AreEqual(12, projectTimeDatabase1.BreakTime);
-            Assert.AreEqual(1000, projectTimeDatabase1.Duration);
-            Assert.IsNotNull(projectTimeDatabase1.Deleted);
-
-            var metadata = memoryContext.Metadata.FirstOrDefault();
-            Assert.IsNull(metadata);
+                var metadata = memoryContext.Metadata.FirstOrDefault();
+                Assert.IsNull(metadata);
+            }
         }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TestProjectTimeShouldGetDeletedIfNotDeliveredAgain()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            ProjectTimeDatabaseExportAction importAction;
+            User user;
+            Task task;
+            
+            {
+                user = new User
+                {
+                    externalId = "John Carmack",
+                    uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
+                };
 
+                task = new Task
+                {
+                    name = "Customer B",
+                    uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
+                };
+                
+                var projectTime = new API.ProjectTime
+                {
+                    startTime = DateTime.Parse("2022-12-22T00:00:00+02:00"),
+                    startTimeZone = "+02:00",
+                    endTime = DateTime.Parse("2022-12-22T12:00:00+02:00"),
+                    endTimeZone = "+02:00",
+                    userUuid = user.uuid,
+                    uuid = "83f1bd14-43ea-11ed-b878-0242ac120002",
+                    taskUuid = task.uuid,
+                    billable = true,
+                    changed = true,
+                    breakTime = 12,
+                    duration = 1000,
+                    closed = false,
+                    description = "Blau"
+                };
+                
+                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
+
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userService, taskService, projectTimeService);
+            }
+
+            // Initial import
+            await importAction.Execute();
+
+            {
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
+                Assert.AreEqual("Blau", projectTimeDatabase.Description);
+            }
+
+            {
+                // Do not deliver project time on second run
+                var projectTimeService = BuildProjectTimeServiceMock();
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
+
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userService, taskService, projectTimeService);
+            }
+            
+            // Do it again just to verify that the entry is getting deleted
+            await importAction.Execute();
+                
+            {
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
+                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 12, 22, 00, 00, 0);
+                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 12, 22, 12, 00, 0);
+
+                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
+                Assert.AreEqual(true, projectTimeDatabase.Billable);
+                Assert.AreEqual(true, projectTimeDatabase.Changed);
+                Assert.AreEqual(false, projectTimeDatabase.Closed);
+                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+                Assert.AreEqual(1000, projectTimeDatabase.Duration);
+                Assert.AreEqual("Blau", projectTimeDatabase.Description);
+                Assert.IsNotNull(projectTimeDatabase.Deleted);
+
+                var metadata = memoryContext.Metadata.FirstOrDefault();
+                Assert.IsNull(metadata);
+            }
+        }
+        
         [Test]
         public async System.Threading.Tasks.Task TestProjectTimeFromOtherTimezoneThatIsOnNextDayInOurTimezone()
         {

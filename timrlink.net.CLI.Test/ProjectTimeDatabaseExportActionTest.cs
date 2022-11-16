@@ -261,7 +261,7 @@ namespace timrlink.net.CLI.Test
             User user;
             Task task;
 
-            { 
+            {
                 user = new User
                 {
                     externalId = "John Carmack",
@@ -290,6 +290,7 @@ namespace timrlink.net.CLI.Test
                     Closed = false,
                     Description = "Donnerkogel"
                 });
+                memoryContext.SaveChangesAsync();
 
                 var projectTimeService = BuildProjectTimeServiceMock();
                 var userService = BuildUserService(user);
@@ -298,21 +299,6 @@ namespace timrlink.net.CLI.Test
                 importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
                     "2022-10-03", userService, taskService,
                     projectTimeService);
-            }
-
-            await importAction.Execute();
-
-            {
-                // First we check if the project time is correctly inserted
-                var memoryContext = new DatabaseContext(options);
-                var projectTimeDatabase = memoryContext.ProjectTimes.Single();
-                Assert.AreEqual(true, projectTimeDatabase.Billable);
-                Assert.AreEqual(true, projectTimeDatabase.Changed);
-                Assert.AreEqual(false, projectTimeDatabase.Closed);
-                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
-                Assert.AreEqual(1000, projectTimeDatabase.Duration);
-                Assert.AreEqual("Donnerkogel", projectTimeDatabase.Description);
-                Assert.IsNull(projectTimeDatabase.Deleted);
             }
 
             await importAction.Execute();
@@ -512,12 +498,12 @@ namespace timrlink.net.CLI.Test
             {
                 var memoryContext = new DatabaseContext(options);
                 
-                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 02, 10, 30, 0);
-                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 02, 11, 30, 0);
+                var expectedStartTime = new DateTime(2022, 10, 02, 10, 30, 0);
+                var expectedEndTime = new DateTime(2022, 10, 02, 11, 30, 0);
 
                 var projectTimeDatabase1 = memoryContext.ProjectTimes.First();
-                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase1.StartTime);
-                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase1.EndTime);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase1.StartTime);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase1.EndTime);
                 Assert.AreEqual(true, projectTimeDatabase1.Billable);
                 Assert.AreEqual(true, projectTimeDatabase1.Changed);
                 Assert.AreEqual(false, projectTimeDatabase1.Closed);
@@ -527,8 +513,8 @@ namespace timrlink.net.CLI.Test
 
                 var projectTimeDatabase2 = memoryContext.ProjectTimes.ToList().ElementAt(1);
 
-                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase2.StartTime);
-                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase2.EndTime);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase2.StartTime);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase2.EndTime);
                 Assert.AreEqual(true, projectTimeDatabase2.Billable);
                 Assert.AreEqual(true, projectTimeDatabase2.Changed);
                 Assert.AreEqual(false, projectTimeDatabase2.Closed);

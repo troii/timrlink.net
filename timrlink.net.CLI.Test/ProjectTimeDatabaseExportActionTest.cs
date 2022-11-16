@@ -290,7 +290,7 @@ namespace timrlink.net.CLI.Test
                     Closed = false,
                     Description = "Donnerkogel"
                 });
-                memoryContext.SaveChangesAsync();
+                await memoryContext.SaveChangesAsync();
 
                 var projectTimeService = BuildProjectTimeServiceMock();
                 var userService = BuildUserService(user);
@@ -450,7 +450,6 @@ namespace timrlink.net.CLI.Test
                     name = "Customer B",
                     uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
                 };
-                var tasks = new List<Task> {task};
 
                 var projectTime1 = new API.ProjectTime
                 {
@@ -906,7 +905,7 @@ namespace timrlink.net.CLI.Test
 
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IList<Task>>()))
-                .Returns((IList<Task> tasks) => TaskService.FlattenTasks(tasks));
+                .Returns((IList<Task> t) => TaskService.FlattenTasks(t));
 
             return taskServiceMock.Object;
         }

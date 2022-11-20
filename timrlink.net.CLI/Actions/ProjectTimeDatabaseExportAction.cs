@@ -143,8 +143,16 @@ namespace timrlink.net.CLI.Actions
                     projectTime.Description = pt.description;
                     projectTime.Billable = pt.billable;
                     projectTime.Deleted = null;
+                    projectTime.UserUUID = Guid.Parse(pt.userUuid);
+                    projectTime.UserExternalId = pt.externalUserId;
+                    projectTime.StartTimeOffset = pt.GetStartTimeOffset();
+                    projectTime.TaskUUID = Guid.Parse(pt.taskUuid);
+                    projectTime.TaskExternalId = pt.externalTaskId;
+                    projectTime.EndTimeOffset = pt.GetEndTimeOffset();
+                    projectTime.LastModifiedOffset = pt.GetLastModifiedOffset();
 
                     return projectTime;
+                        
                 });
                 
                 await context.ProjectTimes.AddOrUpdateRange(dbEntities);    

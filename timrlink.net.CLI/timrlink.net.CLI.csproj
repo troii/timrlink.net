@@ -65,4 +65,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="RecordExtensions.cs" />
+  </ItemGroup>
+
 </Project>

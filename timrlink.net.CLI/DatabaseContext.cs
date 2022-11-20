@@ -74,9 +74,16 @@ namespace timrlink.net.CLI
         public DateTime LastModifiedTime { get; set; }
         public string Task { get; set; }
         public string Description { get; set; }
-
         public bool Billable { get; set; }
         public DateTimeOffset? Deleted { get; set; }
+        public Guid? UserUUID { get; set; }
+        public string? UserExternalId { get; set; }
+        public string? UserEmployeeNr { get; set; }
+        public DateTimeOffset? StartTimeOffset { get; set; }
+        public DateTimeOffset? EndTimeOffset { get; set; }
+        public DateTimeOffset? LastModifiedOffset { get; set; } 
+        public Guid? TaskUUID { get; set; }
+        public string? TaskExternalId { get; set; }
     }
 
     internal static class DbSetExtensions

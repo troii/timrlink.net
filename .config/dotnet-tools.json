@@ -7,6 +7,12 @@
       "commands": [
         "dotnet-svcutil"
       ]
+    },
+    "dotnet-ef": {
+      "version": "6.0.9",
+      "commands": [
+        "dotnet-ef"
+      ]
     }
   }
 }

@@ -871,6 +871,91 @@ namespace timrlink.net.CLI.Test
             }
         }
         
+        
+        [Test]
+        public async System.Threading.Tasks.Task TestNewColumnsOfProjectTime()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            ProjectTimeDatabaseExportAction importAction;
+            
+            {
+                var user = new User
+                {
+                    externalId = "John Carmack",
+                    uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
+                };
+
+                var task = new Task
+                {
+                    name = "Customer B",
+                    uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
+                };
+                
+                var projectTime = new API.ProjectTime
+                {
+                    startTime = DateTime.Parse("2022-10-24T22:00:00-10:00"),
+                    startTimeZone = "-10:00",
+                    endTime = DateTime.Parse("2022-10-24T23:00:00-10:00"),
+                    endTimeZone = "-10:00",
+                    userUuid = user.uuid,
+                    uuid = "83f1bd14-43ea-11ed-b878-0242ac120002",
+                    taskUuid = task.uuid,
+                    billable = true,
+                    changed = true,
+                    breakTime = 12,
+                    duration = 1000,
+                    closed = false,
+                    description = "Blue",
+                    externalUserId = "99C12",
+                    externalTaskId = "B7A",
+                    lastModifiedTime = DateTime.Parse("2022-10-24T22:00:00-10:00"),
+                    lastModifiedTimeZone = "-10:00"
+                };
+                
+                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
+
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
+                    "2022-10-24", userService, taskService, projectTimeService);
+            }
+
+            // Initial import
+            await importAction.Execute();
+
+            {
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
+                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 24, 22, 00, 0);
+                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 24, 23, 00, 0);
+                var expectedLastModifiedTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
+                var expectedStartTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
+                var expectedEndTime = DateTimeOffset.Parse("10/24/2022 11:00 PM -10:00");
+
+                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
+                Assert.AreEqual(true, projectTimeDatabase.Billable);
+                Assert.AreEqual(true, projectTimeDatabase.Changed);
+                Assert.AreEqual(false, projectTimeDatabase.Closed);
+                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+                Assert.AreEqual(1000, projectTimeDatabase.Duration);
+                Assert.AreEqual("Blue", projectTimeDatabase.Description);
+                Assert.AreEqual("99C12", projectTimeDatabase.UserExternalId);
+                Assert.AreEqual("B7A", projectTimeDatabase.TaskExternalId);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTimeOffset);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTimeOffset);
+                Assert.AreEqual(Guid.Parse("32c8c87e-43ea-11ed-b878-0242ac120002"), projectTimeDatabase.UserUUID);
+                Assert.AreEqual(Guid.Parse("2909B8F0-4996-4D51-A2BA-1EB690AB2102"), projectTimeDatabase.TaskUUID);
+                Assert.IsNull(projectTimeDatabase.UserEmployeeNr);
+                Assert.AreEqual(expectedLastModifiedTime, projectTimeDatabase.LastModifiedOffset);
+                
+                var metadata = memoryContext.Metadata.FirstOrDefault();
+                Assert.IsNull(metadata);
+            }
+        }
+        
         private static DatabaseContext InMemoryContext(string databaseName)
         {
             var options = InMemoryContextOptions(databaseName);

@@ -85,7 +85,6 @@ namespace timrlink.net.CLI
             exportProjectTimeCommand.AddOption(new Option<string>("from"));
             exportProjectTimeCommand.AddOption(new Option<string>("to"));
             exportProjectTimeCommand.Handler = CommandHandler.Create<string, string, string>(ExportProjectTime);
-            exportProjectTimeCommand.Handler = CommandHandler.Create<string>(ExportProjectTime);
             
             var exportGroupsTimeCommand = new Command("export-groups", "Export Groups (Organizations)");
             exportGroupsTimeCommand.AddOption(new Option<string>("connectionstring"));
@@ -147,7 +146,10 @@ namespace timrlink.net.CLI
 
         private async Task ExportGroups(string connectionString)
         {
-            await new GroupUsersDatabaseExportAction(LoggerFactory, connectionString, UserService, ProjectTimeService, GroupService).Execute();
+            var context = new DatabaseContext(new DbContextOptionsBuilder()
+                .UseSqlServer(connectionString)
+                .Options);
+            await new GroupUsersDatabaseExportAction(LoggerFactory, context, UserService, GroupService).Execute();
         }
     }
 }

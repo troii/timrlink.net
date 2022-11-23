@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,17 +10,15 @@ namespace timrlink.net.CLI.Actions
     {
         private readonly DatabaseContext context;
         private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
-        private readonly IProjectTimeService projectTimeService;
         private readonly IUserService userService;
         private readonly IGroupService groupService;
 
-        public GroupUsersDatabaseExportAction(ILoggerFactory loggerFactory, string connectionString, IUserService userService, IProjectTimeService projectTimeService, IGroupService groupService)
+        public GroupUsersDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, IUserService userService, IGroupService groupService)
         {
             logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
-            context = new DatabaseContext(connectionString);
+            this.context = context;
             this.userService = userService;
             this.groupService = groupService;
-            this.projectTimeService = projectTimeService;
         }
 
         public async Task Execute()
@@ -29,9 +26,7 @@ namespace timrlink.net.CLI.Actions
             await context.Database.EnsureCreatedAsync();
             
             var groups = await groupService.GetGroups();
-            groupService.SetMissingExternalIds(groups);
-            
-            var users = await userService.GetUsers();
+            await groupService.SetMissingExternalIds(groups);
             
             var allDatabaseGroups = context.Group.ToList();
             var groupDictionary = allDatabaseGroups.ToDictionary(g => g.Id, g => g);
@@ -70,7 +65,7 @@ namespace timrlink.net.CLI.Actions
                     logger.LogInformation($"Created or updated GroupUsers with GroupID: {groupUser.GroupId} UserUUID: {groupUser.UserUUID}");
                 }
 
-                await context.GroupUsers.AddOrUpdateRange<GroupUsers>(groupUsersDatabase);
+                await context.GroupUsers.AddOrUpdateRange(groupUsersDatabase);
                 await context.SaveChangesAsync();
             }
 

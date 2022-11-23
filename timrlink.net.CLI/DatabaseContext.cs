@@ -11,7 +11,7 @@ namespace timrlink.net.CLI
     public class DatabaseContext : DbContext
     {
         public DbSet<ProjectTime> ProjectTimes { get; set; }
-        private DbSet<Metadata> Metadata { get; set; }
+        public DbSet<Metadata> Metadata { get; set; }
 
         public DbSet<Group> Group { get; set; }
         public DbSet<GroupUsers> GroupUsers { get; set; }

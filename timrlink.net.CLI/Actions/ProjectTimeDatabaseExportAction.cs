@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using timrlink.net.CLI.Extensions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
@@ -128,8 +129,11 @@ namespace timrlink.net.CLI.Actions
                     
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
+                    projectTime.UserUUID = Guid.Parse(pt.userUuid);
                     projectTime.StartTime = pt.GetStartTimeOffset().DateTime;
+                    projectTime.StartTimeOffset = pt.GetStartTimeOffset();
                     projectTime.EndTime = pt.GetEndTimeOffset().DateTime;
+                    projectTime.EndTimeOffset = pt.GetEndTimeOffset();
                     projectTime.Duration = pt.duration;
                     projectTime.BreakTime = pt.breakTime;
                     projectTime.Changed = pt.changed;
@@ -140,15 +144,12 @@ namespace timrlink.net.CLI.Actions
                     projectTime.Task =
                         JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name)
                             .ToArray());
+                    projectTime.TaskUUID = Guid.Parse(pt.taskUuid);
+                    projectTime.TaskExternalId = pt.externalTaskId;
                     projectTime.Description = pt.description;
                     projectTime.Billable = pt.billable;
                     projectTime.Deleted = null;
-                    projectTime.UserUUID = Guid.Parse(pt.userUuid);
                     projectTime.UserExternalId = pt.externalUserId;
-                    projectTime.StartTimeOffset = pt.GetStartTimeOffset();
-                    projectTime.TaskUUID = Guid.Parse(pt.taskUuid);
-                    projectTime.TaskExternalId = pt.externalTaskId;
-                    projectTime.EndTimeOffset = pt.GetEndTimeOffset();
                     projectTime.LastModifiedOffset = pt.GetLastModifiedOffset();
 
                     return projectTime;

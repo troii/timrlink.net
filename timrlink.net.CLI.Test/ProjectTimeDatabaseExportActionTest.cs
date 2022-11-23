@@ -147,7 +147,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+02:00"),
+                    lastModifiedTimeZone = "+02:00"
                 };
 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -331,7 +333,9 @@ namespace timrlink.net.CLI.Test
                     duration = 1000,
                     closed = false,
                     // Here we update the description and return the project time one day earlier
-                    description = "Dachstein"
+                    description = "Dachstein",
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:39:00+07:00"),
+                    lastModifiedTimeZone = "+07:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -396,7 +400,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+07:00"),
+                    lastModifiedTimeZone = "+07:00"
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -464,7 +470,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+10:00"),
+                    lastModifiedTimeZone = "+10:00",
                 };
 
                 var projectTime2 = new API.ProjectTime
@@ -480,7 +488,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:32:00-10:00"),
+                    lastModifiedTimeZone = "-10:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime1, projectTime2);
@@ -559,7 +569,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-03T23:32:00+10:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -630,7 +642,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-12-22T12:18:00+02:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -730,7 +744,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-12-22T12:12:00+02:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -823,7 +839,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-10-24T23:12:00-10:00"),
+                    lastModifiedTimeZone = "-10:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);

@@ -22,8 +22,8 @@ namespace timrlink.net.CLI.Actions
 
         public async Task Execute()
         {
-            // We don't migrate when in memory database is used, otherwise unit tests would fail.
-            if (context.Database.IsRelational())
+            // We don't migrate when in memory database or SQLite Databases are used, otherwise unit tests would fail.
+            if (context.Database.IsRelational() && context.Database.GetDbConnection().GetType() != typeof(Microsoft.Data.Sqlite.SqliteConnection))
             {
                 var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
                 if (pendingMigrations.Any())
@@ -31,7 +31,9 @@ namespace timrlink.net.CLI.Actions
                     logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
                     await context.Database.MigrateAsync();
                 }
-            }
+            } 
+
+            await context.Database.EnsureCreatedAsync();
             
             var groups = await groupService.GetGroups();
             await groupService.SetMissingExternalIds(groups);
@@ -89,7 +91,7 @@ namespace timrlink.net.CLI.Actions
                 await context.SaveChangesAsync();
             }
 
-            // Remove groups that were deleted in timr
+            // Remove groups that were deleted in timr related GroupUsers will be deleted automatically by EntityFramework
             foreach (var groupToDelete in groupDictionary.Values)
             {
                 context.Remove(groupToDelete);

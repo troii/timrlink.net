@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -26,7 +26,7 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
-            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            var options = InMemorySqLiteContextOptions();
             GroupUsersDatabaseExportAction groupUsersAction;
 
             {
@@ -141,12 +141,14 @@ namespace timrlink.net.CLI.Test
         public async Task UpdateGroupUsersDatabaseExportAction()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-
-            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            
+            var options = InMemorySqLiteContextOptions();
             GroupUsersDatabaseExportAction groupUsersAction;
 
             {
                 var memoryContext = new DatabaseContext(options);
+                await memoryContext.Database.EnsureCreatedAsync();
+
                 // Relation to user1
                 var group1User1 = new GroupUsers()
                 {
@@ -257,15 +259,13 @@ namespace timrlink.net.CLI.Test
 
             {
                 var memoryContext = new DatabaseContext(options);
-
-                var group1User1 =
-                    memoryContext.GroupUsers.Single(gu => gu.UserUUID == "9d33c475-0da2-4b21-95b9-feca948cc80a");
-                Assert.AreEqual(17, group1User1.GroupId);
                 
-                // var groupUsers =  memoryContext.GroupUsers.ToList();
-                // Seems that this does not work because EF InMemory does not support cascade deletes
-                // https://github.com/dotnet/efcore/issues/3924
-                // Assert.AreEqual(1, groupUsers.Count());
+                // There should be only one GroupUser entry left, because Group 18 got deleted and in Group 17
+                // there is only one user left
+                var group1User1 =  memoryContext.GroupUsers.Single();
+                
+                Assert.AreEqual(17, group1User1.GroupId);
+                Assert.AreEqual("9d33c475-0da2-4b21-95b9-feca948cc80a", group1User1.UserUUID);
             }
         }
 
@@ -291,13 +291,17 @@ namespace timrlink.net.CLI.Test
 
             return groupServiceMock.Object;
         }
-
-        private static DbContextOptions InMemoryContextOptions(string databaseName)
+        
+        private static DbContextOptions InMemorySqLiteContextOptions()
         {
-            var options = new DbContextOptionsBuilder()
-                .UseInMemoryDatabase(databaseName)
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            // Microsoft In-Memory DB doesn't enforce constraints
+            return new DbContextOptionsBuilder()
+                .UseSqlite(connection)
                 .Options;
-            return options;
+            
         }
     }
 }

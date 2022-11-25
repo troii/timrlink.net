@@ -10,8 +10,8 @@ using timrlink.net.CLI;
 namespace timrlink.net.CLI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221019082802_AddProjectTimesGroupsMappingTable")]
-    partial class AddProjectTimesGroupsMappingTable
+    [Migration("20221125103413_AddUserGroupsMappingTable")]
+    partial class AddUserGroupsMappingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace timrlink.net.CLI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GroupProjectTime", b =>
-                {
-                    b.Property<long>("GroupsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("ProjectTimesUUID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("GroupsId", "ProjectTimesUUID");
-
-                    b.HasIndex("ProjectTimesUUID");
-
-                    b.ToTable("ProjectTimesGroups");
-                });
 
             modelBuilder.Entity("timrlink.net.CLI.Group", b =>
                 {
@@ -58,6 +43,19 @@ namespace timrlink.net.CLI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Group");
+                });
+
+            modelBuilder.Entity("timrlink.net.CLI.GroupUsers", b =>
+                {
+                    b.Property<long>("GroupId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserUUID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupId", "UserUUID");
+
+                    b.ToTable("GroupUsers");
                 });
 
             modelBuilder.Entity("timrlink.net.CLI.Metadata", b =>
@@ -91,6 +89,9 @@ namespace timrlink.net.CLI.Migrations
                     b.Property<bool>("Closed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTimeOffset?>("Deleted")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -118,24 +119,26 @@ namespace timrlink.net.CLI.Migrations
                     b.Property<string>("User")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserUUID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("UUID");
 
                     b.ToTable("ProjectTimes");
                 });
 
-            modelBuilder.Entity("GroupProjectTime", b =>
+            modelBuilder.Entity("timrlink.net.CLI.GroupUsers", b =>
                 {
                     b.HasOne("timrlink.net.CLI.Group", null)
-                        .WithMany()
-                        .HasForeignKey("GroupsId")
+                        .WithMany("GroupUsers")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("timrlink.net.CLI.ProjectTime", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectTimesUUID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("timrlink.net.CLI.Group", b =>
+                {
+                    b.Navigation("GroupUsers");
                 });
 #pragma warning restore 612, 618
         }

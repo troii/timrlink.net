@@ -3,10 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace timrlink.net.CLI.Migrations
 {
-    public partial class AddProjectTimesGroupsMappingTable : Migration
+    public partial class AddUserGroupsMappingTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<Guid>(
+                name: "UserUUID",
+                table: "ProjectTimes",
+                type: "uniqueidentifier",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Group",
                 columns: table => new
@@ -22,50 +28,37 @@ namespace timrlink.net.CLI.Migrations
                 {
                     table.PrimaryKey("PK_Group", x => x.Id);
                 });
-            
+
             migrationBuilder.CreateTable(
-                name: "ProjectTimesGroups",
+                name: "GroupUsers",
                 columns: table => new
                 {
-                    GroupsId = table.Column<long>(type: "bigint", nullable: false),
-                    ProjectTimesUUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    GroupId = table.Column<long>(type: "bigint", nullable: false),
+                    UserUUID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectTimesGroups", x => new { x.GroupsId, x.ProjectTimesUUID });
+                    table.PrimaryKey("PK_GroupUsers", x => new { x.GroupId, x.UserUUID });
                     table.ForeignKey(
-                        name: "FK_ProjectTimesGroups_Group_GroupsId",
-                        column: x => x.GroupsId,
+                        name: "FK_GroupUsers_Group_GroupId",
+                        column: x => x.GroupId,
                         principalTable: "Group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectTimesGroups_ProjectTimes_ProjectTimesUUID",
-                        column: x => x.ProjectTimesUUID,
-                        principalTable: "ProjectTimes",
-                        principalColumn: "UUID",
-                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectTimesGroups_ProjectTimesUUID",
-                table: "ProjectTimesGroups",
-                column: "ProjectTimesUUID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Metadata");
-
-            migrationBuilder.DropTable(
-                name: "ProjectTimesGroups");
+                name: "GroupUsers");
 
             migrationBuilder.DropTable(
                 name: "Group");
 
-            migrationBuilder.DropTable(
-                name: "ProjectTimes");
+            migrationBuilder.DropColumn(
+                name: "UserUUID",
+                table: "ProjectTimes");
         }
     }
 }

@@ -149,7 +149,7 @@ namespace timrlink.net.CLI
             var context = new DatabaseContext(new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString)
                 .Options);
-            await new GroupUsersDatabaseExportAction(LoggerFactory, context, UserService, GroupService).Execute();
+            await new GroupUsersDatabaseExportAction(LoggerFactory, context, GroupService).Execute();
         }
     }
 }

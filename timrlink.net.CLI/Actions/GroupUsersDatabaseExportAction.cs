@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.Service;
 
@@ -10,20 +11,27 @@ namespace timrlink.net.CLI.Actions
     {
         private readonly DatabaseContext context;
         private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
-        private readonly IUserService userService;
         private readonly IGroupService groupService;
 
-        public GroupUsersDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, IUserService userService, IGroupService groupService)
+        public GroupUsersDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, IGroupService groupService)
         {
             logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
             this.context = context;
-            this.userService = userService;
             this.groupService = groupService;
         }
 
         public async Task Execute()
         {
-            await context.Database.EnsureCreatedAsync();
+            // We don't migrate when in memory database is used, otherwise unit tests would fail.
+            if (context.Database.IsRelational())
+            {
+                var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+                if (pendingMigrations.Any())
+                {
+                    logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                    await context.Database.MigrateAsync();
+                }
+            }
             
             var groups = await groupService.GetGroups();
             await groupService.SetMissingExternalIds(groups);
@@ -54,6 +62,9 @@ namespace timrlink.net.CLI.Actions
                 var groupUsers = await groupService.GetGroupUsers(group);
                 var groupUsersDatabase = new List<GroupUsers>();
                 
+                var userDictionary = context.GroupUsers.Where(gu => gu.GroupId == databaseGroup.Id)
+                    .ToDictionary(g => g.UserUUID, g => g);
+                
                 foreach (var user in groupUsers)
                 {
                     var groupUser = context.GroupUsers.FirstOrDefault(gu => gu.GroupId == databaseGroup.Id && gu.UserUUID == user.uuid) ?? new GroupUsers();
@@ -61,8 +72,17 @@ namespace timrlink.net.CLI.Actions
                     groupUser.GroupId = databaseGroup.Id;
                     groupUser.UserUUID = user.uuid;
 
+                    userDictionary.Remove(user.uuid);
+
                     groupUsersDatabase.Add(groupUser);
                     logger.LogInformation($"Created or updated GroupUsers with GroupID: {groupUser.GroupId} UserUUID: {groupUser.UserUUID}");
+                }
+                
+                // Remove users that were removed from group in timr
+                foreach (var userGroupToDelete in userDictionary.Values)
+                {
+                    context.Remove(userGroupToDelete);
+                    logger.LogInformation($"Removed Group with GroupID: {userGroupToDelete.GroupId} UserUUID: {userGroupToDelete.UserUUID}");
                 }
 
                 await context.GroupUsers.AddOrUpdateRange(groupUsersDatabase);

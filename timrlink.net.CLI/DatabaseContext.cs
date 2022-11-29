@@ -100,15 +100,10 @@ namespace timrlink.net.CLI
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        
         public string ExternalId { get; set; }
-
         public string ParentalExternalId { get; set; }
-
         public string Name { get; set; }
-
         public string Description { get; set; }
-        
         public List<GroupUsers> GroupUsers { get; set; }
     }
 
@@ -116,7 +111,6 @@ namespace timrlink.net.CLI
     public class GroupUsers
     {
         public long GroupId { get; set; }
-        
         public string UserUUID { get; set; }
     }
 

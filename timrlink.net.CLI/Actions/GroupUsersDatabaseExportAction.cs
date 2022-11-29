@@ -23,7 +23,7 @@ namespace timrlink.net.CLI.Actions
         public async Task Execute()
         {
             // We don't migrate when in memory database or SQLite Databases are used, otherwise unit tests would fail.
-            if (context.Database.IsRelational() && context.Database.GetDbConnection().GetType() != typeof(Microsoft.Data.Sqlite.SqliteConnection))
+            if (context.Database.GetDbConnection().GetType() != typeof(Microsoft.Data.Sqlite.SqliteConnection))
             {
                 var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
                 if (pendingMigrations.Any())
@@ -31,10 +31,8 @@ namespace timrlink.net.CLI.Actions
                     logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
                     await context.Database.MigrateAsync();
                 }
-            } 
+            }
 
-            await context.Database.EnsureCreatedAsync();
-            
             var groups = await groupService.GetGroups();
             await groupService.SetMissingExternalIds(groups);
             

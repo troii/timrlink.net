@@ -21,20 +21,20 @@ namespace timrlink.net.Core.Service
 
         public async Task<IList<Group>> GetGroups()
         {
-            var getGroupsResponse = await timrSync.GetGroupsAsync(new GetGroupsRequest1(new API.GetGroupsRequest())).ConfigureAwait(false);
+            var getGroupsResponse = await timrSync.GetGroupsAsync(new GetGroupsRequest1(new GetGroupsRequest())).ConfigureAwait(false);
             
             var groups = getGroupsResponse.GetGroupsResponse1;
-            logger.LogDebug($"Total user count: {groups.Length}");
+            logger.LogDebug($"Total group count: {groups.Count()}");
             
             return groups;
         }
 
-        async Task IGroupService.SetMissingExternalIds(IEnumerable<API.Group> groups)
+        async Task IGroupService.SetMissingExternalIds(IEnumerable<Group> groups)
         {
             await SetMissingExternalIds(groups, null);
         }
 
-        private async Task SetMissingExternalIds(IEnumerable<API.Group> groups, string parentExternalId)
+        private async Task SetMissingExternalIds(IEnumerable<Group> groups, string parentExternalId)
         {
             foreach (var group in groups)
             {
@@ -52,16 +52,16 @@ namespace timrlink.net.Core.Service
             }
         }
         
-        IList<API.Group> IGroupService.FlattenGroups(IEnumerable<API.Group> groups)
+        IList<Group> IGroupService.FlattenGroups(IEnumerable<API.Group> groups)
         {
             return GroupService.FlattenGroups(groups);
         }
 
-        private static IList<API.Group> FlattenGroups(IEnumerable<API.Group> groups)
+        private static IList<Group> FlattenGroups(IEnumerable<API.Group> groups)
         {
             return groups.SelectMany(group =>
             {
-                var list = new List<API.Group> {group};
+                var list = new List<Group> {group};
                 
                 if (group.subgroups != null)
                 {
@@ -94,7 +94,7 @@ namespace timrlink.net.Core.Service
             });
             
             logger.LogInformation($"Set externalId: {group.externalId} for group with name: {group.name}");
-            timrSync.SetGroupExternalIdAsync(setGroupExternalIdRequest)
+            await timrSync.SetGroupExternalIdAsync(setGroupExternalIdRequest)
                 .ConfigureAwait(false);
         }
     }

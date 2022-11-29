@@ -1,7 +1,7 @@
 {
   "timrSync": {
-    "identifier": "gugmaster",
-    "token": "09cd770cffa34db69c65d3ec8fb48572",
+    "identifier": "",
+    "token": "",
     "host": "https://timrsync.mobile.troii.dev/timr",
     "debug": true
   },

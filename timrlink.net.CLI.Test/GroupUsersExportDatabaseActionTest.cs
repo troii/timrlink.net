@@ -46,30 +46,11 @@ namespace timrlink.net.CLI.Test
                     parentExternalId = "77C1"
                 };
                 
-                var user1 = new User()
-                {
-                    uuid = "9d33c475-0da2-4b21-95b9-feca948cc80a"
-                };
-                
-                var user2 = new User()
-                {
-                    uuid = "80814e96-aa2b-4bbe-a7fe-ba25f3b60e2e"   
-                };
-                
-                var user3 = new User()
-                {
-                    uuid = "88a6ead0-4731-40e1-a5de-d873f094cace"
-                };
-                
-                var user4 = new User()
-                {
-                    uuid = "e25a59c8-d4de-4531-aae0-241a8c1c7115"
-                };
-                
-                var user5 = new User()
-                {
-                    uuid = "27da471e-9e72-4c3d-bc52-000c926d1ff9"
-                };
+                var user1 = new User() { uuid = "9d33c475-0da2-4b21-95b9-feca948cc80a" };
+                var user2 = new User() { uuid = "80814e96-aa2b-4bbe-a7fe-ba25f3b60e2e" };
+                var user3 = new User() { uuid = "88a6ead0-4731-40e1-a5de-d873f094cace" };
+                var user4 = new User() { uuid = "e25a59c8-d4de-4531-aae0-241a8c1c7115" };
+                var user5 = new User() { uuid = "27da471e-9e72-4c3d-bc52-000c926d1ff9" };
                 
                 var userGroup1 = new UserGroup()
                 {
@@ -84,6 +65,7 @@ namespace timrlink.net.CLI.Test
                 };
 
                 var memoryContext = new DatabaseContext(options);
+                await memoryContext.Database.EnsureCreatedAsync();
 
                 var groupService = BuildGroupService(userGroup1, userGroup2);
                 groupUsersAction =
@@ -219,15 +201,12 @@ namespace timrlink.net.CLI.Test
                     parentExternalId = "77C1"
                 };
                 
-                var user1 = new User()
-                {
-                    uuid = "9d33c475-0da2-4b21-95b9-feca948cc80a"
-                };
+                var user1 = new User() { uuid = "9d33c475-0da2-4b21-95b9-feca948cc80a" };
                 
                 var userGroup1 = new UserGroup()
                 {
                     group = group1,
-                    users = new List<User>(){user1}
+                    users = new List<User>(){ user1 }
                 };
                 
                 var memoryContext = new DatabaseContext(options);

@@ -65,12 +65,6 @@ namespace timrlink.net.CLI.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("EndTimeOffset")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("LastModifiedOffset")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<DateTime>("LastModifiedTime")
                         .HasColumnType("datetime2");
 
@@ -80,29 +74,11 @@ namespace timrlink.net.CLI.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("StartTimeOffset")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("Task")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TaskExternalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TaskUUID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("User")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEmployeeNr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserExternalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("UserUUID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UUID");
 

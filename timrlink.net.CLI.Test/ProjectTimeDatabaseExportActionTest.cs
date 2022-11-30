@@ -962,7 +962,7 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Blue", projectTimeDatabase.Description);
                 Assert.AreEqual("99C12", projectTimeDatabase.UserExternalId);
                 Assert.AreEqual("B7A", projectTimeDatabase.TaskExternalId);
-                Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTimeOffset);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
                 Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTimeOffset);
                 Assert.AreEqual(Guid.Parse("32c8c87e-43ea-11ed-b878-0242ac120002"), projectTimeDatabase.UserUUID);
                 Assert.AreEqual(Guid.Parse("2909B8F0-4996-4D51-A2BA-1EB690AB2102"), projectTimeDatabase.TaskUUID);

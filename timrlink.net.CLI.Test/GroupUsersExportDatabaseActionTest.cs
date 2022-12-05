@@ -77,29 +77,23 @@ namespace timrlink.net.CLI.Test
             {
                 var memoryContext = new DatabaseContext(options);
                 var group1 = memoryContext.Group.Single(g => g.ExternalId == "99C4");
-                
+
                 Assert.AreEqual("Series with airplanes for kids", group1.Description);
                 Assert.AreEqual("Super Wings", group1.Name);
                 Assert.AreEqual("77C1", group1.ParentalExternalId);
-            }
-            
-            {
-                var memoryContext = new DatabaseContext(options);
-                var group1 = memoryContext.Group.Single(g => g.ExternalId == "77C8");
-                
-                Assert.AreEqual("Nice animation series kids", group1.Description);
-                Assert.AreEqual("Paw Patrol", group1.Name);
-                Assert.AreEqual("77C1", group1.ParentalExternalId);
-            }
 
-            {
-                var memoryContext = new DatabaseContext(options);
+                var group2 = memoryContext.Group.Single(g => g.ExternalId == "77C8");
+
+                Assert.AreEqual("Nice animation series kids", group2.Description);
+                Assert.AreEqual("Paw Patrol", group2.Name);
+                Assert.AreEqual("77C1", group2.ParentalExternalId);
 
                 var group1User1 =
                     memoryContext.GroupUsers.Single(gu => gu.UserUUID == "9d33c475-0da2-4b21-95b9-feca948cc80a");
                 Assert.AreEqual(1, group1User1.GroupId);
-                
-                var group1User2 =  memoryContext.GroupUsers.Single(gu => gu.UserUUID == "80814e96-aa2b-4bbe-a7fe-ba25f3b60e2e");
+
+                var group1User2 =
+                    memoryContext.GroupUsers.Single(gu => gu.UserUUID == "80814e96-aa2b-4bbe-a7fe-ba25f3b60e2e");
                 Assert.AreEqual(1, group1User2.GroupId);
 
                 var groupUser3 = memoryContext.GroupUsers
@@ -112,9 +106,10 @@ namespace timrlink.net.CLI.Test
 
                 var group2User4 =
                     memoryContext.GroupUsers.Single(gu => gu.UserUUID == "e25a59c8-d4de-4531-aae0-241a8c1c7115");
-                                    Assert.AreEqual(2, group2User4.GroupId);
-                
-                var group2User5 = memoryContext.GroupUsers.Single(gu => gu.UserUUID == "27da471e-9e72-4c3d-bc52-000c926d1ff9");
+                Assert.AreEqual(2, group2User4.GroupId);
+
+                var group2User5 =
+                    memoryContext.GroupUsers.Single(gu => gu.UserUUID == "27da471e-9e72-4c3d-bc52-000c926d1ff9");
                 Assert.AreEqual(2, group2User5.GroupId);
             }
         }
@@ -157,10 +152,8 @@ namespace timrlink.net.CLI.Test
                 memoryContext.Add(group);
                 memoryContext.Add(group1User1);
                 memoryContext.Add(group1Users2);
-                await memoryContext.SaveChangesAsync();
-            }
-            
-            {
+                
+                
                 // Relation to user3
                 var group2User3 = new GroupUsers()
                 {
@@ -175,9 +168,7 @@ namespace timrlink.net.CLI.Test
                     GroupId = 18
                 };
                 
-                var memoryContext = new DatabaseContext(options);
-                
-                var group = new Group()
+                var group2 = new Group()
                 {
                     Id = 18,
                     Description = "Nice series with airplanes for kids",
@@ -186,9 +177,10 @@ namespace timrlink.net.CLI.Test
                     ParentalExternalId = "77C2",
                 };
                 
-                memoryContext.Add(group);
+                memoryContext.Add(group2);
                 memoryContext.Add(group2User3);
                 memoryContext.Add(group2Users4);
+                
                 await memoryContext.SaveChangesAsync();
             }
 
@@ -220,24 +212,17 @@ namespace timrlink.net.CLI.Test
 
             {
                 var memoryContext = new DatabaseContext(options);
-                var group = memoryContext.Group.Single(g => g.ExternalId == "77C8");
+                var group1 = memoryContext.Group.Single(g => g.ExternalId == "77C8");
                 
-                Assert.AreEqual("Nice animation series kids", group.Description);
-                Assert.AreEqual("Paw Patrol", group.Name);
-                Assert.AreEqual("77C1", group.ParentalExternalId);
-                Assert.AreEqual(17, group.Id);
-            }
-            
-            {
-                var memoryContext = new DatabaseContext(options);
-                var group = memoryContext.Group.SingleOrDefault(g => g.ExternalId == "99A5");
+                Assert.AreEqual("Nice animation series kids", group1.Description);
+                Assert.AreEqual("Paw Patrol", group1.Name);
+                Assert.AreEqual("77C1", group1.ParentalExternalId);
+                Assert.AreEqual(17, group1.Id);
+                
+                var group2 = memoryContext.Group.SingleOrDefault(g => g.ExternalId == "99A5");
                 
                 // Verify if 2nd group got deleted
-                Assert.Null(group);
-            }
-
-            {
-                var memoryContext = new DatabaseContext(options);
+                Assert.Null(group2);
                 
                 // There should be only one GroupUser entry left, because Group 18 got deleted and in Group 17
                 // there is only one user left

@@ -1,9 +1,7 @@
 {
   "timrSync": {
     "identifier": "",
-    "token": "",
-    "host": "https://timrsync.mobile.troii.dev/timr",
-    "debug": true
+    "token": ""
   },
   "Serilog": {
     "MinimumLevel": {

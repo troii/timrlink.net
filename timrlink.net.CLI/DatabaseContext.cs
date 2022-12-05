@@ -63,6 +63,9 @@ namespace timrlink.net.CLI
         public Guid UUID { get; set; }
 
         public string User { get; set; }
+        public Guid? UserUUID { get; set; }
+        public string? UserExternalId { get; set; }
+        public string? UserEmployeeNr { get; set; }
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }
         public long Duration { get; set; }
@@ -76,9 +79,6 @@ namespace timrlink.net.CLI
         public string Description { get; set; }
         public bool Billable { get; set; }
         public DateTimeOffset? Deleted { get; set; }
-        public Guid? UserUUID { get; set; }
-        public string? UserExternalId { get; set; }
-        public string? UserEmployeeNr { get; set; }
         public Guid? TaskUUID { get; set; }
         public string? TaskExternalId { get; set; }
     }

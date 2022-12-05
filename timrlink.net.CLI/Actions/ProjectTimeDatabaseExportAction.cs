@@ -130,6 +130,7 @@ namespace timrlink.net.CLI.Actions
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
                     projectTime.UserUUID = Guid.Parse(pt.userUuid);
+                    projectTime.UserExternalId = pt.externalUserId;
                     projectTime.StartTime = pt.GetStartTimeOffset();
                     projectTime.EndTime = pt.GetEndTimeOffset();
                     projectTime.Duration = pt.duration;
@@ -147,10 +148,8 @@ namespace timrlink.net.CLI.Actions
                     projectTime.Description = pt.description;
                     projectTime.Billable = pt.billable;
                     projectTime.Deleted = null;
-                    projectTime.UserExternalId = pt.externalUserId;
-
+                    
                     return projectTime;
-                        
                 });
                 
                 await context.ProjectTimes.AddOrUpdateRange(dbEntities);    

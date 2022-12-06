@@ -91,8 +91,6 @@ namespace timrlink.net.CLI
         public DateTimeOffset? Deleted { get; set; }
         public Guid? TaskUUID { get; set; }
         public string? TaskExternalId { get; set; }
-        
-        public ICollection<GroupUsers> GroupUsers { get; set; }
     }
 
     public class Group

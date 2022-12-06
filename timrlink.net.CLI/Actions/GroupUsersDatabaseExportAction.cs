@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using timrlink.net.Core.Service;
 
@@ -22,17 +20,6 @@ namespace timrlink.net.CLI.Actions
 
         public async Task Execute()
         {
-            // We don't migrate when in memory database or SQLite Databases are used, otherwise unit tests would fail.
-            if (context.Database.GetDbConnection().GetType() != typeof(Microsoft.Data.Sqlite.SqliteConnection))
-            {
-                var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-                if (pendingMigrations.Any())
-                {
-                    logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
-                    await context.Database.MigrateAsync();
-                }
-            }
-
             var groups = await groupService.GetGroups();
             await groupService.SetMissingExternalIds(groups);
             
@@ -52,7 +39,7 @@ namespace timrlink.net.CLI.Actions
                 databaseGroup.Name = group.name;
                 databaseGroup.ParentalExternalId = group.parentExternalId;
 
-                context.Update(databaseGroup);
+                await context.Group.AddOrUpdate(databaseGroup);
                 await context.SaveChangesAsync();
 
                 logger.LogInformation($"Created or updated Group with Name: {databaseGroup.Name}");
@@ -60,7 +47,6 @@ namespace timrlink.net.CLI.Actions
                 groupDictionary.Remove(databaseGroup.Id);
                 
                 var groupUsers = await groupService.GetGroupUsers(group);
-                var groupUsersDatabase = new List<GroupUsers>();
                 
                 var userDictionary = context.GroupUsers.Where(gu => gu.GroupId == databaseGroup.Id)
                     .ToDictionary(g => g.UserUUID, g => g);
@@ -74,7 +60,7 @@ namespace timrlink.net.CLI.Actions
 
                     userDictionary.Remove(user.uuid);
 
-                    groupUsersDatabase.Add(groupUser);
+                    await context.GroupUsers.AddOrUpdate(groupUser);
                     logger.LogInformation($"Created or updated GroupUsers with GroupID: {groupUser.GroupId} UserUUID: {groupUser.UserUUID}");
                 }
                 
@@ -84,8 +70,7 @@ namespace timrlink.net.CLI.Actions
                     context.Remove(userGroupToDelete);
                     logger.LogInformation($"Removed Group with GroupID: {userGroupToDelete.GroupId} UserUUID: {userGroupToDelete.UserUUID}");
                 }
-
-                await context.GroupUsers.AddOrUpdateRange(groupUsersDatabase);
+                
                 await context.SaveChangesAsync();
             }
 

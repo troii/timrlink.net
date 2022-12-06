@@ -124,7 +124,7 @@ namespace timrlink.net.CLI
             }
         }
 
-        public static async Task AddOrUpdate<T>(DbSet<T> dbSet, T entity) where T : class
+        public static async Task AddOrUpdate<T>(this DbSet<T> dbSet, T entity) where T : class
         {
             await AddOrUpdateInternal(dbSet, dbSet.AsNoTracking(), entity);
         }

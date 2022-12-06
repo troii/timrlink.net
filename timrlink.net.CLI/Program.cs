@@ -149,6 +149,14 @@ namespace timrlink.net.CLI
             var context = new DatabaseContext(new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString)
                 .Options);
+            
+            var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+            if (pendingMigrations.Any())
+            {
+                Logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                await context.Database.MigrateAsync();
+            }
+            
             await new GroupUsersDatabaseExportAction(LoggerFactory, context, GroupService).Execute();
         }
     }

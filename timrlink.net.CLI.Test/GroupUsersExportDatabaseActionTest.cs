@@ -26,9 +26,10 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
+            var groupServiceMock = new Mock<IGroupService>(MockBehavior.Loose);
             var options = InMemorySqLiteContextOptions();
-            GroupUsersDatabaseExportAction groupUsersAction;
 
+            // Setup
             {
                 var group1 = new API.Group
                 {
@@ -66,14 +67,18 @@ namespace timrlink.net.CLI.Test
 
                 var memoryContext = new DatabaseContext(options);
                 await memoryContext.Database.EnsureCreatedAsync();
-
-                var groupService = BuildGroupService(userGroup1, userGroup2);
-                groupUsersAction =
-                    new GroupUsersDatabaseExportAction(loggerFactory, memoryContext, groupService);
+                
+                BuildGroupService(groupServiceMock, userGroup1, userGroup2);
             }
 
-            await groupUsersAction.Execute();
-
+            // Test group users action
+            {
+                var memoryContext = new DatabaseContext(options);
+                var groupUsersAction = new GroupUsersDatabaseExportAction(loggerFactory, memoryContext, groupServiceMock.Object);
+                await groupUsersAction.Execute();
+            }
+            
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var group1 = memoryContext.Group.Single(g => g.ExternalId == "99C4");
@@ -119,9 +124,10 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             
+            var groupServiceMock = new Mock<IGroupService>(MockBehavior.Loose);
             var options = InMemorySqLiteContextOptions();
-            GroupUsersDatabaseExportAction groupUsersAction;
 
+            // Setup
             {
                 var memoryContext = new DatabaseContext(options);
                 await memoryContext.Database.EnsureCreatedAsync();
@@ -140,7 +146,7 @@ namespace timrlink.net.CLI.Test
                     GroupId = 17
                 };
                 
-                var group = new Group()
+                var group1Database = new Group()
                 {
                     Id = 17,
                     Description = "Superheroes of Paw Patrol",
@@ -149,7 +155,7 @@ namespace timrlink.net.CLI.Test
                     ParentalExternalId = "77C2",
                 };
                 
-                memoryContext.Add(group);
+                memoryContext.Add(group1Database);
                 memoryContext.Add(group1User1);
                 memoryContext.Add(group1Users2);
                 
@@ -182,9 +188,7 @@ namespace timrlink.net.CLI.Test
                 memoryContext.Add(group2Users4);
                 
                 await memoryContext.SaveChangesAsync();
-            }
-
-            {
+                
                 var group1 = new API.Group
                 {
                     description = "Nice animation series kids",
@@ -201,15 +205,17 @@ namespace timrlink.net.CLI.Test
                     users = new List<User>(){ user1 }
                 };
                 
-                var memoryContext = new DatabaseContext(options);
-
-                var groupService = BuildGroupService(userGroup1);
-                groupUsersAction =
-                    new GroupUsersDatabaseExportAction(loggerFactory, memoryContext, groupService);
+                BuildGroupService(groupServiceMock, userGroup1);
             }
 
-            await groupUsersAction.Execute();
+            // Test group users action
+            {
+                var memoryContext = new DatabaseContext(options);
+                var groupUsersAction = new GroupUsersDatabaseExportAction(loggerFactory, memoryContext, groupServiceMock.Object);
+                await groupUsersAction.Execute();
+            }
 
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var group1 = memoryContext.Group.Single(g => g.ExternalId == "77C8");
@@ -233,11 +239,10 @@ namespace timrlink.net.CLI.Test
             }
         }
 
-        private IGroupService BuildGroupService(params UserGroup[] userGroups)
+        private void BuildGroupService(Mock<IGroupService> groupServiceMock, params UserGroup[] userGroups)
         {
             var groups = userGroups.Select(ug => ug.group).ToList();
             
-            var groupServiceMock = new Mock<IGroupService>(MockBehavior.Loose);
             groupServiceMock
                 .Setup(service => service.GetGroups())
                 .ReturnsAsync(groups.ToList());
@@ -252,8 +257,6 @@ namespace timrlink.net.CLI.Test
                     .Setup(service => service.GetGroupUsers(userGroup.group))
                     .ReturnsAsync(userGroup.users);
             }
-
-            return groupServiceMock.Object;
         }
         
         private static DbContextOptions InMemorySqLiteContextOptions()
@@ -265,7 +268,6 @@ namespace timrlink.net.CLI.Test
             return new DbContextOptionsBuilder()
                 .UseSqlite(connection)
                 .Options;
-            
         }
     }
 }

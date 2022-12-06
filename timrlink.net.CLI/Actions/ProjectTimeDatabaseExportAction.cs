@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using timrlink.net.CLI.Extensions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
@@ -34,15 +32,15 @@ namespace timrlink.net.CLI.Actions
             this.projectTimeService = projectTimeService;
         }
 
-        public static DateTime? TryParse(string text, string format) => 
+        private static DateTime? TryParse(string text, string format) => 
             DateTime.TryParseExact(text, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) ? date : (DateTime?) null;
 
         public async Task Execute()
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
             
-            DateTime? fromDate = TryParse(from, dateFormatToParse);
-            DateTime? toDate = TryParse(to, dateFormatToParse);
+            var fromDate = TryParse(from, dateFormatToParse);
+            var toDate = TryParse(to, dateFormatToParse);
             
             DateSpan? dateSpan;
             
@@ -73,16 +71,6 @@ namespace timrlink.net.CLI.Actions
             }
             
             IList<Core.API.ProjectTime> projectTimes;
-            // We don't migrate when in memory database is used, otherwise unit tests would fail.
-            if (context.Database.IsRelational())
-            {
-                var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-                if (pendingMigrations.Any())
-                {
-                    logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
-                    context.Database.Migrate();
-                }
-            }
             
             var importTime = DateTime.Now;
 

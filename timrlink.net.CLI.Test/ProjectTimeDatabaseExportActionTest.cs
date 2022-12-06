@@ -113,14 +113,18 @@ namespace timrlink.net.CLI.Test
             
             Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
         }
-
+        
         [Test]
         public async System.Threading.Tasks.Task InsertProjectTimeToDatabase()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
+            // Setup
             {
                 var user = new User
                 {
@@ -152,17 +156,20 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+02:00"
                 };
 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-02", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
-            await importAction.Execute();
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-02", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute();
+            }
 
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -177,15 +184,19 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(metadata);
             }
         }
-
+        
         [Test]
         public async System.Threading.Tasks.Task TestIfDeleteFlagIsSet()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
 
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+
+            // Setup
             {
                 var user = new User
                 {
@@ -215,29 +226,20 @@ namespace timrlink.net.CLI.Test
                 });
                 await memoryContext.SaveChangesAsync();
 
-                var projectTimeService = BuildProjectTimeServiceMock();
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
+            // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var projectTimeDatabase = memoryContext.ProjectTimes.First();
-                Assert.AreEqual(true, projectTimeDatabase.Billable);
-                Assert.AreEqual(true, projectTimeDatabase.Changed);
-                Assert.AreEqual(false, projectTimeDatabase.Closed);
-                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
-                Assert.AreEqual(1000, projectTimeDatabase.Duration);
-                Assert.IsNull(projectTimeDatabase.Deleted);
-
-                var metadata = memoryContext.Metadata.FirstOrDefault();
-                Assert.IsNull(metadata);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute();
             }
 
-            await importAction.Execute();
-
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -260,17 +262,20 @@ namespace timrlink.net.CLI.Test
 
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
             ProjectTimeDatabaseExportAction importAction;
-            User user;
-            Task task;
 
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+
+            // Setup
             {
-                user = new User
+                var user = new User
                 {
                     externalId = "John Carmack",
                     uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
                 };
 
-                task = new Task
+                var task = new Task
                 {
                     name = "Customer B",
                     uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
@@ -294,17 +299,21 @@ namespace timrlink.net.CLI.Test
                 });
                 await memoryContext.SaveChangesAsync();
 
-                var projectTimeService = BuildProjectTimeServiceMock();
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userService, taskService,
-                    projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
-            await importAction.Execute();
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object,
+                    projectTimeServiceMock.Object);
+                await importAction.Execute();
+            }
 
+            // Verification
             {
                 // Now the deleted flag must be set
                 var memoryContext = new DatabaseContext(options);
@@ -317,6 +326,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNotNull(projectTimeDatabase.Deleted);
             }
 
+            // 2nd Setup
             {
                 var projectTime = new API.ProjectTime
                 {
@@ -338,18 +348,21 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+07:00",
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock);
+                BuildTaskService(taskServiceMock);
+            }
 
+            // Test project time database export action - 2nd import
+            {
                 var memoryContext = new DatabaseContext(options);
                 importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01",
-                    "2022-10-02", userService, taskService,
-                    projectTimeService);
+                    "2022-10-02", userServiceMock.Object, taskServiceMock.Object,
+                    projectTimeServiceMock.Object);
+                await importAction.Execute();
             }
-            
-            await importAction.Execute();
 
+            // Verification
             {
                 // Now the deleted flag must be removed again
                 var memoryContext = new DatabaseContext(options);
@@ -367,13 +380,18 @@ namespace timrlink.net.CLI.Test
             }
         }
 
+        
         [Test]
         public async System.Threading.Tasks.Task TestIfTimezoneAreWorkingCorrectly()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
+            // Setup
             {
                 var user = new User
                 {
@@ -405,17 +423,20 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+07:00"
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
-            await importAction.Execute();
-
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute();
+            }
+            
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -436,14 +457,18 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(metadata);
             }
         }
-
+        
         [Test]
         public async System.Threading.Tasks.Task TestWithTimesInDifferentTimezonesOnTheSameDay()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
 
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
+            
+            // Setup
             {
                 var user = new User
                 {
@@ -493,17 +518,20 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "-10:00",
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime1, projectTime2);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime1, projectTime2);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
             
-            await importAction.Execute();
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute();
+            }
 
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 
@@ -538,14 +566,19 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(metadata);
             }
         }
-
+            
+        
         [Test]
         public async System.Threading.Tasks.Task TestWithTimesInDifferentTimezonesDifferentDay()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
+            // Setup
             {
                 var user = new User
                 {
@@ -577,23 +610,23 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+02:00",
                 };
 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
+            }
+            
+            // Test project time database export action
+            {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userService, taskService, projectTimeService);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
+                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute();
             }
 
-            await importAction.Execute();
-
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase1 = memoryContext.ProjectTimes.First();
-
-                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 03, 23, 0, 0);
-                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 03, 23, 30, 0);
                 
                 var expectedStartTime = DateTimeOffset.Parse("2022-10-03T23:00:00+10:00");
                 var expectedEndTime = DateTimeOffset.Parse("2022-10-03T23:30:00+10:00");
@@ -612,30 +645,33 @@ namespace timrlink.net.CLI.Test
             }
         }
         
+        
         [Test]
         public async System.Threading.Tasks.Task TestProjectTimeShouldNotGetDeletedIfRangeGetsReducedFrom2To1Day()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
             ProjectTimeDatabaseExportAction importAction;
-            User user;
-            Task task;
-            API.ProjectTime projectTime;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
+            // Setup
             {
-                user = new User
+                var user = new User
                 {
                     externalId = "John Carmack",
                     uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
                 };
 
-                task = new Task
+                var task = new Task
                 {
                     name = "Customer B",
                     uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
                 };
 
-                projectTime = new API.ProjectTime
+                var projectTime = new API.ProjectTime
                 {
                     startTime = DateTime.Parse("2022-12-22T00:00:00+02:00"),
                     startTimeZone = "+02:00",
@@ -654,21 +690,24 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+02:00",
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
             
             var expectedStartTimeTimezonePlusTen = DateTimeOffset.Parse("2022-12-22T00:00:00+02:00");
             var expectedEndTimeTimeZonePlusTen = DateTimeOffset.Parse("2022-12-22T12:00:00+02:00");
-
-            // Initial import
-            await importAction.Execute();
             
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Initial import
+                await importAction.Execute();
+            }
+
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -683,19 +722,16 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(projectTimeDatabase.Deleted);
             }
 
+            // Test project time database export action - import 2nd time
             {
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
                 var memoryContext = new DatabaseContext(options);
                 importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-21", userService, taskService, projectTimeService);
+                    "2022-12-21", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Do it again just to verify that the entry is not going to be deleted.
+                await importAction.Execute();
             }
-            
-            // Do it again just to verify that the entry is not going to be deleted.
-            await importAction.Execute();
-                
+
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -715,23 +751,26 @@ namespace timrlink.net.CLI.Test
             }
         }
         
+        
         [Test]
         public async System.Threading.Tasks.Task TestProjectTimeShouldGetDeletedIfNotDeliveredAgain()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
             ProjectTimeDatabaseExportAction importAction;
-            User user;
-            Task task;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
             {
-                user = new User
+                var user = new User
                 {
                     externalId = "John Carmack",
                     uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
                 };
 
-                task = new Task
+                var task = new Task
                 {
                     name = "Customer B",
                     uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
@@ -756,38 +795,43 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "+02:00",
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
-            // Initial import
-            await importAction.Execute();
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Initial import
+                await importAction.Execute();
+            }
 
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
                 Assert.AreEqual("Blau", projectTimeDatabase.Description);
             }
 
+            // Setup
             {
                 // Do not deliver project time on second run
-                var projectTimeService = BuildProjectTimeServiceMock();
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock);
             }
             
-            // Do it again just to verify that the entry is getting deleted
-            await importAction.Execute();
-                
+            // Test project time database export action - import 2nd time
+            {
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
+                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Do it again just to verify that the entry is getting deleted
+                await importAction.Execute();
+            }
+
+            // Verification            
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -817,6 +861,10 @@ namespace timrlink.net.CLI.Test
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
             ProjectTimeDatabaseExportAction importAction;
             API.ProjectTime projectTime;
+            
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
             {
                 var user = new User
@@ -852,30 +900,40 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "-10:00",
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
-                var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
-                    "2022-10-24", userService, taskService, projectTimeService);
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
             }
 
-            // Initial import
-            await importAction.Execute();
+            // Test project time database export action
+            {
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
+                    "2022-10-24", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Initial import
+                await importAction.Execute();
+            }
 
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
                 Assert.AreEqual("Blau", projectTimeDatabase.Description);
             }
-            
-            // Now change description of project time
-            projectTime.description = "Rot";
-            
-            // Do it again just to verify that the entry is not going to be deleted.
-            await importAction.Execute();
-                
+
+            // Setup
+            {
+                // Now change description of project time
+                projectTime.description = "Rot";
+            }
+
+            // Test project time database export action - import 2nd time
+            {
+                // Do it again just to verify that the entry is not going to be deleted.
+                await importAction.Execute();
+            }
+
+            // Verification
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
@@ -904,8 +962,12 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
+
+            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
+            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
+            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             
+            // Setup
             {
                 var user = new User
                 {
@@ -940,23 +1002,24 @@ namespace timrlink.net.CLI.Test
                     lastModifiedTimeZone = "-10:00"
                 };
                 
-                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
-                var userService = BuildUserService(user);
-                var taskService = BuildTaskService(task);
-
+                BuildProjectTimeServiceMock(projectTimeServiceMock, projectTime);
+                BuildUserService(userServiceMock, user); 
+                BuildTaskService(taskServiceMock, task);
+            }
+            
+            // Test project time database export action - import 2nd time
+            {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
-                    "2022-10-24", userService, taskService, projectTimeService);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
+                    "2022-10-24", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                // Initial import
+                await importAction.Execute();
             }
 
-            // Initial import
-            await importAction.Execute();
-
+            // Verify
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
-                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 24, 22, 00, 0);
-                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 24, 23, 00, 0);
                 var expectedLastModifiedTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
                 var expectedStartTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
                 var expectedEndTime = DateTimeOffset.Parse("10/24/2022 11:00 PM -10:00");
@@ -982,7 +1045,7 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(metadata);
             }
         }
-        
+
         private static DatabaseContext InMemoryContext(string databaseName)
         {
             var options = InMemoryContextOptions(databaseName);
@@ -998,19 +1061,16 @@ namespace timrlink.net.CLI.Test
             return options;
         }
 
-        private IProjectTimeService BuildProjectTimeServiceMock(params API.ProjectTime[] projectTimes)
+        private void BuildProjectTimeServiceMock(Mock<IProjectTimeService> projectTimeServiceMock, params API.ProjectTime[] projectTimes)
         {
-            var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
             projectTimeServiceMock
                 .Setup(service =>
                     service.GetProjectTimes(It.IsAny<DateTime>(), It.IsAny<DateTime>(), null, null, null, null, null))
                 .ReturnsAsync(projectTimes.ToList());
-            return projectTimeServiceMock.Object;
         }
 
-        private ITaskService BuildTaskService(params Task[] tasks)
+        private void BuildTaskService(Mock<ITaskService> taskServiceMock, params Task[] tasks)
         {
-            var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose);
             taskServiceMock
                 .Setup(service => service.GetTaskHierarchy(It.IsAny<GetTasksRequest>()))
                 .ReturnsAsync(tasks.ToList());
@@ -1018,17 +1078,13 @@ namespace timrlink.net.CLI.Test
             taskServiceMock
                 .Setup(service => service.FlattenTasks(It.IsAny<IList<Task>>()))
                 .Returns((IList<Task> t) => TaskService.FlattenTasks(t));
-
-            return taskServiceMock.Object;
         }
 
-        private IUserService BuildUserService(params User[] users)
+        private void BuildUserService(Mock<IUserService> userServiceMock, params User[] users)
         {
-            var userServiceMock = new Mock<IUserService>(MockBehavior.Strict);
             userServiceMock
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users.ToList);
-            return userServiceMock.Object;
         }
     }
 }

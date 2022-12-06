@@ -19,43 +19,6 @@ namespace timrlink.net.CLI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("timrlink.net.CLI.Group", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExternalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParentalExternalId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Group");
-                });
-
-            modelBuilder.Entity("timrlink.net.CLI.GroupUsers", b =>
-                {
-                    b.Property<long>("GroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserUUID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("GroupId", "UserUUID");
-
-                    b.ToTable("GroupUsers");
-                });
-
             modelBuilder.Entity("timrlink.net.CLI.Metadata", b =>
                 {
                     b.Property<string>("Key")
@@ -135,20 +98,6 @@ namespace timrlink.net.CLI.Migrations
                     b.HasKey("UUID");
 
                     b.ToTable("ProjectTimes");
-                });
-
-            modelBuilder.Entity("timrlink.net.CLI.GroupUsers", b =>
-                {
-                    b.HasOne("timrlink.net.CLI.Group", null)
-                        .WithMany("GroupUsers")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("timrlink.net.CLI.Group", b =>
-                {
-                    b.Navigation("GroupUsers");
                 });
 #pragma warning restore 612, 618
         }

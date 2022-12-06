@@ -147,7 +147,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+02:00"),
+                    lastModifiedTimeZone = "+02:00"
                 };
 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -331,7 +333,9 @@ namespace timrlink.net.CLI.Test
                     duration = 1000,
                     closed = false,
                     // Here we update the description and return the project time one day earlier
-                    description = "Dachstein"
+                    description = "Dachstein",
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:39:00+07:00"),
+                    lastModifiedTimeZone = "+07:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -396,7 +400,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+07:00"),
+                    lastModifiedTimeZone = "+07:00"
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -414,8 +420,8 @@ namespace timrlink.net.CLI.Test
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
 
-                var expectedStartTime = new DateTime(2022, 10, 2, 10, 30, 0);
-                var expectedEndTime = new DateTime(2022, 10, 2, 11, 30, 0);
+                var expectedStartTime = DateTimeOffset.Parse("2022-10-02T10:30:00+07:00");
+                var expectedEndTime = DateTimeOffset.Parse("2022-10-02T11:30:00+07:00");
 
                 Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
                 Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTime);
@@ -464,7 +470,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:30:00+10:00"),
+                    lastModifiedTimeZone = "+10:00",
                 };
 
                 var projectTime2 = new API.ProjectTime
@@ -480,7 +488,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-02T11:32:00-10:00"),
+                    lastModifiedTimeZone = "-10:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime1, projectTime2);
@@ -497,8 +507,8 @@ namespace timrlink.net.CLI.Test
             {
                 var memoryContext = new DatabaseContext(options);
                 
-                var expectedStartTime = new DateTime(2022, 10, 02, 10, 30, 0);
-                var expectedEndTime = new DateTime(2022, 10, 02, 11, 30, 0);
+                var expectedStartTime = DateTimeOffset.Parse("2022-10-02T10:30:00+10:00");
+                var expectedEndTime = DateTimeOffset.Parse("2022-10-02T11:30:00+10:00");
 
                 var projectTimeDatabase1 = memoryContext.ProjectTimes.First();
                 Assert.AreEqual(expectedStartTime, projectTimeDatabase1.StartTime);
@@ -509,7 +519,10 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual(12, projectTimeDatabase1.BreakTime);
                 Assert.AreEqual(1000, projectTimeDatabase1.Duration);
                 Assert.IsNull(projectTimeDatabase1.Deleted);
-
+                
+                expectedStartTime = DateTimeOffset.Parse("2022-10-02T10:30:00-10:00");
+                expectedEndTime = DateTimeOffset.Parse("2022-10-02T11:30:00-10:00");
+                
                 var projectTimeDatabase2 = memoryContext.ProjectTimes.ToList().ElementAt(1);
 
                 Assert.AreEqual(expectedStartTime, projectTimeDatabase2.StartTime);
@@ -559,7 +572,9 @@ namespace timrlink.net.CLI.Test
                     changed = true,
                     breakTime = 12,
                     duration = 1000,
-                    closed = false
+                    closed = false,
+                    lastModifiedTime = DateTime.Parse("2022-10-03T23:32:00+10:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -579,9 +594,12 @@ namespace timrlink.net.CLI.Test
 
                 var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 03, 23, 0, 0);
                 var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 03, 23, 30, 0);
+                
+                var expectedStartTime = DateTimeOffset.Parse("2022-10-03T23:00:00+10:00");
+                var expectedEndTime = DateTimeOffset.Parse("2022-10-03T23:30:00+10:00");
 
-                Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase1.StartTime);
-                Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase1.EndTime);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase1.StartTime);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase1.EndTime);
                 Assert.AreEqual(true, projectTimeDatabase1.Billable);
                 Assert.AreEqual(true, projectTimeDatabase1.Changed);
                 Assert.AreEqual(false, projectTimeDatabase1.Closed);
@@ -602,6 +620,7 @@ namespace timrlink.net.CLI.Test
             ProjectTimeDatabaseExportAction importAction;
             User user;
             Task task;
+            API.ProjectTime projectTime;
             
             {
                 user = new User
@@ -616,7 +635,7 @@ namespace timrlink.net.CLI.Test
                     uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
                 };
 
-                var projectTime = new API.ProjectTime
+                projectTime = new API.ProjectTime
                 {
                     startTime = DateTime.Parse("2022-12-22T00:00:00+02:00"),
                     startTimeZone = "+02:00",
@@ -630,7 +649,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-12-22T12:18:00+02:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -641,12 +662,12 @@ namespace timrlink.net.CLI.Test
                 importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
                     "2022-12-22", userService, taskService, projectTimeService);
             }
+            
+            var expectedStartTimeTimezonePlusTen = DateTimeOffset.Parse("2022-12-22T00:00:00+02:00");
+            var expectedEndTimeTimeZonePlusTen = DateTimeOffset.Parse("2022-12-22T12:00:00+02:00");
 
             // Initial import
             await importAction.Execute();
-            
-            var expectedStartTimeTimezonePlusTen = new DateTime(2022, 12, 22, 00, 00, 0);
-            var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 12, 22, 12, 00, 0);
             
             {
                 var memoryContext = new DatabaseContext(options);
@@ -663,7 +684,7 @@ namespace timrlink.net.CLI.Test
             }
 
             {
-                var projectTimeService = BuildProjectTimeServiceMock();
+                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
                 var userService = BuildUserService(user);
                 var taskService = BuildTaskService(task);
 
@@ -730,7 +751,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-12-22T12:12:00+02:00"),
+                    lastModifiedTimeZone = "+02:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -768,8 +791,9 @@ namespace timrlink.net.CLI.Test
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
-                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 12, 22, 00, 00, 0);
-                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 12, 22, 12, 00, 0);
+                
+                var expectedStartTimeTimezonePlusTen = DateTimeOffset.Parse("2022-12-22T00:00:00+02:00");
+                var expectedEndTimeTimeZonePlusTen = DateTimeOffset.Parse("2022-12-22T12:00:00+02:00");
 
                 Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
                 Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
@@ -823,7 +847,9 @@ namespace timrlink.net.CLI.Test
                     breakTime = 12,
                     duration = 1000,
                     closed = false,
-                    description = "Blau"
+                    description = "Blau",
+                    lastModifiedTime = DateTime.Parse("2022-10-24T23:12:00-10:00"),
+                    lastModifiedTimeZone = "-10:00",
                 };
                 
                 var projectTimeService = BuildProjectTimeServiceMock(projectTime);
@@ -853,8 +879,9 @@ namespace timrlink.net.CLI.Test
             {
                 var memoryContext = new DatabaseContext(options);
                 var projectTimeDatabase = memoryContext.ProjectTimes.First();
-                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 24, 22, 00, 0);
-                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 24, 23, 00, 0);
+                
+                var expectedStartTimeTimezonePlusTen = DateTimeOffset.Parse("2022-10-24T22:00:00-10:00");
+                var expectedEndTimeTimeZonePlusTen = DateTimeOffset.Parse("2022-10-24T23:00:00-10:00");
 
                 Assert.AreEqual(expectedStartTimeTimezonePlusTen, projectTimeDatabase.StartTime);
                 Assert.AreEqual(expectedEndTimeTimeZonePlusTen, projectTimeDatabase.EndTime);
@@ -866,6 +893,91 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("Rot", projectTimeDatabase.Description);
                 Assert.IsNull(projectTimeDatabase.Deleted);
 
+                var metadata = memoryContext.Metadata.FirstOrDefault();
+                Assert.IsNull(metadata);
+            }
+        }
+        
+        
+        [Test]
+        public async System.Threading.Tasks.Task TestNewColumnsOfProjectTime()
+        {
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+            var options = InMemoryContextOptions(Guid.NewGuid().ToString());
+            ProjectTimeDatabaseExportAction importAction;
+            
+            {
+                var user = new User
+                {
+                    externalId = "John Carmack",
+                    uuid = "32c8c87e-43ea-11ed-b878-0242ac120002"
+                };
+
+                var task = new Task
+                {
+                    name = "Customer B",
+                    uuid = "2909B8F0-4996-4D51-A2BA-1EB690AB2102"
+                };
+                
+                var projectTime = new API.ProjectTime
+                {
+                    startTime = DateTime.Parse("2022-10-24T22:00:00-10:00"),
+                    startTimeZone = "-10:00",
+                    endTime = DateTime.Parse("2022-10-24T23:00:00-10:00"),
+                    endTimeZone = "-10:00",
+                    userUuid = user.uuid,
+                    uuid = "83f1bd14-43ea-11ed-b878-0242ac120002",
+                    taskUuid = task.uuid,
+                    billable = true,
+                    changed = true,
+                    breakTime = 12,
+                    duration = 1000,
+                    closed = false,
+                    description = "Blue",
+                    externalUserId = "99C12",
+                    externalTaskId = "B7A",
+                    lastModifiedTime = DateTime.Parse("2022-10-24T22:00:00-10:00"),
+                    lastModifiedTimeZone = "-10:00"
+                };
+                
+                var projectTimeService = BuildProjectTimeServiceMock(projectTime);
+                var userService = BuildUserService(user);
+                var taskService = BuildTaskService(task);
+
+                var memoryContext = new DatabaseContext(options);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
+                    "2022-10-24", userService, taskService, projectTimeService);
+            }
+
+            // Initial import
+            await importAction.Execute();
+
+            {
+                var memoryContext = new DatabaseContext(options);
+                var projectTimeDatabase = memoryContext.ProjectTimes.First();
+                var expectedStartTimeTimezonePlusTen = new DateTime(2022, 10, 24, 22, 00, 0);
+                var expectedEndTimeTimeZonePlusTen = new DateTime(2022, 10, 24, 23, 00, 0);
+                var expectedLastModifiedTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
+                var expectedStartTime = DateTimeOffset.Parse("10/24/2022 10:00 PM -10:00");
+                var expectedEndTime = DateTimeOffset.Parse("10/24/2022 11:00 PM -10:00");
+
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTime);
+                Assert.AreEqual(true, projectTimeDatabase.Billable);
+                Assert.AreEqual(true, projectTimeDatabase.Changed);
+                Assert.AreEqual(false, projectTimeDatabase.Closed);
+                Assert.AreEqual(12, projectTimeDatabase.BreakTime);
+                Assert.AreEqual(1000, projectTimeDatabase.Duration);
+                Assert.AreEqual("Blue", projectTimeDatabase.Description);
+                Assert.AreEqual("99C12", projectTimeDatabase.UserExternalId);
+                Assert.AreEqual("B7A", projectTimeDatabase.TaskExternalId);
+                Assert.AreEqual(expectedStartTime, projectTimeDatabase.StartTime);
+                Assert.AreEqual(expectedEndTime, projectTimeDatabase.EndTime);
+                Assert.AreEqual(Guid.Parse("32c8c87e-43ea-11ed-b878-0242ac120002"), projectTimeDatabase.UserUUID);
+                Assert.AreEqual(Guid.Parse("2909B8F0-4996-4D51-A2BA-1EB690AB2102"), projectTimeDatabase.TaskUUID);
+                Assert.IsNull(projectTimeDatabase.UserEmployeeNr);
+                Assert.AreEqual(expectedLastModifiedTime, projectTimeDatabase.LastModifiedTime);
+                
                 var metadata = memoryContext.Metadata.FirstOrDefault();
                 Assert.IsNull(metadata);
             }

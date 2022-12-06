@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using timrlink.net.CLI.Extensions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
@@ -128,22 +129,26 @@ namespace timrlink.net.CLI.Actions
                     
                     projectTime.UUID = Guid.Parse(pt.uuid);
                     projectTime.User = user != null ? $"{user.lastname} {user.firstname}" : pt.userUuid;
-                    projectTime.StartTime = pt.GetStartTimeOffset().DateTime;
-                    projectTime.EndTime = pt.GetEndTimeOffset().DateTime;
+                    projectTime.UserUUID = Guid.Parse(pt.userUuid);
+                    projectTime.UserExternalId = pt.externalUserId;
+                    projectTime.StartTime = pt.GetStartTimeOffset();
+                    projectTime.EndTime = pt.GetEndTimeOffset();
                     projectTime.Duration = pt.duration;
                     projectTime.BreakTime = pt.breakTime;
                     projectTime.Changed = pt.changed;
                     projectTime.Closed = pt.closed;
                     projectTime.StartPosition = LatLon(pt.startPosition);
                     projectTime.EndPosition = LatLon(pt.endPosition);
-                    projectTime.LastModifiedTime = pt.lastModifiedTime;
+                    projectTime.LastModifiedTime = pt.GetLastModifiedOffset();
                     projectTime.Task =
                         JsonConvert.SerializeObject(BuildTaskPath(pt.taskUuid, taskDict).Select(task => task.name)
                             .ToArray());
+                    projectTime.TaskUUID = Guid.Parse(pt.taskUuid);
+                    projectTime.TaskExternalId = pt.externalTaskId;
                     projectTime.Description = pt.description;
                     projectTime.Billable = pt.billable;
                     projectTime.Deleted = null;
-
+                    
                     return projectTime;
                 });
                 

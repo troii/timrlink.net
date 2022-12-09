@@ -19,6 +19,8 @@ namespace timrlink.net.Core
         protected IWorkItemService WorkItemService => GetService<IWorkItemService>();
         protected IWorkTimeService WorkTimeService => GetService<IWorkTimeService>();
         protected IProjectTimeService ProjectTimeService => GetService<IProjectTimeService>();
+        
+        protected IGroupService GroupService => GetService<IGroupService>();
         protected IConfiguration Configuration => GetService<IConfiguration>();
 
         public ILogger Logger { get; }

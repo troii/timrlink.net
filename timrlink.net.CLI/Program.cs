@@ -85,12 +85,17 @@ namespace timrlink.net.CLI
             exportProjectTimeCommand.AddOption(new Option<string>("from"));
             exportProjectTimeCommand.AddOption(new Option<string>("to"));
             exportProjectTimeCommand.Handler = CommandHandler.Create<string, string, string>(ExportProjectTime);
+            
+            var exportGroupsTimeCommand = new Command("export-groups", "Export Groups (Organizations)");
+            exportGroupsTimeCommand.AddOption(new Option<string>("connectionstring"));
+            exportGroupsTimeCommand.Handler = CommandHandler.Create<string>(ExportGroups);
 
             var rootCommand = new RootCommand("timrlink command line interface")
             {
                 projectTimeCommand,
                 taskCommand,
                 exportProjectTimeCommand,
+                exportGroupsTimeCommand,
             };
             rootCommand.Name = "timrlink";
             rootCommand.TreatUnmatchedTokensAsErrors = true;
@@ -137,6 +142,22 @@ namespace timrlink.net.CLI
 
             await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService,
                 TaskService, ProjectTimeService).Execute();
+        }
+
+        private async Task ExportGroups(string connectionString)
+        {
+            var context = new DatabaseContext(new DbContextOptionsBuilder()
+                .UseSqlServer(connectionString)
+                .Options);
+            
+            var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+            if (pendingMigrations.Any())
+            {
+                Logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                await context.Database.MigrateAsync();
+            }
+            
+            await new GroupUsersDatabaseExportAction(LoggerFactory, context, GroupService).Execute();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace timrlink.net.CLI.Actions
         private readonly IUserService userService;
         private readonly string from;
         private readonly string to;
-        private const string DateFormatToParse = "yyyy-MM-dd";
+        private const string dateFormatToParse = "yyyy-MM-dd";
 
         /// <summary>
         /// Constructor

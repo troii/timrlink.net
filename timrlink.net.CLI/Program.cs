@@ -2,6 +2,7 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using timrlink.net.CLI.Actions;
 using timrlink.net.Core;
+using timrlink.net.Core.Service;
 
 [assembly: InternalsVisibleTo("timrlink.net.CLI.Test")]
 
@@ -124,7 +126,17 @@ namespace timrlink.net.CLI
             var context = new DatabaseContext(new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString)
                 .Options);
-            await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService, TaskService, ProjectTimeService).Execute();
+
+            var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+            if (pendingMigrations.Any())
+            {
+                var logger = LoggerFactory.CreateLogger<Program>();
+                logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                await context.Database.MigrateAsync();
+            }
+
+            await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService,
+                TaskService, ProjectTimeService).Execute();
         }
     }
 }

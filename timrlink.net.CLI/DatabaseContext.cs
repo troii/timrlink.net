@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,9 @@ namespace timrlink.net.CLI
         public DbSet<ProjectTime> ProjectTimes { get; set; }
         public DbSet<Metadata> Metadata { get; set; }
 
+        public DbSet<Group> Group { get; set; }
+        public DbSet<GroupUsers> GroupUsers { get; set; }
+        
         public DatabaseContext(DbContextOptions options) : base(options)
         {
         }
@@ -19,7 +23,14 @@ namespace timrlink.net.CLI
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Metadata>();
-            modelBuilder.Entity<ProjectTime>();
+
+            modelBuilder.Entity<GroupUsers>()
+                .HasKey(gu => new {gu.GroupId, gu.UserUUID });
+
+            modelBuilder.Entity<GroupUsers>()
+                .HasOne<Group>()
+                .WithMany(g => g.GroupUsers)
+                .HasForeignKey(gu => gu.GroupId);
         }
 
         public async Task<Metadata> GetMetadata(string key) => await Metadata.SingleOrDefaultAsync(m => m.Key == key);
@@ -61,7 +72,6 @@ namespace timrlink.net.CLI
     {
         [Key]
         public Guid UUID { get; set; }
-
         public string User { get; set; }
         public Guid? UserUUID { get; set; }
         public string? UserExternalId { get; set; }
@@ -83,6 +93,25 @@ namespace timrlink.net.CLI
         public string? TaskExternalId { get; set; }
     }
 
+    public class Group
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public string ExternalId { get; set; }
+        public string ParentalExternalId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<GroupUsers> GroupUsers { get; set; }
+    }
+
+    [Keyless]
+    public class GroupUsers
+    {
+        public long GroupId { get; set; }
+        public string UserUUID { get; set; }
+    }
+
     internal static class DbSetExtensions
     {
         public static async Task AddOrUpdateRange<T>(this DbSet<T> dbSet, IEnumerable<T> dbEntities)
@@ -95,7 +124,7 @@ namespace timrlink.net.CLI
             }
         }
 
-        public static async Task AddOrUpdate<T>(DbSet<T> dbSet, T entity) where T : class
+        public static async Task AddOrUpdate<T>(this DbSet<T> dbSet, T entity) where T : class
         {
             await AddOrUpdateInternal(dbSet, dbSet.AsNoTracking(), entity);
         }

@@ -18,6 +18,7 @@ namespace timrlink.net.Core
                 .AddScoped<IWorkTimeService, WorkTimeService>()
                 .AddScoped<ITaskService, TaskService>()
                 .AddScoped<IProjectTimeService, ProjectTimeService>()
+                .AddScoped<IGroupService, GroupService>()
                 .AddScoped(provider => ServiceFactory.BuildTimrSync(provider));
         }
 

@@ -109,10 +109,12 @@ namespace timrlink.net.CLI
             switch (Path.GetExtension(filename))
             {
                 case ".csv":
-                    action = new ProjectTimeCSVImportAction(LoggerFactory, filename, TaskService, UserService, ProjectTimeService);
+                    action = new ProjectTimeCSVImportAction(LoggerFactory, filename, TaskService, UserService,
+                        ProjectTimeService);
                     break;
                 case ".xlsx":
-                    action = new ProjectTimeXLSXImportAction(LoggerFactory, filename, TaskService, UserService, ProjectTimeService);
+                    action = new ProjectTimeXLSXImportAction(LoggerFactory, filename, TaskService, UserService,
+                        ProjectTimeService);
                     break;
                 default:
                     throw new ArgumentException($"Unsupported file type '{filename}' - use .csv or .xlsx!");
@@ -131,17 +133,10 @@ namespace timrlink.net.CLI
             var context = new DatabaseContext(new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString)
                 .Options);
+            await InitializeDatabase(context);
 
-            var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-            if (pendingMigrations.Any())
-            {
-                var logger = LoggerFactory.CreateLogger<Program>();
-                logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
-                await context.Database.MigrateAsync();
-            }
-
-            await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from: from, to: to, UserService,
-                TaskService, ProjectTimeService).Execute();
+            await new ProjectTimeDatabaseExportAction(LoggerFactory, context, from, to, UserService, TaskService,
+                ProjectTimeService).Execute();
         }
 
         private async Task ExportGroups(string connectionString)
@@ -149,15 +144,54 @@ namespace timrlink.net.CLI
             var context = new DatabaseContext(new DbContextOptionsBuilder()
                 .UseSqlServer(connectionString)
                 .Options);
-            
+            await InitializeDatabase(context);
+
+            await new GroupUsersDatabaseExportAction(LoggerFactory, context, GroupService).Execute();
+        }
+
+        private async Task InitializeDatabase(DatabaseContext context)
+        {
             var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+
+            if (pendingMigrations.Count > 0)
+            {
+                bool existsMigration;
+                using (var command = context.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = '__EFMigrationsHistory';";
+                    context.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        // do something with result
+                        existsMigration = result.GetInt32(0) > 0;
+                    }
+                }
+
+                int existsTables;
+                using (var command = context.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND (TABLE_NAME = 'ProjectTimes' OR TABLE_NAME = 'Metadata');";
+                    context.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        // do something with result
+                        existsTables = result.GetInt32(0);
+                    }
+                }
+                
+                if (!existsMigration && existsTables > 0)
+                {
+                    // Insert 20221020122606_InitialMigration manually
+                    await context.Database.ExecuteSqlRawAsync("INSERT INTO __EFMigrationsHistory(MigrationId, ProductVersion) VALUES ('20221020122606_InitialMigration', '')");
+                }
+            }
+
             if (pendingMigrations.Any())
             {
-                Logger.LogInformation($"Running Database Migration... ({string.Join(", ", pendingMigrations)})");
+                Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
+                    string.Join(", ", pendingMigrations));
                 await context.Database.MigrateAsync();
             }
-            
-            await new GroupUsersDatabaseExportAction(LoggerFactory, context, GroupService).Execute();
         }
     }
 }

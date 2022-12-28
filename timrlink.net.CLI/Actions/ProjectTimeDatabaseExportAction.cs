@@ -189,10 +189,15 @@ namespace timrlink.net.CLI.Actions
 
         private IEnumerable<Core.API.Task> BuildTaskPath(string taskUuid, Dictionary<string, Core.API.Task> tasks)
         {
-            for (var task = tasks.GetValueOrDefault(taskUuid); task != null; task = task.parentUuid != null ? tasks.GetValueOrDefault(task.parentUuid) : null)
+            IEnumerable<Core.API.Task> ReversedTaskPath()
             {
-                yield return task;
+                for (var task = tasks.GetValueOrDefault(taskUuid); task != null; task = task.parentUuid != null ? tasks.GetValueOrDefault(task.parentUuid) : null)
+                {
+                    yield return task;
+                }
             }
+
+            return ReversedTaskPath().Reverse();
         }
 
         private string LatLon(Position position)

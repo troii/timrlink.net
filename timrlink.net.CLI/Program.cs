@@ -163,20 +163,23 @@ namespace timrlink.net.CLI
                 {
                     await context.Database.MigrateAsync();
                 }
-                catch (SqlException sqlException)
+                catch (SqlException exception)
                 {
+                    Logger.LogWarning($"SQLException occured so we consider the database was created without migration: {exception}");
+                    
                     // When SQLException occurs we know that the database was already created before.
                     // So we insert the first migration 20221020122606_InitialMigration manually
                     var firstMigrationName = pendingMigrations.FirstOrDefault();
-                    if (firstMigrationName != null)
+                    var version = Assembly.GetAssembly(typeof(DbContext))?.GetName().Version;
+                    if (firstMigrationName != null && version != null)
                     {
-                        var version = Assembly.GetAssembly(typeof(DbContext)).GetName().Version;
                         var versionString = $"{version.Major}.{version.Minor}.{version.Build}";
                         
                         await context.Database.ExecuteSqlRawAsync(
                             $"INSERT INTO __EFMigrationsHistory(MigrationId, ProductVersion) VALUES ('{firstMigrationName}', '{versionString}')");
                     }
                     
+                    // Run the remaining migrations
                     pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
                     if (pendingMigrations.Any())
                     {

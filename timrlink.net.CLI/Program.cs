@@ -3,8 +3,10 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -152,45 +154,36 @@ namespace timrlink.net.CLI
         private async Task InitializeDatabase(DatabaseContext context)
         {
             var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-
-            if (pendingMigrations.Count > 0)
-            {
-                bool existsMigration;
-                using (var command = context.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = '__EFMigrationsHistory';";
-                    context.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        // do something with result
-                        existsMigration = result.GetInt32(0) > 0;
-                    }
-                }
-
-                int existsTables;
-                using (var command = context.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND (TABLE_NAME = 'ProjectTimes' OR TABLE_NAME = 'Metadata');";
-                    context.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        // do something with result
-                        existsTables = result.GetInt32(0);
-                    }
-                }
-                
-                if (!existsMigration && existsTables > 0)
-                {
-                    // Insert 20221020122606_InitialMigration manually
-                    await context.Database.ExecuteSqlRawAsync("INSERT INTO __EFMigrationsHistory(MigrationId, ProductVersion) VALUES ('20221020122606_InitialMigration', '')");
-                }
-            }
-
+            
             if (pendingMigrations.Any())
             {
                 Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
                     string.Join(", ", pendingMigrations));
-                await context.Database.MigrateAsync();
+                try
+                {
+                    await context.Database.MigrateAsync();
+                }
+                catch (SqlException sqlException)
+                {
+                    // Insert 20221020122606_InitialMigration manually
+                    var firstMigrationName = pendingMigrations.FirstOrDefault();
+                    if (firstMigrationName != null)
+                    {
+                        var version = Assembly.GetAssembly(typeof(DbContext)).GetName().Version;
+                        var versionString = $"{version.Major}.{version.Minor}.{version.Build}";
+                        
+                        await context.Database.ExecuteSqlRawAsync(
+                            $"INSERT INTO __EFMigrationsHistory(MigrationId, ProductVersion) VALUES ('{firstMigrationName}', '{versionString}')");
+                    }
+                    
+                    pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+                    if (pendingMigrations.Any())
+                    {
+                        Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
+                            string.Join(", ", pendingMigrations));
+                        await context.Database.MigrateAsync();
+                    }
+                }
             }
         }
     }

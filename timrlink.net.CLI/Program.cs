@@ -165,7 +165,8 @@ namespace timrlink.net.CLI
                 }
                 catch (SqlException sqlException)
                 {
-                    // Insert 20221020122606_InitialMigration manually
+                    // When SQLException occurs we know that the database was already created before.
+                    // So we insert the first migration 20221020122606_InitialMigration manually
                     var firstMigrationName = pendingMigrations.FirstOrDefault();
                     if (firstMigrationName != null)
                     {

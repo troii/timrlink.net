@@ -154,39 +154,57 @@ namespace timrlink.net.CLI
         private async Task InitializeDatabase(DatabaseContext context)
         {
             var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-            
+
             if (pendingMigrations.Any())
             {
-                Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
-                    string.Join(", ", pendingMigrations));
-                try
+                const string efMigrationsHistoryTable = "__EFMigrationsHistory";
+                
+                bool migrationExists;
+                await using (var command = context.Database.GetDbConnection().CreateCommand())
                 {
-                    await context.Database.MigrateAsync();
+                    command.CommandText = $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = '{efMigrationsHistoryTable}';";
+                    await context.Database.OpenConnectionAsync();
+
+                    var result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    migrationExists = result > 0;
                 }
-                catch (SqlException exception)
+
+                bool tablesExist;
+                await using (var command = context.Database.GetDbConnection().CreateCommand())
                 {
-                    Logger.LogWarning($"SQLException occured so we consider the database was created without migration: {exception}");
+                    command.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND (TABLE_NAME = 'ProjectTimes' OR TABLE_NAME = 'Metadata');";
+                    await context.Database.OpenConnectionAsync();
                     
-                    // When SQLException occurs we know that the database was already created before.
-                    // So we insert the first migration 20221020122606_InitialMigration manually
-                    var firstMigrationName = pendingMigrations.FirstOrDefault();
-                    var version = Assembly.GetAssembly(typeof(DbContext))?.GetName().Version;
+                    var result = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    tablesExist = result > 0;
+                }
+                
+                if (tablesExist && !migrationExists)
+                {
+                    Logger.LogInformation("Database already has existing tables before running migrations, marking initial migration as already done");
+
+                    // When tables already exist but no migration exists we know that database was created without 
+                    // migrations. So we insert the first migration 20221020122606_InitialMigration manually
+                    // Then we can switch to migrations managed by Entity Framework
+                    var firstMigrationName = pendingMigrations.First();
+                    var version = Assembly.GetAssembly(typeof(DbContext)).GetName().Version;
                     if (firstMigrationName != null && version != null)
                     {
                         var versionString = $"{version.Major}.{version.Minor}.{version.Build}";
-                        
+
+                        await context.Database.ExecuteSqlRawAsync($"CREATE TABLE {efMigrationsHistoryTable}(MigrationId nvarchar(150) NOT NULL CONSTRAINT PK___EFMigrationsHistory PRIMARY KEY, ProductVersion nvarchar(32) NOT NULL);");
                         await context.Database.ExecuteSqlRawAsync(
-                            $"INSERT INTO __EFMigrationsHistory(MigrationId, ProductVersion) VALUES ('{firstMigrationName}', '{versionString}')");
+                            $"INSERT INTO {efMigrationsHistoryTable}(MigrationId, ProductVersion) VALUES ('{firstMigrationName}', '{versionString}')");
                     }
-                    
-                    // Run the remaining migrations
-                    pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
-                    if (pendingMigrations.Any())
-                    {
-                        Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
-                            string.Join(", ", pendingMigrations));
-                        await context.Database.MigrateAsync();
-                    }
+                }
+                
+                // Run the remaining migrations
+                pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+                if (pendingMigrations.Any())
+                {
+                    Logger.LogInformation("Running Database Migration... ({pendingMigrations})",
+                        string.Join(", ", pendingMigrations));
+                    await context.Database.MigrateAsync();
                 }
             }
         }

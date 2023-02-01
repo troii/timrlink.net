@@ -4,7 +4,7 @@ using timrlink.net.Core.API;
 namespace timrlink.net.CLI.Extensions
 {
     /// <summary>
-    /// Converversions from DateTime to DateTimeOffset
+    /// Conversion from DateTime to DateTimeOffset
     /// </summary>
     public static class RecordExtensions
     {

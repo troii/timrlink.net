@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using timrlink.net.CLI.Extensions;
 using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
@@ -69,11 +70,7 @@ namespace timrlink.net.CLI.Actions
                     throw new ArgumentException("From date is after to date. Aborting.");
                 }
                 
-                dateSpan = new DateSpan
-                {
-                    From = fromDate.Value,
-                    To = toDate.Value
-                };
+                dateSpan = new DateSpan(fromDate.Value, toDate.Value);
             }
             else if (fromDate == null && toDate != null)
             {
@@ -94,7 +91,7 @@ namespace timrlink.net.CLI.Actions
 
             if (dateSpan.HasValue)
             {
-                logger.LogInformation($"Export project times from: {dateSpan.Value.From} to: {dateSpan.Value.To}");
+                logger.LogInformation("Export project times from: {From} to: {To}", dateSpan.Value.From, dateSpan.Value.To);
                 projectTimes = await projectTimeService.GetProjectTimes(dateSpan.Value.From, dateSpan.Value.To);
             }
             else
@@ -106,7 +103,7 @@ namespace timrlink.net.CLI.Actions
                     lastProjectTimeImport = TryParse(metadata.Value, "o");
                 }
 
-                logger.LogInformation($"Export project times with modifications since: {lastProjectTimeImport}");
+                logger.LogInformation("Export project times with modifications since: {LastProjectTimeImport}", lastProjectTimeImport);
                 projectTimes = await projectTimeService.GetProjectTimes(null, null, lastProjectTimeImport);
             }
             
@@ -115,7 +112,7 @@ namespace timrlink.net.CLI.Actions
 
             if (projectTimes.Count > 0)
             {
-                logger.LogInformation($"Exporting {projectTimes.Count} project times...");
+                logger.LogInformation("Exporting {ProjectTimeCount} project times...", projectTimes.Count);
 
                 var userList = await userService.GetUsers();
                 var userDict = userList.ToDictionary(u => u.uuid);
@@ -124,7 +121,7 @@ namespace timrlink.net.CLI.Actions
                 var taskList = taskService.FlattenTasks(taskHierarchy);
                 // var taskDict = taskList.ToDictionary(t => t.uuid); // timr 4.16.x is currently affected by a bug returning Tasks duplicated
                 var taskDict = taskList.GroupBy(t => t.uuid).ToDictionary(g => g.Key, g => g.First());
-                logger.LogDebug($"Found {taskDict.Count} unique tasks");
+                logger.LogDebug("Found {TaskCount} unique tasks", taskDict.Count);
                 
                 var dbEntities = projectTimes.Select(pt =>
                 {

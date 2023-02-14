@@ -591,6 +591,47 @@ namespace timrlink.net.CLI.Test
         }
         
         [Test]
+        public async System.Threading.Tasks.Task TaskCreationUpdateAndAlreadyExistAndEqual()
+        {
+            var addTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+            
+            var spongebobTask = new Task
+            {
+                name = "Spongebob",
+                description = "Patrick",
+                uuid = Guid.NewGuid().ToString(),
+                bookable = true,
+                billable = false
+            };
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[] { spongebobTask }));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback<AddTaskRequest>(addTaskRequest => addTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(updateTaskRequest => updatedTasks.Add(updateTaskRequest.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/simple_task.csv", true, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(0, addTasks.Count);
+            
+            // TODO: No updates should be done here, because task has not changed
+            Assert.AreEqual(0, updatedTasks.Count);
+        }
+        
+        [Test]
         public async System.Threading.Tasks.Task TaskCreationWithAddress()
         {
             var createdTasks = new List<Task>();

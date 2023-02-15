@@ -153,28 +153,46 @@ namespace timrlink.net.Core.Service
             }
         }
 
-        protected async Task AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, IDictionary<string, API.Task> addedTasks, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
+        private async Task AddOrUpdateTask(IDictionary<string, API.Task> existingTaskIDs, IDictionary<string, API.Task> addedTasks, API.Task task, bool updateTask, IEqualityComparer<API.Task> equalityComparer)
         {
             logger.LogDebug($"Checking Task(Name={task.name}, ExternalId={task.externalId})");
-
-            if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask) && updateTask)
-            {
-                if (!equalityComparer.Equals(task, existingTask))
-                {
-                    logger.LogInformation($"Updating existing Task(Name={task.name}, ExternalId={task.externalId})");
-                    await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
-                    existingTaskIDs[task.externalId] = task;
-                }
-            }
-            else if (addedTasks.TryGetValue(task.externalId, out var newAddedTask))
+            
+            // Task was created in this run and is going to update again
+            if (addedTasks.TryGetValue(task.externalId, out var newAddedTask))
             {
                 if (!equalityComparer.Equals(task, newAddedTask))
                 {
-                    logger.LogInformation($"Updating Task that was created before (Name={task.name}, ExternalId={task.externalId})");
+                    logger.LogInformation(
+                        $"Updating Task that was created before (Name={task.name}, ExternalId={task.externalId})");
                     await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
                     existingTaskIDs[task.externalId] = task;
-                }    
+                }
+            }  
+            // Task already exists
+            else if (existingTaskIDs.TryGetValue(task.externalId, out var existingTask))
+            {
+                if (!equalityComparer.Equals(task, existingTask))
+                {
+                    if (updateTask)
+                    {
+                        logger.LogInformation(
+                            $"Updating existing Task(Name={task.name}, ExternalId={task.externalId})");
+                        await timrSync.UpdateTaskAsync(new API.UpdateTaskRequest(task)).ConfigureAwait(false);
+                        existingTaskIDs[task.externalId] = task;
+                    }
+                    else
+                    {
+                        logger.LogWarning(
+                            $"Skip updating modified Task(Name={task.name}, ExternalId={task.externalId})");
+                    }
+                }
+                else
+                {
+                    logger.LogInformation(
+                        $"Skip updating unmodified Task(Name={task.name}, ExternalId={task.externalId})");
+                }
             }
+            // Task does not exist and will be added
             else
             {
                 logger.LogInformation($"Adding Task(Name={task.name}, ExternalId={task.externalId})");

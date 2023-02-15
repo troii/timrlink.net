@@ -324,6 +324,7 @@ namespace timrlink.net.CLI.Test
         public async System.Threading.Tasks.Task TaskCreationWithSubtasks()
         {
             var addTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
 
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
@@ -335,6 +336,10 @@ namespace timrlink.net.CLI.Test
                 .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
                 .Callback<AddTaskRequest>(addTaskRequest => addTasks.Add(addTaskRequest.AddTaskRequest1))
                 .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(updateTaskRequest => updatedTasks.Add(updateTaskRequest.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
@@ -486,8 +491,105 @@ namespace timrlink.net.CLI.Test
                 Assert.IsNull(task.customField2);
                 Assert.IsNull(task.customField3);
             }
+            
+            Assert.AreEqual(1, updatedTasks.Count);
+            
+            {
+                var task = updatedTasks[0];
+                Assert.AreEqual("Project1", task.name);
+                Assert.AreEqual("Customer A|Project1", task.externalId);
+                Assert.AreEqual(expected: "Customer A", task.parentExternalId);
+                Assert.IsNull(task.parentUuid);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual("", task.customField1);
+                Assert.IsNull(task.customField2);
+                Assert.IsNull(task.customField3);
+            }
         }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationNoUpdateAndAlreadyExist()
+        {
+            var addTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+            
+            var spongebobTask = new Task
+            {
+                name = "Spongebob",
+                externalId = "Spongebob",
+                description = "Patrick",
+                uuid = Guid.NewGuid().ToString(),
+                bookable = true,
+                billable = false
+            };
 
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[] { spongebobTask }));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback<AddTaskRequest>(addTaskRequest => addTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(updateTaskRequest => updatedTasks.Add(updateTaskRequest.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/simple_task.csv", false, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(0, addTasks.Count);
+            Assert.AreEqual(0, updatedTasks.Count);
+        }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationNoUpdateAndAlreadyExistButDifferent()
+        {
+            var addTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+            
+            var spongebobTask = new Task
+            {
+                name = "Spongebob",
+                description = "Bikiny Bottom",
+                uuid = Guid.NewGuid().ToString(),
+                bookable = true,
+                billable = false
+            };
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[] { spongebobTask }));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback<AddTaskRequest>(addTaskRequest => addTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(updateTaskRequest => updatedTasks.Add(updateTaskRequest.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/simple_task.csv", false, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(0, addTasks.Count);
+            Assert.AreEqual(0, updatedTasks.Count);
+        }
+        
         [Test]
         public async System.Threading.Tasks.Task TaskCreationWithAddress()
         {

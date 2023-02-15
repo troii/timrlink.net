@@ -183,13 +183,13 @@ namespace timrlink.net.Core.Service
                     else
                     {
                         logger.LogWarning(
-                            $"Task already exists but with different properties - Skip updating modified Task(Name={task.name}, ExternalId={task.externalId})");
+                            $"Skip updating modified Task(Name={task.name}, ExternalId={task.externalId})");
                     }
                 }
                 else
                 {
                     logger.LogInformation(
-                        $"Task(Name={task.name}, ExternalId={task.externalId}) already exits with the same properties");
+                        $"Skip updating unmodified Task(Name={task.name}, ExternalId={task.externalId})");
                 }
             }
             // Task does not exist and will be added

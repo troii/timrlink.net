@@ -49,8 +49,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/tasks.csv", false);
 
             Assert.AreEqual(3, tasks.Count);
 
@@ -132,8 +132,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_customfields.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/tasks_customfields.csv", false);
             
             Assert.AreEqual(4, addedTasks.Count);
 
@@ -247,8 +247,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks.csv", true, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/tasks.csv", true);
 
             Assert.AreEqual(2, updatedTasks.Count);
 
@@ -343,8 +343,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_subtasks.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/tasks_with_subtasks.csv", false);
 
             Assert.AreEqual(9, addTasks.Count);
 
@@ -544,8 +544,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/simple_task.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/simple_task.csv", false);
 
             Assert.AreEqual(0, addTasks.Count);
             Assert.AreEqual(0, updatedTasks.Count);
@@ -583,8 +583,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/simple_task.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/simple_task.csv", false);
 
             Assert.AreEqual(0, addTasks.Count);
             Assert.AreEqual(0, updatedTasks.Count);
@@ -613,8 +613,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_address.csv", false, taskService);
-            await importAction.Execute();
+            var importAction = new TaskImportAction(loggerFactory.CreateLogger<TaskImportAction>(), taskService);
+            await importAction.Execute("data/tasks_with_address.csv", false);
 
             Assert.AreEqual(3, createdTasks.Count);
             

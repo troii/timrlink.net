@@ -18,14 +18,14 @@ namespace timrlink.net.CLI.Actions
             { "Usuario", ColumnDefinition.Spanish }
         };
 
-        public ProjectTimeXLSXImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
-            : base(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), filename, taskService, userService, projectTimeService)
+        public ProjectTimeXLSXImportAction(ILogger<ProjectTimeXLSXImportAction> logger, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
+            : base(logger, taskService, userService, projectTimeService)
         {
         }
 
-        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile(string filename)
         {
-            using (var document = SpreadsheetDocument.Open(Filename, false))
+            using (var document = SpreadsheetDocument.Open(filename, false))
             {
                 var worksheet = document.WorkbookPart.WorksheetParts.First().Worksheet;
                 var sheetData = worksheet.Elements<SheetData>().Single();

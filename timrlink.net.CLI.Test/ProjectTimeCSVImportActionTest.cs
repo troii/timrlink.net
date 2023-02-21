@@ -47,8 +47,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskService, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), taskService, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime.csv");
 
             Assert.AreEqual(3, tasks.Count);
 
@@ -135,8 +135,8 @@ namespace timrlink.net.CLI.Test
 
             var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime_partial_tasks.csv", taskService, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), taskService, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime_partial_tasks.csv");
 
             Assert.AreEqual(6, newTasks.Count);
 
@@ -188,8 +188,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime.csv");
 
             Assert.AreEqual(8, projectTimes.Count);
             {
@@ -240,8 +240,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
 
-            var importAction = new ProjectTimeCSVImportAction(loggerFactory, "data/projecttime.csv", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeCSVImportAction(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime.csv");
 
             Assert.AreEqual(2, projectTimes.Count);
             Assert.True(projectTimes.TrueForAll(projectTime => projectTime.externalUserId != "John Dow"), "contains projecttime for non-unique John Dow");

@@ -12,14 +12,14 @@ namespace timrlink.net.CLI.Actions
 {
     internal class ProjectTimeCSVImportAction : ProjectTimeImportAction
     {
-        public ProjectTimeCSVImportAction(ILoggerFactory loggerFactory, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
-            : base(loggerFactory.CreateLogger<ProjectTimeCSVImportAction>(), filename, taskService, userService, projectTimeService)
+        public ProjectTimeCSVImportAction(ILogger<ProjectTimeCSVImportAction> logger, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService)
+            : base(logger, taskService, userService, projectTimeService)
         {
         }
 
-        protected override IEnumerable<Core.API.ProjectTime> ParseFile()
+        protected override IEnumerable<Core.API.ProjectTime> ParseFile(string filename)
         {
-            using (var fileReader = File.OpenRead(Filename))
+            using (var fileReader = File.OpenRead(filename))
             using (var textReader = new StreamReader(fileReader))
             using (var csvReader = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture) { IgnoreBlankLines = true, Delimiter = ";" }))
             {

@@ -20,12 +20,4 @@ Task Budget Fixed Price 4;True;True;Awesome;;;False;FIXED_PRICE;False;;5,00;100,
 Task Budget Fixed Price 5;True;True;Awesome;;;False;FIXED_PRICE;False;;;100,00
 Task Budget Fixed Price 6;True;True;Awesome;;;False;FIXED_PRICE;False;;;
 
-Root Budget Task;True;True;Awesome;;;False;FIXED_PRICE;False;20,00;5,00;100,00
-Root Budget Task|Inherit Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;True;20,00;10,00;200,00
-Root Budget Task|Do NOT Inherit from Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;False;20,00;10,00;200,00
-
-Root Non Budget Task;True;True;Awesome;;;False;NONE;False;;;
-Root Non Budget Task|Inherit Non Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;True;20,00;10,00;200,00
-Root Non Budget Task|Do NOT Inherit from Non Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;False;20,00;10,00;200,00
-
 

@@ -1,0 +1,9 @@
+Task;Bookable;Billable;Description;Start;End;DescriptionRequired;BudgetPlanningType;BudgetPlanningTypeInherited;HoursPlanned;HourlyRate;BudgetPlanned
+
+Root Budget Task;True;True;Awesome;;;False;FIXED_PRICE;False;10,00;5,00;50,00
+Root Budget Task|Inherit Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;True;20,00;10,00;200,00
+Root Budget Task|Do NOT Inherit from Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;False;30,00;10,00;300,00
+
+Root Non Budget Task;True;True;Awesome;;;False;NONE;False;;;
+Root Non Budget Task|Inherit Non Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;True;20,00;10,00;200,00
+Root Non Budget Task|Do NOT Inherit from Non Root Budget Task;True;True;Awesome;;;False;TASK_HOURLY_RATE;False;20,00;10,00;200,00

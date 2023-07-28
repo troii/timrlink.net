@@ -1,0 +1,2 @@
+Task;Bookable;Billable;Description;Start;End;DescriptionRequired;BudgetPlanningType;BudgetPlanningTypeInherited;HoursPlanned;HourlyRate;BudgetPlanned
+See;false;true;;2019-05-16;;true;!WRONG_BUDGET_PLANNING_TYPE!;True;5,00;20,00;80,00

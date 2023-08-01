@@ -8,6 +8,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Microsoft.Extensions.Logging;
+using timrlink.net.Core.API;
 using timrlink.net.Core.Service;
 using Task = System.Threading.Tasks.Task;
 
@@ -75,6 +76,19 @@ namespace timrlink.net.CLI.Actions
                     task.latitudeSpecified = true;
                     task.longitude = entry.Longitude;
                     task.longitudeSpecified = true;
+                }
+
+                if (entry.BudgetPlanningType != null) {
+                    task.budgetPlanningType = entry.BudgetPlanningType;
+                    task.budgetPlanningTypeSpecified = true;
+                    task.budgetPlanningTypeInherited = entry.BudgetPlanningTypeInherited;
+                    task.budgetPlanningTypeInheritedSpecified = true;
+                    task.hoursPlanned = entry.HoursPlanned;
+                    task.hoursPlannedSpecified = entry.HoursPlanned.HasValue;
+                    task.hourlyRate = entry.HourlyRate;
+                    task.hourlyRateSpecified = entry.HourlyRate.HasValue;
+                    task.budgetPlanned = entry.BudgetPlanned;
+                    task.budgetPlannedSpecified = entry.BudgetPlanned.HasValue;
                 }
 
                 csvTasks.Add(task);
@@ -172,6 +186,21 @@ namespace timrlink.net.CLI.Actions
             
             [Optional] 
             public double? Longitude { get; set; }
+            
+            [Optional]
+            public BudgetPlanningType? BudgetPlanningType { get; set; }
+            
+            [Optional] 
+            public bool BudgetPlanningTypeInherited { get; set; }
+            
+            [Optional] 
+            public decimal? HoursPlanned { get; set; }
+            
+            [Optional] 
+            public decimal? HourlyRate { get; set; }
+
+            [Optional] 
+            public decimal? BudgetPlanned { get; set; }
         }
     }
 }

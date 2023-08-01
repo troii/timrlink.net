@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CsvHelper.TypeConversion;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -694,6 +695,190 @@ namespace timrlink.net.CLI.Test
                 Assert.AreEqual("AT", task.country);
                 Assert.AreEqual(48.246461, task.latitude);
                 Assert.AreEqual(14.261041, task.longitude);
+            }
+        }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationWithBudget()
+        {
+            var createdTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => createdTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/tasks_with_budget.csv", false, taskService);
+            await importAction.Execute();
+
+            Assert.AreEqual(4, createdTasks.Count);
+            
+            /// Task;Bookable;Billable;Description;Start;End;DescriptionRequired;BudgetPlanningType;BudgetPlanningTypeInherited;HoursPlanned;HourlyRate;BudgetPlanned
+            
+            {
+                /// Berg;True;False;Awesome;;;False;NONE;False;1.00;4.00;16.00 
+                var task = updatedTasks[0];
+                Assert.AreEqual("Berg", task.name);
+                Assert.AreEqual("Berg", task.externalId);
+                Assert.IsEmpty(task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(false, task.billable);
+                Assert.AreEqual("Awesome", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual(expected:BudgetPlanningType.NONE, task.budgetPlanningType);
+                Assert.IsFalse(task.budgetPlanningTypeInherited);
+                Assert.AreEqual(1.0,task.hoursPlanned);
+                Assert.AreEqual(4.0, task.hourlyRate);
+                Assert.AreEqual(16.0, task.budgetPlanned);
+            }
+            
+            {
+                /// Berg|Priel;True;True;;;;True;TASK_HOURLY_RATE;True;2.00;8.00;32.00 
+                var task = createdTasks[2];
+                Assert.AreEqual("Priel", task.name);
+                Assert.AreEqual("Berg|Priel", task.externalId);
+                Assert.AreEqual("Berg", task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("", task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual(expected:BudgetPlanningType.TASK_HOURLY_RATE, task.budgetPlanningType);
+                Assert.IsTrue(task.budgetPlanningTypeInherited);
+                Assert.AreEqual(2.0,task.hoursPlanned);
+                Assert.AreEqual(8.0, task.hourlyRate);
+                Assert.AreEqual(32.0, task.budgetPlanned);
+            }
+            
+            {
+                /// Fluss;false;true;;2019-05-16;;true;USER_HOURLY_RATE;False;3.00;12.00;48.00 
+                var task = updatedTasks[1];
+                Assert.AreEqual("Fluss", task.name);
+                Assert.AreEqual("Fluss", task.externalId);
+                Assert.IsEmpty(task.parentExternalId);
+                Assert.IsFalse(task.bookable);
+                Assert.IsTrue(task.billable);
+                Assert.IsEmpty(task.description);
+                Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual(expected:BudgetPlanningType.USER_HOURLY_RATE, task.budgetPlanningType);
+                Assert.IsFalse(task.budgetPlanningTypeInherited);
+                Assert.AreEqual(3.0,task.hoursPlanned);
+                Assert.AreEqual(12.0, task.hourlyRate);
+                Assert.AreEqual(48.0, task.budgetPlanned);
+            }
+            
+            {
+                /// Fluss|Enns;false;true;;2019-05-16;;true;FIXED_PRICE;False;4.00;16.00;64.00
+                var task = createdTasks[3];
+                Assert.AreEqual("Enns", task.name);
+                Assert.AreEqual("Fluss|Enns", task.externalId);
+                Assert.AreEqual("Fluss", task.parentExternalId);
+                Assert.AreEqual(false, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("",task.description);
+                Assert.AreEqual(new DateTime(2019, 05, 16, 0, 0, 0), task.start);
+                Assert.IsNull(task.end);
+                Assert.AreEqual(expected:BudgetPlanningType.FIXED_PRICE, task.budgetPlanningType);
+                Assert.IsFalse(task.budgetPlanningTypeInherited);
+                Assert.AreEqual(4.0,task.hoursPlanned);
+                Assert.AreEqual(16.0, task.hourlyRate);
+                Assert.AreEqual(64.0, task.budgetPlanned);
+            }
+        }
+        
+        [Test]
+        public void TaskCreationWithBudgetAndInvalidBudgetType()
+        {
+            var createdTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => createdTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/task_with_wrong_budget_type.csv", false, taskService);
+            
+            Assert.ThrowsAsync<TypeConverterException>(() => importAction.Execute());
+        }
+        
+        [Test]
+        public async System.Threading.Tasks.Task TaskCreationWithBudgetAndNoBudgetTypeColumn()
+        {
+            var createdTasks = new List<Task>();
+            var updatedTasks = new List<Task>();
+
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
+
+            var timrSyncMock = new Mock<TimrSync>(MockBehavior.Strict);
+            timrSyncMock
+                .Setup(timrSync => timrSync.GetTasksAsync(It.IsAny<GetTasksRequest1>()))
+                .ReturnsAsync(new GetTasksResponse(new Task[0]));
+            timrSyncMock
+                .Setup(timrSync => timrSync.AddTaskAsync(It.IsAny<AddTaskRequest>()))
+                .Callback((AddTaskRequest addTaskRequest) => createdTasks.Add(addTaskRequest.AddTaskRequest1))
+                .ReturnsAsync(new AddTaskResponse());
+            timrSyncMock
+                .Setup(timrSync => timrSync.UpdateTaskAsync(It.IsAny<UpdateTaskRequest>()))
+                .Callback<UpdateTaskRequest>(request => updatedTasks.Add(request.UpdateTaskRequest1))
+                .ReturnsAsync(new UpdateTaskResponse());
+
+            var taskService = new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
+
+            var importAction = new TaskImportAction(loggerFactory, "data/task_with_budget_and_no_budget_type.csv", false, taskService);
+            
+            await importAction.Execute();
+
+            Assert.AreEqual(1, createdTasks.Count);
+            
+            {
+                /// No Budget Type;True;True;Awesome;;;False;False;10,00;5,00;50,00
+                var task = createdTasks[0];
+                Assert.AreEqual("No Budget Type", task.name);
+                Assert.AreEqual("No Budget Type", task.externalId);
+                Assert.IsEmpty(task.parentExternalId);
+                Assert.AreEqual(true, task.bookable);
+                Assert.AreEqual(true, task.billable);
+                Assert.AreEqual("Awesome",task.description);
+                Assert.IsNull(task.start);
+                Assert.IsNull(task.end);
+                Assert.IsNull(task.budgetPlanningType);
+                Assert.IsNull(task.budgetPlanningTypeInherited);
+                Assert.IsNull(task.hoursPlanned);
+                Assert.IsNull(task.hourlyRate);
+                Assert.IsNull(task.budgetPlanned);
+                Assert.IsFalse(task.budgetPlanningTypeSpecified);
+                Assert.IsFalse(task.budgetPlanningTypeInheritedSpecified);
+                Assert.IsFalse(task.hourlyRateSpecified);
+                Assert.IsFalse(task.hourlyRateSpecified);
+                Assert.IsFalse(task.budgetPlannedSpecified);
             }
         }
     }

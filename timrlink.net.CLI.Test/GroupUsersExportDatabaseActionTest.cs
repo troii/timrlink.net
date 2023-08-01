@@ -38,7 +38,7 @@ namespace timrlink.net.CLI.Test
                     name = "Super Wings",
                     parentExternalId = "77C1"
                 };
-                
+
                 var group2 = new API.Group
                 {
                     description = "Nice animation series kids",
@@ -46,7 +46,7 @@ namespace timrlink.net.CLI.Test
                     name = "Paw Patrol",
                     parentExternalId = "77C1"
                 };
-                
+
                 var user1 = new User() { uuid = "9d33c475-0da2-4b21-95b9-feca948cc80a" };
                 var user2 = new User() { uuid = "80814e96-aa2b-4bbe-a7fe-ba25f3b60e2e" };
                 var user3 = new User() { uuid = "88a6ead0-4731-40e1-a5de-d873f094cace" };

@@ -93,7 +93,19 @@ Orts basiert|Poolhall;True;True;;;;True;Wattstraße 6;Linz;4030;;AT;48,246762587
 Orts basiert|Burgerking;false;true;;2019-05-16;;true;Martinistraße 8/2;Leonding;4060;Oberösterreich;AT;48,246955491407704;
 ```
 
-Custom Fields and Subtasks can also be specified together.
+Optionally budget information can be specified in the following format:
+
+```
+Task;Bookable;Billable;Description;Start;End;DescriptionRequired;BudgetPlanningType;BudgetPlanningTypeInherited;HoursPlanned;HourlyRate;BudgetPlanned
+Budget;True;True;;;;True;TASK_HOURLY_RATE;False;2,00;8,00;32,00
+Budget|Budget Task 1;True;False;Awesome;;;False;NONE;True;;;
+Budget|Budget Task 2;false;true;;2019-05-16;;true;USER_HOURLY_RATE;False;3,00;;48,00
+Budget|Budget Task 3;false;true;;2019-05-16;;true;FIXED_PRICE;False;4,00;16,00;64,00
+```
+
+`BudgetPlanningTypeInherited` specifies if the budget information (if any) should be used from parent task. When `true` no other information needs to be specified.
+
+Custom fields and/or subtasks and/or budget information can also be specified together.
 
 #### Export project times to DB
 

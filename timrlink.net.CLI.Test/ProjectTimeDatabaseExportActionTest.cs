@@ -32,10 +32,10 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var memoryContext = InMemoryContext(Guid.NewGuid().ToString());
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01", null,
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext,
                 userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             
-            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute("2022-10-01", null));
         }
 
         [Test]
@@ -51,10 +51,10 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var memoryContext = InMemoryContext(Guid.NewGuid().ToString());
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, null, "2022-10-01",
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext,
                 userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             
-            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute(null, "2022-10-01"));
         }
 
         [Test]
@@ -70,10 +70,9 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var memoryContext = InMemoryContext(Guid.NewGuid().ToString());
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01",
-                "2022-10-01:9999", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             
-            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute("2022-10-01", "2022-10-01:9999"));
         }
 
         [Test]
@@ -89,10 +88,9 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var memoryContext = InMemoryContext(Guid.NewGuid().ToString());
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01:9999",
-                "2022-10-01", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             
-            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute("2022-10-01:9999", "2022-10-01"));
         }
 
         [Test]
@@ -108,10 +106,9 @@ namespace timrlink.net.CLI.Test
                 new TaskService(loggerFactory.CreateLogger<TaskService>(), loggerFactory, timrSyncMock.Object);
 
             var memoryContext = InMemoryContext(Guid.NewGuid().ToString());
-            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                "2022-10-01", userServiceMock.Object, taskService, projectTimeServiceMock.Object);
+            var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskService, projectTimeServiceMock.Object);
             
-            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute());
+            Assert.ThrowsAsync<ArgumentException>(() => importAction.Execute("2022-10-02", "2022-10-01"));
         }
         
         [Test]
@@ -164,9 +161,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-02", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-02");
             }
 
             // Verification
@@ -234,9 +230,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-03");
             }
 
             // Verification
@@ -261,7 +256,6 @@ namespace timrlink.net.CLI.Test
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
 
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
@@ -307,10 +301,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object,
-                    projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-03");
             }
 
             // Verification
@@ -356,10 +348,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action - 2nd import
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-01",
-                    "2022-10-02", userServiceMock.Object, taskServiceMock.Object,
-                    projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-01", "2022-10-02");
             }
 
             // Verification
@@ -431,9 +421,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-03");
             }
             
             // Verification
@@ -526,9 +515,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-03");
             }
 
             // Verification
@@ -618,9 +606,8 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-02",
-                    "2022-10-03", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
-                await importAction.Execute();
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                await importAction.Execute("2022-10-02", "2022-10-03");
             }
 
             // Verification
@@ -651,7 +638,6 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
@@ -701,10 +687,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Initial import
-                await importAction.Execute();
+                await importAction.Execute("2022-12-21", "2022-12-22");
             }
 
             // Verification
@@ -725,10 +710,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action - import 2nd time
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-21", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Do it again just to verify that the entry is not going to be deleted.
-                await importAction.Execute();
+                await importAction.Execute("2022-12-21", "2022-12-21");
             }
 
             // Verification
@@ -757,7 +741,6 @@ namespace timrlink.net.CLI.Test
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
             var options = InMemoryContextOptions(Guid.NewGuid().ToString());
-            ProjectTimeDatabaseExportAction importAction;
 
             var projectTimeServiceMock = new Mock<IProjectTimeService>(MockBehavior.Strict);
             var taskServiceMock = new Mock<ITaskService>(MockBehavior.Loose); 
@@ -803,10 +786,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Initial import
-                await importAction.Execute();
+                await importAction.Execute("2022-12-21", "2022-12-22");
             }
 
             // Verification
@@ -825,10 +807,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action - import 2nd time
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-12-21",
-                    "2022-12-22", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Do it again just to verify that the entry is getting deleted
-                await importAction.Execute();
+                await importAction.Execute("2022-12-21", "2022-12-22");
             }
 
             // Verification            
@@ -908,10 +889,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action
             {
                 var memoryContext = new DatabaseContext(options);
-                importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
-                    "2022-10-24", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Initial import
-                await importAction.Execute();
+                await importAction.Execute("2022-10-24", "2022-10-24");
             }
 
             // Verification
@@ -930,7 +910,7 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action - import 2nd time
             {
                 // Do it again just to verify that the entry is not going to be deleted.
-                await importAction.Execute();
+                await importAction.Execute("2022-10-24", "2022-10-24");
             }
 
             // Verification
@@ -1010,10 +990,9 @@ namespace timrlink.net.CLI.Test
             // Test project time database export action - import 2nd time
             {
                 var memoryContext = new DatabaseContext(options);
-                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory, memoryContext, "2022-10-24",
-                    "2022-10-24", userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
+                var importAction = new ProjectTimeDatabaseExportAction(loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>(), memoryContext, userServiceMock.Object, taskServiceMock.Object, projectTimeServiceMock.Object);
                 // Initial import
-                await importAction.Execute();
+                await importAction.Execute("2022-10-24", "2022-10-24");
             }
 
             // Verify

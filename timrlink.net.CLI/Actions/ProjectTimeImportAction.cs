@@ -13,19 +13,19 @@ namespace timrlink.net.CLI.Actions
         protected IUserService UserService { get; }
         protected IProjectTimeService ProjectTimeService { get; }
 
-        protected ProjectTimeImportAction(ILogger logger, string filename, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService) : base(filename, logger)
+        protected ProjectTimeImportAction(ILogger logger, ITaskService taskService, IUserService userService, IProjectTimeService projectTimeService) : base(logger)
         {
             TaskService = taskService;
             UserService = userService;
             ProjectTimeService = projectTimeService;
         }
 
-        public sealed override async System.Threading.Tasks.Task Execute()
+        public async System.Threading.Tasks.Task Execute(string filename)
         {
             IList<Core.API.ProjectTime> records;
             try
             {
-                records = ParseFile().ToList();
+                records = ParseFile(filename).ToList();
             }
             catch (Exception e)
             {
@@ -38,7 +38,7 @@ namespace timrlink.net.CLI.Actions
             await ImportProjectTimeRecords(records);
         }
 
-        protected abstract IEnumerable<Core.API.ProjectTime> ParseFile();
+        protected abstract IEnumerable<Core.API.ProjectTime> ParseFile(string filename);
 
         private async System.Threading.Tasks.Task ImportProjectTimeRecords(IList<Core.API.ProjectTime> records)
         {

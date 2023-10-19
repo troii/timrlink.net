@@ -16,19 +16,14 @@ namespace timrlink.net.CLI.Actions
 {
     internal class TaskImportAction : ImportAction
     {
-        private readonly string filename;
-        private readonly bool updateTasks;
         private ITaskService TaskService { get; }
 
-        public TaskImportAction(ILoggerFactory loggerFactory, string filename, bool updateTasks, ITaskService taskService)
-            : base(filename, loggerFactory.CreateLogger<TaskImportAction>())
+        public TaskImportAction(ILogger<TaskImportAction> logger, ITaskService taskService) : base(logger)
         {
-            this.filename = filename;
-            this.updateTasks = updateTasks;
             TaskService = taskService;
         }
 
-        public override async Task Execute()
+        public async Task Execute(string filename, bool updateTasks)
         {
             var tasks = TaskService.FlattenTasks(await TaskService.GetTaskHierarchy());
             var taskTokenDictionary = tasks.ToTokenDictionary();
@@ -36,7 +31,7 @@ namespace timrlink.net.CLI.Actions
             
             Logger.LogInformation($"Found {tasks.Count} existing timr tasks.");
 
-            var csvEntries = ParseFile();
+            var csvEntries = ParseFile(filename);
             Logger.LogInformation($"CSV contains {csvEntries.Count} entries.");
 
             var csvTasks = new List<Core.API.Task>();
@@ -121,7 +116,7 @@ namespace timrlink.net.CLI.Actions
             await TaskService.SynchronizeTasksByExternalId(taskTokenDictionary, addedTasks, csvTasks, updateTasks: updateTasks);
         }
 
-        private IList<CSVEntry> ParseFile()
+        private IList<CSVEntry> ParseFile(string filename)
         {
             using (var fileReader = File.OpenRead(filename))
             using (var textReader = new StreamReader(fileReader))

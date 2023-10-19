@@ -50,8 +50,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
 
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_spanish_datetime.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime_spanish_datetime.xlsx");
 
             Assert.AreEqual(28, projectTimes.Count);
 
@@ -135,8 +135,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
             
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_english_datetime.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime_english_datetime.xlsx");
 
             Assert.AreEqual(28, projectTimes.Count);
 
@@ -220,8 +220,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
             
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_german_time.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime_german_time.xlsx");
 
             Assert.AreEqual(3, projectTimes.Count);
 
@@ -292,8 +292,8 @@ namespace timrlink.net.CLI.Test
                 .Setup(service => service.GetUsers())
                 .ReturnsAsync(users);
             
-            var importAction = new ProjectTimeXLSXImportAction(loggerFactory, "data/projecttime_two_users.xlsx", taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
-            await importAction.Execute();
+            var importAction = new ProjectTimeXLSXImportAction(loggerFactory.CreateLogger<ProjectTimeXLSXImportAction>(), taskServiceMock.Object, userServiceMock.Object, projectTimeServiceMock.Object);
+            await importAction.Execute("data/projecttime_two_users.xlsx");
 
             Assert.AreEqual(2, projectTimes.Count);
 

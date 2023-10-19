@@ -4,16 +4,11 @@ namespace timrlink.net.CLI.Actions
 {
     internal abstract class ImportAction
     {
-        protected string Filename { get; }
-
         protected ILogger Logger { get; }
 
-        protected ImportAction(string filename, ILogger logger)
+        protected ImportAction(ILogger logger)
         {
-            Filename = filename;
             Logger = logger;
         }
-
-        public abstract System.Threading.Tasks.Task Execute();
     }
 }

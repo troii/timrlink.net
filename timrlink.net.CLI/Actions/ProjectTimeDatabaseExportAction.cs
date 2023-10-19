@@ -16,31 +16,25 @@ namespace timrlink.net.CLI.Actions
     /// </summary>
     public class ProjectTimeDatabaseExportAction
     {
-        private readonly DatabaseContext context;
         private readonly ILogger<ProjectTimeDatabaseExportAction> logger;
+        private readonly DatabaseContext context;
         private readonly IProjectTimeService projectTimeService;
         private readonly ITaskService taskService;
         private readonly IUserService userService;
-        private readonly string from;
-        private readonly string to;
         private const string dateFormatToParse = "yyyy-MM-dd";
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="loggerFactory">Logger</param>
+        /// <param name="logger">Logger</param>
         /// <param name="context">Database context</param>
-        /// <param name="from">From date in the format: 'YYYY-MM-DD' example: 2022-10-24</param>
-        /// <param name="to">To date in the format: 'YYYY-MM-DD' example: 2022-10-25</param>
         /// <param name="userService">User service</param>
         /// <param name="taskService">Task service</param>
         /// <param name="projectTimeService">Project time service</param>
-        public ProjectTimeDatabaseExportAction(ILoggerFactory loggerFactory, DatabaseContext context, string from, string to, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
+        public ProjectTimeDatabaseExportAction(ILogger<ProjectTimeDatabaseExportAction> logger, DatabaseContext context, IUserService userService, ITaskService taskService, IProjectTimeService projectTimeService)
         {
-            logger = loggerFactory.CreateLogger<ProjectTimeDatabaseExportAction>();
+            this.logger = logger;
             this.context = context;
-            this.from = from;
-            this.to = to;
             this.userService = userService;
             this.taskService = taskService;
             this.projectTimeService = projectTimeService;
@@ -53,8 +47,10 @@ namespace timrlink.net.CLI.Actions
         /// Fetches project times in the given timespan (from, to) - to is inclusive so project times on this day are also included
         /// Project times that are not found anymore (can be deleted or moved) are marked as with a deleted timestamp
         /// </summary>
+        /// <param name="from">From date in the format: 'YYYY-MM-DD' example: 2022-10-24</param>
+        /// <param name="to">To date in the format: 'YYYY-MM-DD' example: 2022-10-25</param>
         /// <exception cref="ArgumentException"></exception>
-        public async Task Execute()
+        public async Task Execute(string from, string to)
         {
             logger.LogDebug("ProjectTimeDatabaseExportAction started");
             

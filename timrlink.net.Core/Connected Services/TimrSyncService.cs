@@ -11,7 +11,7 @@ namespace timrlink.net.Core.API
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://timr.com/timrsync", ConfigurationName="timrlink.net.Core.API.TimrSync")]
     public interface TimrSync
     {
@@ -19,6 +19,13 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarResponse> DeleteCarAsync(timrlink.net.Core.API.DeleteCarRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskWithSubTasksByUUIDResponse> GetTaskWithSubTasksByUUIDAsync(timrlink.net.Core.API.GetTaskWithSubTasksByUUIDRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -382,6 +389,13 @@ namespace timrlink.net.Core.API
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
+        System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskWithSubTasksResponse> GetTaskWithSubTasksAsync(timrlink.net.Core.API.GetTaskWithSubTasksRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RunningRecord))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RecordQuery))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Record))]
         System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveLeaderFromGroupResponse> RemoveLeaderFromGroupAsync(timrlink.net.Core.API.RemoveLeaderFromGroupRequest1 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
@@ -442,7 +456,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteCarRequest
     {
@@ -461,7 +475,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteCarResponse
     {
@@ -480,3022 +494,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class Car
-    {
-        
-        private string externalIdField;
-        
-        private string nameField;
-        
-        private string plateField;
-        
-        private string uuidField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
-        {
-            get
-            {
-                return this.externalIdField;
-            }
-            set
-            {
-                this.externalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string plate
-        {
-            get
-            {
-                return this.plateField;
-            }
-            set
-            {
-                this.plateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class Group
-    {
-        
-        private string externalIdField;
-        
-        private string parentExternalIdField;
-        
-        private string nameField;
-        
-        private string descriptionField;
-        
-        private Group[] subgroupsField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
-        {
-            get
-            {
-                return this.externalIdField;
-            }
-            set
-            {
-                this.externalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string parentExternalId
-        {
-            get
-            {
-                return this.parentExternalIdField;
-            }
-            set
-            {
-                this.parentExternalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("subgroups", Order=4)]
-        public Group[] subgroups
-        {
-            get
-            {
-                return this.subgroupsField;
-            }
-            set
-            {
-                this.subgroupsField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningDriveLog))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningProjectTime))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningWorkTime))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class RunningRecord
-    {
-        
-        private long idField;
-        
-        private string externalUserIdField;
-        
-        private System.DateTime startTimeField;
-        
-        private string startTimeZoneField;
-        
-        private Position startPositionField;
-        
-        private bool changedField;
-        
-        private System.DateTime lastModifiedTimeField;
-        
-        private string lastModifiedTimeZoneField;
-        
-        private int breakTimeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string externalUserId
-        {
-            get
-            {
-                return this.externalUserIdField;
-            }
-            set
-            {
-                this.externalUserIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public System.DateTime startTime
-        {
-            get
-            {
-                return this.startTimeField;
-            }
-            set
-            {
-                this.startTimeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string startTimeZone
-        {
-            get
-            {
-                return this.startTimeZoneField;
-            }
-            set
-            {
-                this.startTimeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public Position startPosition
-        {
-            get
-            {
-                return this.startPositionField;
-            }
-            set
-            {
-                this.startPositionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public bool changed
-        {
-            get
-            {
-                return this.changedField;
-            }
-            set
-            {
-                this.changedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public System.DateTime lastModifiedTime
-        {
-            get
-            {
-                return this.lastModifiedTimeField;
-            }
-            set
-            {
-                this.lastModifiedTimeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public string lastModifiedTimeZone
-        {
-            get
-            {
-                return this.lastModifiedTimeZoneField;
-            }
-            set
-            {
-                this.lastModifiedTimeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public int breakTime
-        {
-            get
-            {
-                return this.breakTimeField;
-            }
-            set
-            {
-                this.breakTimeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class Position
-    {
-        
-        private long idField;
-        
-        private double latitudeField;
-        
-        private double longitudeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public double latitude
-        {
-            get
-            {
-                return this.latitudeField;
-            }
-            set
-            {
-                this.latitudeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public double longitude
-        {
-            get
-            {
-                return this.longitudeField;
-            }
-            set
-            {
-                this.longitudeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class RunningDriveLog : RunningRecord
-    {
-        
-        private string externalCarIdField;
-        
-        private long startMileageField;
-        
-        private string routeField;
-        
-        private string purposeField;
-        
-        private string visitedField;
-        
-        private bool businessField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalCarId
-        {
-            get
-            {
-                return this.externalCarIdField;
-            }
-            set
-            {
-                this.externalCarIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public long startMileage
-        {
-            get
-            {
-                return this.startMileageField;
-            }
-            set
-            {
-                this.startMileageField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string route
-        {
-            get
-            {
-                return this.routeField;
-            }
-            set
-            {
-                this.routeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string purpose
-        {
-            get
-            {
-                return this.purposeField;
-            }
-            set
-            {
-                this.purposeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string visited
-        {
-            get
-            {
-                return this.visitedField;
-            }
-            set
-            {
-                this.visitedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public bool business
-        {
-            get
-            {
-                return this.businessField;
-            }
-            set
-            {
-                this.businessField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=13)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class RunningProjectTime : RunningRecord
-    {
-        
-        private string externalTaskIdField;
-        
-        private bool billableField;
-        
-        private string descriptionField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalTaskId
-        {
-            get
-            {
-                return this.externalTaskIdField;
-            }
-            set
-            {
-                this.externalTaskIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public bool billable
-        {
-            get
-            {
-                return this.billableField;
-            }
-            set
-            {
-                this.billableField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class RunningWorkTime : RunningRecord
-    {
-        
-        private string externalWorkItemIdField;
-        
-        private string descriptionField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalWorkItemId
-        {
-            get
-            {
-                return this.externalWorkItemIdField;
-            }
-            set
-            {
-                this.externalWorkItemIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class DriveLogsStatusRequestType
-    {
-        
-        private long[] idsField;
-        
-        private DriveLogStatus statusField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
-        public long[] ids
-        {
-            get
-            {
-                return this.idsField;
-            }
-            set
-            {
-                this.idsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public DriveLogStatus status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public enum DriveLogStatus
-    {
-        
-        /// <remarks/>
-        CHANGEABLE,
-        
-        /// <remarks/>
-        LOCKED,
-        
-        /// <remarks/>
-        CLEARED,
-        
-        /// <remarks/>
-        CLOSED,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class WorkTimesStatusRequestType
-    {
-        
-        private long[] idsField;
-        
-        private WorkTimeStatus statusField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
-        public long[] ids
-        {
-            get
-            {
-                return this.idsField;
-            }
-            set
-            {
-                this.idsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public WorkTimeStatus status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public enum WorkTimeStatus
-    {
-        
-        /// <remarks/>
-        CHANGEABLE,
-        
-        /// <remarks/>
-        LOCKED,
-        
-        /// <remarks/>
-        CLOSED,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class ProjectTimesStatusRequestType
-    {
-        
-        private long[] idsField;
-        
-        private ProjectTimeStatus statusField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
-        public long[] ids
-        {
-            get
-            {
-                return this.idsField;
-            }
-            set
-            {
-                this.idsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public ProjectTimeStatus status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public enum ProjectTimeStatus
-    {
-        
-        /// <remarks/>
-        CHANGEABLE,
-        
-        /// <remarks/>
-        LOCKED,
-        
-        /// <remarks/>
-        CLEARED,
-        
-        /// <remarks/>
-        CLOSED,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class WorkItem
-    {
-        
-        private string externalIdField;
-        
-        private string nameField;
-        
-        private string descriptionField;
-        
-        private string uuidField;
-        
-        private string shortNameField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
-        {
-            get
-            {
-                return this.externalIdField;
-            }
-            set
-            {
-                this.externalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string shortName
-        {
-            get
-            {
-                return this.shortNameField;
-            }
-            set
-            {
-                this.shortNameField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DriveLogQuery))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProjectTimeQuery))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WorkTimeQuery))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class RecordQuery
-    {
-        
-        private string externalUserIdField;
-        
-        private System.Nullable<System.DateTime> startField;
-        
-        private bool startFieldSpecified;
-        
-        private System.Nullable<System.DateTime> endField;
-        
-        private bool endFieldSpecified;
-        
-        private System.Nullable<System.DateTime> lastModifiedField;
-        
-        private bool lastModifiedFieldSpecified;
-        
-        private System.Nullable<bool> closedField;
-        
-        private bool closedFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalUserId
-        {
-            get
-            {
-                return this.externalUserIdField;
-            }
-            set
-            {
-                this.externalUserIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public System.Nullable<System.DateTime> start
-        {
-            get
-            {
-                return this.startField;
-            }
-            set
-            {
-                this.startField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool startSpecified
-        {
-            get
-            {
-                return this.startFieldSpecified;
-            }
-            set
-            {
-                this.startFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public System.Nullable<System.DateTime> end
-        {
-            get
-            {
-                return this.endField;
-            }
-            set
-            {
-                this.endField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool endSpecified
-        {
-            get
-            {
-                return this.endFieldSpecified;
-            }
-            set
-            {
-                this.endFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public System.Nullable<System.DateTime> lastModified
-        {
-            get
-            {
-                return this.lastModifiedField;
-            }
-            set
-            {
-                this.lastModifiedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool lastModifiedSpecified
-        {
-            get
-            {
-                return this.lastModifiedFieldSpecified;
-            }
-            set
-            {
-                this.lastModifiedFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public System.Nullable<bool> closed
-        {
-            get
-            {
-                return this.closedField;
-            }
-            set
-            {
-                this.closedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool closedSpecified
-        {
-            get
-            {
-                return this.closedFieldSpecified;
-            }
-            set
-            {
-                this.closedFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class DriveLogQuery : RecordQuery
-    {
-        
-        private string externalCarIdField;
-        
-        private string routeField;
-        
-        private string purposeField;
-        
-        private string visitedField;
-        
-        private System.Nullable<bool> businessField;
-        
-        private bool businessFieldSpecified;
-        
-        private DriveLogStatus[] statusesField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalCarId
-        {
-            get
-            {
-                return this.externalCarIdField;
-            }
-            set
-            {
-                this.externalCarIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string route
-        {
-            get
-            {
-                return this.routeField;
-            }
-            set
-            {
-                this.routeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string purpose
-        {
-            get
-            {
-                return this.purposeField;
-            }
-            set
-            {
-                this.purposeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string visited
-        {
-            get
-            {
-                return this.visitedField;
-            }
-            set
-            {
-                this.visitedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public System.Nullable<bool> business
-        {
-            get
-            {
-                return this.businessField;
-            }
-            set
-            {
-                this.businessField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool businessSpecified
-        {
-            get
-            {
-                return this.businessFieldSpecified;
-            }
-            set
-            {
-                this.businessFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=5)]
-        public DriveLogStatus[] statuses
-        {
-            get
-            {
-                return this.statusesField;
-            }
-            set
-            {
-                this.statusesField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class ProjectTimeQuery : RecordQuery
-    {
-        
-        private string externalTaskIdField;
-        
-        private string descriptionField;
-        
-        private System.Nullable<bool> billableField;
-        
-        private bool billableFieldSpecified;
-        
-        private ProjectTimeStatus[] statusesField;
-        
-        private System.Nullable<bool> includeChildTasksField;
-        
-        private bool includeChildTasksFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalTaskId
-        {
-            get
-            {
-                return this.externalTaskIdField;
-            }
-            set
-            {
-                this.externalTaskIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public System.Nullable<bool> billable
-        {
-            get
-            {
-                return this.billableField;
-            }
-            set
-            {
-                this.billableField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool billableSpecified
-        {
-            get
-            {
-                return this.billableFieldSpecified;
-            }
-            set
-            {
-                this.billableFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=3)]
-        public ProjectTimeStatus[] statuses
-        {
-            get
-            {
-                return this.statusesField;
-            }
-            set
-            {
-                this.statusesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public System.Nullable<bool> includeChildTasks
-        {
-            get
-            {
-                return this.includeChildTasksField;
-            }
-            set
-            {
-                this.includeChildTasksField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool includeChildTasksSpecified
-        {
-            get
-            {
-                return this.includeChildTasksFieldSpecified;
-            }
-            set
-            {
-                this.includeChildTasksFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class WorkTimeQuery : RecordQuery
-    {
-        
-        private string externalWorkItemIdField;
-        
-        private string descriptionField;
-        
-        private WorkTimeStatus[] statusesField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
-        public string externalWorkItemId
-        {
-            get
-            {
-                return this.externalWorkItemIdField;
-            }
-            set
-            {
-                this.externalWorkItemIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=2)]
-        public WorkTimeStatus[] statuses
-        {
-            get
-            {
-                return this.statusesField;
-            }
-            set
-            {
-                this.statusesField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class User
-    {
-        
-        private string externalIdField;
-        
-        private string loginField;
-        
-        private string firstnameField;
-        
-        private string lastnameField;
-        
-        private string emailField;
-        
-        private bool isAdminField;
-        
-        private System.Nullable<System.DateTime> resignDateField;
-        
-        private bool resignDateFieldSpecified;
-        
-        private System.Nullable<decimal> workingHoursField;
-        
-        private bool workingHoursFieldSpecified;
-        
-        private System.Nullable<bool> isTeamLeaderField;
-        
-        private string uuidField;
-        
-        private System.Nullable<System.DateTime> entryDateField;
-        
-        private bool entryDateFieldSpecified;
-        
-        private string ssoProviderField;
-        
-        private string ssoIdentifierField;
-        
-        public User()
-        {
-            this.isTeamLeaderField = false;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalId
-        {
-            get
-            {
-                return this.externalIdField;
-            }
-            set
-            {
-                this.externalIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string login
-        {
-            get
-            {
-                return this.loginField;
-            }
-            set
-            {
-                this.loginField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string firstname
-        {
-            get
-            {
-                return this.firstnameField;
-            }
-            set
-            {
-                this.firstnameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string lastname
-        {
-            get
-            {
-                return this.lastnameField;
-            }
-            set
-            {
-                this.lastnameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string email
-        {
-            get
-            {
-                return this.emailField;
-            }
-            set
-            {
-                this.emailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public bool isAdmin
-        {
-            get
-            {
-                return this.isAdminField;
-            }
-            set
-            {
-                this.isAdminField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=6)]
-        public System.Nullable<System.DateTime> resignDate
-        {
-            get
-            {
-                return this.resignDateField;
-            }
-            set
-            {
-                this.resignDateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool resignDateSpecified
-        {
-            get
-            {
-                return this.resignDateFieldSpecified;
-            }
-            set
-            {
-                this.resignDateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public System.Nullable<decimal> workingHours
-        {
-            get
-            {
-                return this.workingHoursField;
-            }
-            set
-            {
-                this.workingHoursField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool workingHoursSpecified
-        {
-            get
-            {
-                return this.workingHoursFieldSpecified;
-            }
-            set
-            {
-                this.workingHoursFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        [System.ComponentModel.DefaultValueAttribute(false)]
-        public System.Nullable<bool> isTeamLeader
-        {
-            get
-            {
-                return this.isTeamLeaderField;
-            }
-            set
-            {
-                this.isTeamLeaderField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=10)]
-        public System.Nullable<System.DateTime> entryDate
-        {
-            get
-            {
-                return this.entryDateField;
-            }
-            set
-            {
-                this.entryDateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool entryDateSpecified
-        {
-            get
-            {
-                return this.entryDateFieldSpecified;
-            }
-            set
-            {
-                this.entryDateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
-        public string ssoProvider
-        {
-            get
-            {
-                return this.ssoProviderField;
-            }
-            set
-            {
-                this.ssoProviderField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
-        public string ssoIdentifier
-        {
-            get
-            {
-                return this.ssoIdentifierField;
-            }
-            set
-            {
-                this.ssoIdentifierField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DriveLog))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProjectTime))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WorkTime))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class Record
-    {
-        
-        private long idField;
-        
-        private string externalUserIdField;
-        
-        private System.DateTime startTimeField;
-        
-        private string startTimeZoneField;
-        
-        private System.DateTime endTimeField;
-        
-        private string endTimeZoneField;
-        
-        private long durationField;
-        
-        private Position startPositionField;
-        
-        private Position endPositionField;
-        
-        private bool closedField;
-        
-        private bool changedField;
-        
-        private System.DateTime lastModifiedTimeField;
-        
-        private string lastModifiedTimeZoneField;
-        
-        private int breakTimeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public long id
-        {
-            get
-            {
-                return this.idField;
-            }
-            set
-            {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string externalUserId
-        {
-            get
-            {
-                return this.externalUserIdField;
-            }
-            set
-            {
-                this.externalUserIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public System.DateTime startTime
-        {
-            get
-            {
-                return this.startTimeField;
-            }
-            set
-            {
-                this.startTimeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string startTimeZone
-        {
-            get
-            {
-                return this.startTimeZoneField;
-            }
-            set
-            {
-                this.startTimeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public System.DateTime endTime
-        {
-            get
-            {
-                return this.endTimeField;
-            }
-            set
-            {
-                this.endTimeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string endTimeZone
-        {
-            get
-            {
-                return this.endTimeZoneField;
-            }
-            set
-            {
-                this.endTimeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public long duration
-        {
-            get
-            {
-                return this.durationField;
-            }
-            set
-            {
-                this.durationField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public Position startPosition
-        {
-            get
-            {
-                return this.startPositionField;
-            }
-            set
-            {
-                this.startPositionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public Position endPosition
-        {
-            get
-            {
-                return this.endPositionField;
-            }
-            set
-            {
-                this.endPositionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public bool closed
-        {
-            get
-            {
-                return this.closedField;
-            }
-            set
-            {
-                this.closedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
-        public bool changed
-        {
-            get
-            {
-                return this.changedField;
-            }
-            set
-            {
-                this.changedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
-        public System.DateTime lastModifiedTime
-        {
-            get
-            {
-                return this.lastModifiedTimeField;
-            }
-            set
-            {
-                this.lastModifiedTimeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
-        public string lastModifiedTimeZone
-        {
-            get
-            {
-                return this.lastModifiedTimeZoneField;
-            }
-            set
-            {
-                this.lastModifiedTimeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
-        public int breakTime
-        {
-            get
-            {
-                return this.breakTimeField;
-            }
-            set
-            {
-                this.breakTimeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class DriveLog : Record
-    {
-        
-        private string externalCarIdField;
-        
-        private long startMileageField;
-        
-        private long endMileageField;
-        
-        private string routeField;
-        
-        private string purposeField;
-        
-        private string visitedField;
-        
-        private bool businessField;
-        
-        private System.Nullable<DriveLogStatus> statusField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        private string userUuidField;
-        
-        private string carUuidField;
-        
-        public DriveLog()
-        {
-            this.statusField = DriveLogStatus.CHANGEABLE;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalCarId
-        {
-            get
-            {
-                return this.externalCarIdField;
-            }
-            set
-            {
-                this.externalCarIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public long startMileage
-        {
-            get
-            {
-                return this.startMileageField;
-            }
-            set
-            {
-                this.startMileageField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public long endMileage
-        {
-            get
-            {
-                return this.endMileageField;
-            }
-            set
-            {
-                this.endMileageField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
-        public string route
-        {
-            get
-            {
-                return this.routeField;
-            }
-            set
-            {
-                this.routeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string purpose
-        {
-            get
-            {
-                return this.purposeField;
-            }
-            set
-            {
-                this.purposeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
-        public string visited
-        {
-            get
-            {
-                return this.visitedField;
-            }
-            set
-            {
-                this.visitedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public bool business
-        {
-            get
-            {
-                return this.businessField;
-            }
-            set
-            {
-                this.businessField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        [System.ComponentModel.DefaultValueAttribute(DriveLogStatus.CHANGEABLE)]
-        public System.Nullable<DriveLogStatus> status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=13)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=14)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=15)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
-        public string userUuid
-        {
-            get
-            {
-                return this.userUuidField;
-            }
-            set
-            {
-                this.userUuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
-        public string carUuid
-        {
-            get
-            {
-                return this.carUuidField;
-            }
-            set
-            {
-                this.carUuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class ProjectTime : Record
-    {
-        
-        private string externalTaskIdField;
-        
-        private string taskBreadCrumbsField;
-        
-        private string descriptionField;
-        
-        private bool billableField;
-        
-        private System.Nullable<ProjectTimeStatus> statusField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        private string userUuidField;
-        
-        private string taskUuidField;
-        
-        private System.Nullable<decimal> hourlyRateField;
-        
-        private bool hourlyRateFieldSpecified;
-        
-        private System.Nullable<decimal> hourlyRateInternalField;
-        
-        private bool hourlyRateInternalFieldSpecified;
-        
-        public ProjectTime()
-        {
-            this.statusField = ProjectTimeStatus.CHANGEABLE;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalTaskId
-        {
-            get
-            {
-                return this.externalTaskIdField;
-            }
-            set
-            {
-                this.externalTaskIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string taskBreadCrumbs
-        {
-            get
-            {
-                return this.taskBreadCrumbsField;
-            }
-            set
-            {
-                this.taskBreadCrumbsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public bool billable
-        {
-            get
-            {
-                return this.billableField;
-            }
-            set
-            {
-                this.billableField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        [System.ComponentModel.DefaultValueAttribute(ProjectTimeStatus.CHANGEABLE)]
-        public System.Nullable<ProjectTimeStatus> status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
-        public string userUuid
-        {
-            get
-            {
-                return this.userUuidField;
-            }
-            set
-            {
-                this.userUuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
-        public string taskUuid
-        {
-            get
-            {
-                return this.taskUuidField;
-            }
-            set
-            {
-                this.taskUuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=15)]
-        public System.Nullable<decimal> hourlyRate
-        {
-            get
-            {
-                return this.hourlyRateField;
-            }
-            set
-            {
-                this.hourlyRateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool hourlyRateSpecified
-        {
-            get
-            {
-                return this.hourlyRateFieldSpecified;
-            }
-            set
-            {
-                this.hourlyRateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=16)]
-        public System.Nullable<decimal> hourlyRateInternal
-        {
-            get
-            {
-                return this.hourlyRateInternalField;
-            }
-            set
-            {
-                this.hourlyRateInternalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool hourlyRateInternalSpecified
-        {
-            get
-            {
-                return this.hourlyRateInternalFieldSpecified;
-            }
-            set
-            {
-                this.hourlyRateInternalFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
-    public partial class WorkTime : Record
-    {
-        
-        private string externalWorkItemIdField;
-        
-        private string descriptionField;
-        
-        private System.Nullable<WorkTimeStatus> statusField;
-        
-        private string uuidField;
-        
-        private string customField1Field;
-        
-        private string customField2Field;
-        
-        private string customField3Field;
-        
-        private string customField4Field;
-        
-        private string customField5Field;
-        
-        private string customField6Field;
-        
-        private string customField7Field;
-        
-        private string userUuidField;
-        
-        private string workItemUuidField;
-        
-        public WorkTime()
-        {
-            this.statusField = WorkTimeStatus.CHANGEABLE;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string externalWorkItemId
-        {
-            get
-            {
-                return this.externalWorkItemIdField;
-            }
-            set
-            {
-                this.externalWorkItemIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
-        [System.ComponentModel.DefaultValueAttribute(WorkTimeStatus.CHANGEABLE)]
-        public System.Nullable<WorkTimeStatus> status
-        {
-            get
-            {
-                return this.statusField;
-            }
-            set
-            {
-                this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public string uuid
-        {
-            get
-            {
-                return this.uuidField;
-            }
-            set
-            {
-                this.uuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
-        public string customField1
-        {
-            get
-            {
-                return this.customField1Field;
-            }
-            set
-            {
-                this.customField1Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
-        public string customField2
-        {
-            get
-            {
-                return this.customField2Field;
-            }
-            set
-            {
-                this.customField2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
-        public string customField3
-        {
-            get
-            {
-                return this.customField3Field;
-            }
-            set
-            {
-                this.customField3Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public string customField4
-        {
-            get
-            {
-                return this.customField4Field;
-            }
-            set
-            {
-                this.customField4Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
-        public string customField5
-        {
-            get
-            {
-                return this.customField5Field;
-            }
-            set
-            {
-                this.customField5Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
-        public string customField6
-        {
-            get
-            {
-                return this.customField6Field;
-            }
-            set
-            {
-                this.customField6Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
-        public string customField7
-        {
-            get
-            {
-                return this.customField7Field;
-            }
-            set
-            {
-                this.customField7Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
-        public string userUuid
-        {
-            get
-            {
-                return this.userUuidField;
-            }
-            set
-            {
-                this.userUuidField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
-        public string workItemUuid
-        {
-            get
-            {
-                return this.workItemUuidField;
-            }
-            set
-            {
-                this.workItemUuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
     public partial class Task
@@ -4164,7 +1163,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
     public enum BudgetPlanningType
     {
@@ -4182,8 +1181,3079 @@ namespace timrlink.net.Core.API
         FIXED_PRICE,
     }
     
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class Group
+    {
+        
+        private string externalIdField;
+        
+        private string parentExternalIdField;
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private Group[] subgroupsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string parentExternalId
+        {
+            get
+            {
+                return this.parentExternalIdField;
+            }
+            set
+            {
+                this.parentExternalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("subgroups", Order=4)]
+        public Group[] subgroups
+        {
+            get
+            {
+                return this.subgroupsField;
+            }
+            set
+            {
+                this.subgroupsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningDriveLog))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningProjectTime))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunningWorkTime))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class RunningRecord
+    {
+        
+        private long idField;
+        
+        private string externalUserIdField;
+        
+        private System.DateTime startTimeField;
+        
+        private string startTimeZoneField;
+        
+        private Position startPositionField;
+        
+        private bool changedField;
+        
+        private System.DateTime lastModifiedTimeField;
+        
+        private string lastModifiedTimeZoneField;
+        
+        private int breakTimeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public long id
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public System.DateTime startTime
+        {
+            get
+            {
+                return this.startTimeField;
+            }
+            set
+            {
+                this.startTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string startTimeZone
+        {
+            get
+            {
+                return this.startTimeZoneField;
+            }
+            set
+            {
+                this.startTimeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public Position startPosition
+        {
+            get
+            {
+                return this.startPositionField;
+            }
+            set
+            {
+                this.startPositionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool changed
+        {
+            get
+            {
+                return this.changedField;
+            }
+            set
+            {
+                this.changedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public System.DateTime lastModifiedTime
+        {
+            get
+            {
+                return this.lastModifiedTimeField;
+            }
+            set
+            {
+                this.lastModifiedTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string lastModifiedTimeZone
+        {
+            get
+            {
+                return this.lastModifiedTimeZoneField;
+            }
+            set
+            {
+                this.lastModifiedTimeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public int breakTime
+        {
+            get
+            {
+                return this.breakTimeField;
+            }
+            set
+            {
+                this.breakTimeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class Position
+    {
+        
+        private long idField;
+        
+        private double latitudeField;
+        
+        private double longitudeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public long id
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public double latitude
+        {
+            get
+            {
+                return this.latitudeField;
+            }
+            set
+            {
+                this.latitudeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public double longitude
+        {
+            get
+            {
+                return this.longitudeField;
+            }
+            set
+            {
+                this.longitudeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class RunningDriveLog : RunningRecord
+    {
+        
+        private string externalCarIdField;
+        
+        private long startMileageField;
+        
+        private string routeField;
+        
+        private string purposeField;
+        
+        private string visitedField;
+        
+        private bool businessField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalCarId
+        {
+            get
+            {
+                return this.externalCarIdField;
+            }
+            set
+            {
+                this.externalCarIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public long startMileage
+        {
+            get
+            {
+                return this.startMileageField;
+            }
+            set
+            {
+                this.startMileageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string route
+        {
+            get
+            {
+                return this.routeField;
+            }
+            set
+            {
+                this.routeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string purpose
+        {
+            get
+            {
+                return this.purposeField;
+            }
+            set
+            {
+                this.purposeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string visited
+        {
+            get
+            {
+                return this.visitedField;
+            }
+            set
+            {
+                this.visitedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool business
+        {
+            get
+            {
+                return this.businessField;
+            }
+            set
+            {
+                this.businessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=13)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class RunningProjectTime : RunningRecord
+    {
+        
+        private string externalTaskIdField;
+        
+        private bool billableField;
+        
+        private string descriptionField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool billable
+        {
+            get
+            {
+                return this.billableField;
+            }
+            set
+            {
+                this.billableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class RunningWorkTime : RunningRecord
+    {
+        
+        private string externalWorkItemIdField;
+        
+        private string descriptionField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalWorkItemId
+        {
+            get
+            {
+                return this.externalWorkItemIdField;
+            }
+            set
+            {
+                this.externalWorkItemIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class DriveLogsStatusRequestType
+    {
+        
+        private long[] idsField;
+        
+        private DriveLogStatus statusField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
+        public long[] ids
+        {
+            get
+            {
+                return this.idsField;
+            }
+            set
+            {
+                this.idsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public DriveLogStatus status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public enum DriveLogStatus
+    {
+        
+        /// <remarks/>
+        CHANGEABLE,
+        
+        /// <remarks/>
+        LOCKED,
+        
+        /// <remarks/>
+        APPROVED,
+        
+        /// <remarks/>
+        CLEARED,
+        
+        /// <remarks/>
+        CLOSED,
+        
+        /// <remarks/>
+        ARCHIVED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class WorkTimesStatusRequestType
+    {
+        
+        private long[] idsField;
+        
+        private WorkTimeStatus statusField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
+        public long[] ids
+        {
+            get
+            {
+                return this.idsField;
+            }
+            set
+            {
+                this.idsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public WorkTimeStatus status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public enum WorkTimeStatus
+    {
+        
+        /// <remarks/>
+        CHANGEABLE,
+        
+        /// <remarks/>
+        LOCKED,
+        
+        /// <remarks/>
+        APPROVED,
+        
+        /// <remarks/>
+        CLOSED,
+        
+        /// <remarks/>
+        ARCHIVED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class ProjectTimesStatusRequestType
+    {
+        
+        private long[] idsField;
+        
+        private ProjectTimeStatus statusField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("ids", Order=0)]
+        public long[] ids
+        {
+            get
+            {
+                return this.idsField;
+            }
+            set
+            {
+                this.idsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public ProjectTimeStatus status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public enum ProjectTimeStatus
+    {
+        
+        /// <remarks/>
+        CHANGEABLE,
+        
+        /// <remarks/>
+        LOCKED,
+        
+        /// <remarks/>
+        APPROVED,
+        
+        /// <remarks/>
+        CLEARED,
+        
+        /// <remarks/>
+        CLOSED,
+        
+        /// <remarks/>
+        ARCHIVED,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class WorkItem
+    {
+        
+        private string externalIdField;
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private string uuidField;
+        
+        private string shortNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string shortName
+        {
+            get
+            {
+                return this.shortNameField;
+            }
+            set
+            {
+                this.shortNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DriveLogQuery))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProjectTimeQuery))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WorkTimeQuery))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class RecordQuery
+    {
+        
+        private string externalUserIdField;
+        
+        private System.Nullable<System.DateTime> startField;
+        
+        private bool startFieldSpecified;
+        
+        private System.Nullable<System.DateTime> endField;
+        
+        private bool endFieldSpecified;
+        
+        private System.Nullable<System.DateTime> lastModifiedField;
+        
+        private bool lastModifiedFieldSpecified;
+        
+        private System.Nullable<bool> closedField;
+        
+        private bool closedFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public System.Nullable<System.DateTime> start
+        {
+            get
+            {
+                return this.startField;
+            }
+            set
+            {
+                this.startField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool startSpecified
+        {
+            get
+            {
+                return this.startFieldSpecified;
+            }
+            set
+            {
+                this.startFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public System.Nullable<System.DateTime> end
+        {
+            get
+            {
+                return this.endField;
+            }
+            set
+            {
+                this.endField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool endSpecified
+        {
+            get
+            {
+                return this.endFieldSpecified;
+            }
+            set
+            {
+                this.endFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public System.Nullable<System.DateTime> lastModified
+        {
+            get
+            {
+                return this.lastModifiedField;
+            }
+            set
+            {
+                this.lastModifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool lastModifiedSpecified
+        {
+            get
+            {
+                return this.lastModifiedFieldSpecified;
+            }
+            set
+            {
+                this.lastModifiedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public System.Nullable<bool> closed
+        {
+            get
+            {
+                return this.closedField;
+            }
+            set
+            {
+                this.closedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool closedSpecified
+        {
+            get
+            {
+                return this.closedFieldSpecified;
+            }
+            set
+            {
+                this.closedFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class DriveLogQuery : RecordQuery
+    {
+        
+        private string externalCarIdField;
+        
+        private string routeField;
+        
+        private string purposeField;
+        
+        private string visitedField;
+        
+        private System.Nullable<bool> businessField;
+        
+        private bool businessFieldSpecified;
+        
+        private DriveLogStatus[] statusesField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalCarId
+        {
+            get
+            {
+                return this.externalCarIdField;
+            }
+            set
+            {
+                this.externalCarIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string route
+        {
+            get
+            {
+                return this.routeField;
+            }
+            set
+            {
+                this.routeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string purpose
+        {
+            get
+            {
+                return this.purposeField;
+            }
+            set
+            {
+                this.purposeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string visited
+        {
+            get
+            {
+                return this.visitedField;
+            }
+            set
+            {
+                this.visitedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public System.Nullable<bool> business
+        {
+            get
+            {
+                return this.businessField;
+            }
+            set
+            {
+                this.businessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool businessSpecified
+        {
+            get
+            {
+                return this.businessFieldSpecified;
+            }
+            set
+            {
+                this.businessFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=5)]
+        public DriveLogStatus[] statuses
+        {
+            get
+            {
+                return this.statusesField;
+            }
+            set
+            {
+                this.statusesField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class ProjectTimeQuery : RecordQuery
+    {
+        
+        private string externalTaskIdField;
+        
+        private string descriptionField;
+        
+        private System.Nullable<bool> billableField;
+        
+        private bool billableFieldSpecified;
+        
+        private ProjectTimeStatus[] statusesField;
+        
+        private System.Nullable<bool> includeChildTasksField;
+        
+        private bool includeChildTasksFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public System.Nullable<bool> billable
+        {
+            get
+            {
+                return this.billableField;
+            }
+            set
+            {
+                this.billableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool billableSpecified
+        {
+            get
+            {
+                return this.billableFieldSpecified;
+            }
+            set
+            {
+                this.billableFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=3)]
+        public ProjectTimeStatus[] statuses
+        {
+            get
+            {
+                return this.statusesField;
+            }
+            set
+            {
+                this.statusesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public System.Nullable<bool> includeChildTasks
+        {
+            get
+            {
+                return this.includeChildTasksField;
+            }
+            set
+            {
+                this.includeChildTasksField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeChildTasksSpecified
+        {
+            get
+            {
+                return this.includeChildTasksFieldSpecified;
+            }
+            set
+            {
+                this.includeChildTasksFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class WorkTimeQuery : RecordQuery
+    {
+        
+        private string externalWorkItemIdField;
+        
+        private string descriptionField;
+        
+        private WorkTimeStatus[] statusesField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string externalWorkItemId
+        {
+            get
+            {
+                return this.externalWorkItemIdField;
+            }
+            set
+            {
+                this.externalWorkItemIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("statuses", Order=2)]
+        public WorkTimeStatus[] statuses
+        {
+            get
+            {
+                return this.statusesField;
+            }
+            set
+            {
+                this.statusesField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class User
+    {
+        
+        private string externalIdField;
+        
+        private string loginField;
+        
+        private string firstnameField;
+        
+        private string lastnameField;
+        
+        private string emailField;
+        
+        private bool isAdminField;
+        
+        private System.Nullable<System.DateTime> resignDateField;
+        
+        private bool resignDateFieldSpecified;
+        
+        private System.Nullable<decimal> workingHoursField;
+        
+        private bool workingHoursFieldSpecified;
+        
+        private System.Nullable<bool> isTeamLeaderField;
+        
+        private string uuidField;
+        
+        private System.Nullable<System.DateTime> entryDateField;
+        
+        private bool entryDateFieldSpecified;
+        
+        private string ssoProviderField;
+        
+        private string ssoIdentifierField;
+        
+        public User()
+        {
+            this.isTeamLeaderField = false;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string login
+        {
+            get
+            {
+                return this.loginField;
+            }
+            set
+            {
+                this.loginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string firstname
+        {
+            get
+            {
+                return this.firstnameField;
+            }
+            set
+            {
+                this.firstnameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string lastname
+        {
+            get
+            {
+                return this.lastnameField;
+            }
+            set
+            {
+                this.lastnameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string email
+        {
+            get
+            {
+                return this.emailField;
+            }
+            set
+            {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool isAdmin
+        {
+            get
+            {
+                return this.isAdminField;
+            }
+            set
+            {
+                this.isAdminField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=6)]
+        public System.Nullable<System.DateTime> resignDate
+        {
+            get
+            {
+                return this.resignDateField;
+            }
+            set
+            {
+                this.resignDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool resignDateSpecified
+        {
+            get
+            {
+                return this.resignDateFieldSpecified;
+            }
+            set
+            {
+                this.resignDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public System.Nullable<decimal> workingHours
+        {
+            get
+            {
+                return this.workingHoursField;
+            }
+            set
+            {
+                this.workingHoursField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool workingHoursSpecified
+        {
+            get
+            {
+                return this.workingHoursFieldSpecified;
+            }
+            set
+            {
+                this.workingHoursFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public System.Nullable<bool> isTeamLeader
+        {
+            get
+            {
+                return this.isTeamLeaderField;
+            }
+            set
+            {
+                this.isTeamLeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date", IsNullable=true, Order=10)]
+        public System.Nullable<System.DateTime> entryDate
+        {
+            get
+            {
+                return this.entryDateField;
+            }
+            set
+            {
+                this.entryDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool entryDateSpecified
+        {
+            get
+            {
+                return this.entryDateFieldSpecified;
+            }
+            set
+            {
+                this.entryDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
+        public string ssoProvider
+        {
+            get
+            {
+                return this.ssoProviderField;
+            }
+            set
+            {
+                this.ssoProviderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
+        public string ssoIdentifier
+        {
+            get
+            {
+                return this.ssoIdentifierField;
+            }
+            set
+            {
+                this.ssoIdentifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DriveLog))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProjectTime))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WorkTime))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class Record
+    {
+        
+        private long idField;
+        
+        private string externalUserIdField;
+        
+        private System.DateTime startTimeField;
+        
+        private string startTimeZoneField;
+        
+        private System.DateTime endTimeField;
+        
+        private string endTimeZoneField;
+        
+        private long durationField;
+        
+        private Position startPositionField;
+        
+        private Position endPositionField;
+        
+        private bool closedField;
+        
+        private bool changedField;
+        
+        private System.DateTime lastModifiedTimeField;
+        
+        private string lastModifiedTimeZoneField;
+        
+        private int breakTimeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public long id
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string externalUserId
+        {
+            get
+            {
+                return this.externalUserIdField;
+            }
+            set
+            {
+                this.externalUserIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public System.DateTime startTime
+        {
+            get
+            {
+                return this.startTimeField;
+            }
+            set
+            {
+                this.startTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string startTimeZone
+        {
+            get
+            {
+                return this.startTimeZoneField;
+            }
+            set
+            {
+                this.startTimeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public System.DateTime endTime
+        {
+            get
+            {
+                return this.endTimeField;
+            }
+            set
+            {
+                this.endTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string endTimeZone
+        {
+            get
+            {
+                return this.endTimeZoneField;
+            }
+            set
+            {
+                this.endTimeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public long duration
+        {
+            get
+            {
+                return this.durationField;
+            }
+            set
+            {
+                this.durationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public Position startPosition
+        {
+            get
+            {
+                return this.startPositionField;
+            }
+            set
+            {
+                this.startPositionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public Position endPosition
+        {
+            get
+            {
+                return this.endPositionField;
+            }
+            set
+            {
+                this.endPositionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public bool closed
+        {
+            get
+            {
+                return this.closedField;
+            }
+            set
+            {
+                this.closedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public bool changed
+        {
+            get
+            {
+                return this.changedField;
+            }
+            set
+            {
+                this.changedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public System.DateTime lastModifiedTime
+        {
+            get
+            {
+                return this.lastModifiedTimeField;
+            }
+            set
+            {
+                this.lastModifiedTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public string lastModifiedTimeZone
+        {
+            get
+            {
+                return this.lastModifiedTimeZoneField;
+            }
+            set
+            {
+                this.lastModifiedTimeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public int breakTime
+        {
+            get
+            {
+                return this.breakTimeField;
+            }
+            set
+            {
+                this.breakTimeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class DriveLog : Record
+    {
+        
+        private string externalCarIdField;
+        
+        private long startMileageField;
+        
+        private long endMileageField;
+        
+        private string routeField;
+        
+        private string purposeField;
+        
+        private string visitedField;
+        
+        private bool businessField;
+        
+        private System.Nullable<DriveLogStatus> statusField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        private string userUuidField;
+        
+        private string carUuidField;
+        
+        public DriveLog()
+        {
+            this.statusField = DriveLogStatus.CHANGEABLE;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalCarId
+        {
+            get
+            {
+                return this.externalCarIdField;
+            }
+            set
+            {
+                this.externalCarIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public long startMileage
+        {
+            get
+            {
+                return this.startMileageField;
+            }
+            set
+            {
+                this.startMileageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public long endMileage
+        {
+            get
+            {
+                return this.endMileageField;
+            }
+            set
+            {
+                this.endMileageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string route
+        {
+            get
+            {
+                return this.routeField;
+            }
+            set
+            {
+                this.routeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string purpose
+        {
+            get
+            {
+                return this.purposeField;
+            }
+            set
+            {
+                this.purposeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string visited
+        {
+            get
+            {
+                return this.visitedField;
+            }
+            set
+            {
+                this.visitedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public bool business
+        {
+            get
+            {
+                return this.businessField;
+            }
+            set
+            {
+                this.businessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        [System.ComponentModel.DefaultValueAttribute(DriveLogStatus.CHANGEABLE)]
+        public System.Nullable<DriveLogStatus> status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=13)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=14)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=15)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        public string carUuid
+        {
+            get
+            {
+                return this.carUuidField;
+            }
+            set
+            {
+                this.carUuidField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class ProjectTime : Record
+    {
+        
+        private string externalTaskIdField;
+        
+        private string taskBreadCrumbsField;
+        
+        private string descriptionField;
+        
+        private bool billableField;
+        
+        private System.Nullable<ProjectTimeStatus> statusField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        private string userUuidField;
+        
+        private string taskUuidField;
+        
+        private System.Nullable<decimal> hourlyRateField;
+        
+        private bool hourlyRateFieldSpecified;
+        
+        private System.Nullable<decimal> hourlyRateInternalField;
+        
+        private bool hourlyRateInternalFieldSpecified;
+        
+        public ProjectTime()
+        {
+            this.statusField = ProjectTimeStatus.CHANGEABLE;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalTaskId
+        {
+            get
+            {
+                return this.externalTaskIdField;
+            }
+            set
+            {
+                this.externalTaskIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string taskBreadCrumbs
+        {
+            get
+            {
+                return this.taskBreadCrumbsField;
+            }
+            set
+            {
+                this.taskBreadCrumbsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool billable
+        {
+            get
+            {
+                return this.billableField;
+            }
+            set
+            {
+                this.billableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        [System.ComponentModel.DefaultValueAttribute(ProjectTimeStatus.CHANGEABLE)]
+        public System.Nullable<ProjectTimeStatus> status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=11)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=12)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public string taskUuid
+        {
+            get
+            {
+                return this.taskUuidField;
+            }
+            set
+            {
+                this.taskUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=15)]
+        public System.Nullable<decimal> hourlyRate
+        {
+            get
+            {
+                return this.hourlyRateField;
+            }
+            set
+            {
+                this.hourlyRateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hourlyRateSpecified
+        {
+            get
+            {
+                return this.hourlyRateFieldSpecified;
+            }
+            set
+            {
+                this.hourlyRateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=16)]
+        public System.Nullable<decimal> hourlyRateInternal
+        {
+            get
+            {
+                return this.hourlyRateInternalField;
+            }
+            set
+            {
+                this.hourlyRateInternalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hourlyRateInternalSpecified
+        {
+            get
+            {
+                return this.hourlyRateInternalFieldSpecified;
+            }
+            set
+            {
+                this.hourlyRateInternalFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class WorkTime : Record
+    {
+        
+        private string externalWorkItemIdField;
+        
+        private string descriptionField;
+        
+        private System.Nullable<WorkTimeStatus> statusField;
+        
+        private string uuidField;
+        
+        private string customField1Field;
+        
+        private string customField2Field;
+        
+        private string customField3Field;
+        
+        private string customField4Field;
+        
+        private string customField5Field;
+        
+        private string customField6Field;
+        
+        private string customField7Field;
+        
+        private string userUuidField;
+        
+        private string workItemUuidField;
+        
+        public WorkTime()
+        {
+            this.statusField = WorkTimeStatus.CHANGEABLE;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalWorkItemId
+        {
+            get
+            {
+                return this.externalWorkItemIdField;
+            }
+            set
+            {
+                this.externalWorkItemIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=2)]
+        [System.ComponentModel.DefaultValueAttribute(WorkTimeStatus.CHANGEABLE)]
+        public System.Nullable<WorkTimeStatus> status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string customField1
+        {
+            get
+            {
+                return this.customField1Field;
+            }
+            set
+            {
+                this.customField1Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string customField2
+        {
+            get
+            {
+                return this.customField2Field;
+            }
+            set
+            {
+                this.customField2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=6)]
+        public string customField3
+        {
+            get
+            {
+                return this.customField3Field;
+            }
+            set
+            {
+                this.customField3Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public string customField4
+        {
+            get
+            {
+                return this.customField4Field;
+            }
+            set
+            {
+                this.customField4Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=8)]
+        public string customField5
+        {
+            get
+            {
+                return this.customField5Field;
+            }
+            set
+            {
+                this.customField5Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=9)]
+        public string customField6
+        {
+            get
+            {
+                return this.customField6Field;
+            }
+            set
+            {
+                this.customField6Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=10)]
+        public string customField7
+        {
+            get
+            {
+                return this.customField7Field;
+            }
+            set
+            {
+                this.customField7Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string userUuid
+        {
+            get
+            {
+                return this.userUuidField;
+            }
+            set
+            {
+                this.userUuidField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public string workItemUuid
+        {
+            get
+            {
+                return this.workItemUuidField;
+            }
+            set
+            {
+                this.workItemUuidField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://timr.com/timrsync")]
+    public partial class Car
+    {
+        
+        private string externalIdField;
+        
+        private string nameField;
+        
+        private string plateField;
+        
+        private string uuidField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string externalId
+        {
+            get
+            {
+                return this.externalIdField;
+            }
+            set
+            {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string name
+        {
+            get
+            {
+                return this.nameField;
+            }
+            set
+            {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string plate
+        {
+            get
+            {
+                return this.plateField;
+            }
+            set
+            {
+                this.plateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string uuid
+        {
+            get
+            {
+                return this.uuidField;
+            }
+            set
+            {
+                this.uuidField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskWithSubTasksByUUIDRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskWithSubTasksByUUIDRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetTaskWithSubTasksByUUIDRequest1;
+        
+        public GetTaskWithSubTasksByUUIDRequest()
+        {
+        }
+        
+        public GetTaskWithSubTasksByUUIDRequest(string GetTaskWithSubTasksByUUIDRequest1)
+        {
+            this.GetTaskWithSubTasksByUUIDRequest1 = GetTaskWithSubTasksByUUIDRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskWithSubTasksByUUIDResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskWithSubTasksByUUIDResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Task GetTaskWithSubTasksByUUIDResponse1;
+        
+        public GetTaskWithSubTasksByUUIDResponse()
+        {
+        }
+        
+        public GetTaskWithSubTasksByUUIDResponse(timrlink.net.Core.API.Task GetTaskWithSubTasksByUUIDResponse1)
+        {
+            this.GetTaskWithSubTasksByUUIDResponse1 = GetTaskWithSubTasksByUUIDResponse1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateCarRequest
     {
@@ -4202,7 +4272,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateCarResponse
     {
@@ -4221,7 +4291,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class GetTasksRequest
@@ -4341,7 +4411,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTasksRequest1
     {
@@ -4360,7 +4430,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTasksResponse
     {
@@ -4380,7 +4450,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveWorkTimeRequest
     {
@@ -4399,7 +4469,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveWorkTimeResponse
     {
@@ -4418,7 +4488,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddCarRequest
     {
@@ -4437,7 +4507,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddCarResponse
     {
@@ -4456,7 +4526,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningDriveLogsRequest
     {
@@ -4475,7 +4545,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningDriveLogsResponse
     {
@@ -4495,7 +4565,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class RemoveUserFromGroupRequest
@@ -4551,7 +4621,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveUserFromGroupRequest1
     {
@@ -4570,7 +4640,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveUserFromGroupResponse
     {
@@ -4589,7 +4659,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteUserRequest
     {
@@ -4608,7 +4678,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteUserResponse
     {
@@ -4627,7 +4697,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetWorkTimesRequest
     {
@@ -4646,7 +4716,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetWorkTimesResponse
     {
@@ -4666,7 +4736,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class AssignLeaderToGroupRequest
@@ -4722,7 +4792,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignLeaderToGroupRequest1
     {
@@ -4741,7 +4811,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignLeaderToGroupResponse
     {
@@ -4760,7 +4830,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddUserRequest
     {
@@ -4779,7 +4849,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddUserResponse
     {
@@ -4798,7 +4868,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class RemoveGroupFromTaskRequest
@@ -4854,7 +4924,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveGroupFromTaskRequest1
     {
@@ -4873,7 +4943,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveGroupFromTaskResponse
     {
@@ -4892,7 +4962,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningWorkTimesRequest
     {
@@ -4911,7 +4981,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningWorkTimesResponse
     {
@@ -4931,7 +5001,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteWorkItemRequest
     {
@@ -4950,7 +5020,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteWorkItemResponse
     {
@@ -4969,7 +5039,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateCarIdRequest
@@ -5009,7 +5079,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateCarIdRequest1
     {
@@ -5028,7 +5098,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateCarIdResponse
     {
@@ -5047,7 +5117,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddTaskRequest
     {
@@ -5066,7 +5136,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddTaskResponse
     {
@@ -5085,7 +5155,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveDriveLogRequest
     {
@@ -5104,7 +5174,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveDriveLogResponse
     {
@@ -5123,7 +5193,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateGroupIdRequest
@@ -5163,7 +5233,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateGroupIdRequest1
     {
@@ -5182,7 +5252,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateGroupIdResponse
     {
@@ -5201,7 +5271,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetWorkItemsRequest
     {
@@ -5220,7 +5290,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetWorkItemsResponse
     {
@@ -5240,7 +5310,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupUsersRequest
     {
@@ -5259,7 +5329,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupUsersResponse
     {
@@ -5279,7 +5349,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class AssignGroupToTaskRequest
@@ -5335,7 +5405,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignGroupToTaskRequest1
     {
@@ -5354,7 +5424,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignGroupToTaskResponse
     {
@@ -5373,7 +5443,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class SetGroupExternalIdRequest
@@ -5429,7 +5499,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetGroupExternalIdRequest1
     {
@@ -5448,7 +5518,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetGroupExternalIdResponse
     {
@@ -5467,7 +5537,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetDriveLogsStatusRequest
     {
@@ -5486,7 +5556,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetDriveLogsStatusResponse
     {
@@ -5505,7 +5575,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UnlockProjectTimesRequest
     {
@@ -5525,7 +5595,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UnlockProjectTimesResponse
     {
@@ -5544,7 +5614,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateUserRequest
     {
@@ -5563,7 +5633,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateUserResponse
     {
@@ -5582,7 +5652,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetUsersRequest
     {
@@ -5601,7 +5671,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetUsersResponse
     {
@@ -5621,7 +5691,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTaskRequest
     {
@@ -5640,7 +5710,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTaskResponse
     {
@@ -5659,7 +5729,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetProjectTimesRequest
     {
@@ -5678,7 +5748,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetProjectTimesResponse
     {
@@ -5698,7 +5768,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteTaskByUUIDRequest
     {
@@ -5717,7 +5787,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteTaskByUUIDResponse
     {
@@ -5736,7 +5806,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddGroupRequest
     {
@@ -5755,7 +5825,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddGroupResponse
     {
@@ -5774,7 +5844,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateGroupRequest
     {
@@ -5793,7 +5863,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateGroupResponse
     {
@@ -5812,7 +5882,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteUserByUUIDRequest
     {
@@ -5831,7 +5901,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteUserByUUIDResponse
     {
@@ -5850,7 +5920,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetDriveLogsRequest
     {
@@ -5869,7 +5939,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetDriveLogsResponse
     {
@@ -5889,7 +5959,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetCarsRequest
     {
@@ -5908,7 +5978,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetCarsResponse
     {
@@ -5928,7 +5998,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetProjectTimesStatusRequest
     {
@@ -5947,7 +6017,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetProjectTimesStatusResponse
     {
@@ -5966,7 +6036,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class GetGroupsRequest
@@ -5990,7 +6060,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupsRequest1
     {
@@ -6009,7 +6079,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupsResponse
     {
@@ -6029,7 +6099,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class SetTaskExternalIdRequest
@@ -6085,7 +6155,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetTaskExternalIdRequest1
     {
@@ -6104,7 +6174,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetTaskExternalIdResponse
     {
@@ -6123,7 +6193,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteWorkItemByUUIDRequest
     {
@@ -6142,7 +6212,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteWorkItemByUUIDResponse
     {
@@ -6161,7 +6231,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetWorkTimesStatusRequest
     {
@@ -6180,7 +6250,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SetWorkTimesStatusResponse
     {
@@ -6199,7 +6269,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTaskByUUIDRequest
     {
@@ -6218,7 +6288,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetTaskByUUIDResponse
     {
@@ -6237,7 +6307,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class AssignUserToGroupRequest
@@ -6293,7 +6363,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignUserToGroupRequest1
     {
@@ -6312,7 +6382,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignUserToGroupResponse
     {
@@ -6331,7 +6401,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddWorkItemRequest
     {
@@ -6350,7 +6420,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AddWorkItemResponse
     {
@@ -6369,7 +6439,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class RemoveCarFromUserRequest
@@ -6441,7 +6511,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveCarFromUserRequest1
     {
@@ -6460,7 +6530,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveCarFromUserResponse
     {
@@ -6479,7 +6549,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class AssignTaskToUserRequest
@@ -6551,7 +6621,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignTaskToUserRequest1
     {
@@ -6570,7 +6640,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignTaskToUserResponse
     {
@@ -6589,7 +6659,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningProjectTimesRequest
     {
@@ -6608,7 +6678,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetRunningProjectTimesResponse
     {
@@ -6628,7 +6698,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupLeadersRequest
     {
@@ -6647,7 +6717,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupLeadersResponse
     {
@@ -6667,7 +6737,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateWorkItemIdRequest
@@ -6707,7 +6777,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateWorkItemIdRequest1
     {
@@ -6726,7 +6796,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateWorkItemIdResponse
     {
@@ -6745,7 +6815,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateUserIdRequest
@@ -6785,7 +6855,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateUserIdRequest1
     {
@@ -6804,7 +6874,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateUserIdResponse
     {
@@ -6823,7 +6893,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveProjectTimeRequest
     {
@@ -6842,7 +6912,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class SaveProjectTimeResponse
     {
@@ -6861,7 +6931,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateTaskRequest
     {
@@ -6880,7 +6950,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateTaskResponse
     {
@@ -6899,7 +6969,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteTaskRequest
     {
@@ -6918,7 +6988,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteTaskResponse
     {
@@ -6937,7 +7007,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class RemoveTaskFromUserRequest
@@ -7009,7 +7079,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveTaskFromUserRequest1
     {
@@ -7028,7 +7098,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveTaskFromUserResponse
     {
@@ -7046,8 +7116,46 @@ namespace timrlink.net.Core.API
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskWithSubTasksRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskWithSubTasksRequest", Namespace="http://timr.com/timrsync", Order=0)]
+        public string GetTaskWithSubTasksRequest1;
+        
+        public GetTaskWithSubTasksRequest()
+        {
+        }
+        
+        public GetTaskWithSubTasksRequest(string GetTaskWithSubTasksRequest1)
+        {
+            this.GetTaskWithSubTasksRequest1 = GetTaskWithSubTasksRequest1;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetTaskWithSubTasksResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetTaskWithSubTasksResponse", Namespace="http://timr.com/timrsync", Order=0)]
+        public timrlink.net.Core.API.Task GetTaskWithSubTasksResponse1;
+        
+        public GetTaskWithSubTasksResponse()
+        {
+        }
+        
+        public GetTaskWithSubTasksResponse(timrlink.net.Core.API.Task GetTaskWithSubTasksResponse1)
+        {
+            this.GetTaskWithSubTasksResponse1 = GetTaskWithSubTasksResponse1;
+        }
+    }
+    
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class RemoveLeaderFromGroupRequest
@@ -7103,7 +7211,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveLeaderFromGroupRequest1
     {
@@ -7122,7 +7230,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class RemoveLeaderFromGroupResponse
     {
@@ -7141,7 +7249,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class UpdateTaskIdRequest
@@ -7181,7 +7289,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateTaskIdRequest1
     {
@@ -7200,7 +7308,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateTaskIdResponse
     {
@@ -7219,7 +7327,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateWorkItemRequest
     {
@@ -7238,7 +7346,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class UpdateWorkItemResponse
     {
@@ -7257,7 +7365,7 @@ namespace timrlink.net.Core.API
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://timr.com/timrsync")]
     public partial class AssignCarToUserRequest
@@ -7329,7 +7437,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignCarToUserRequest1
     {
@@ -7348,7 +7456,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class AssignCarToUserResponse
     {
@@ -7367,7 +7475,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteGroupRequest
     {
@@ -7386,7 +7494,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteGroupResponse
     {
@@ -7405,7 +7513,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class InviteUserRequest
     {
@@ -7424,7 +7532,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class InviteUserResponse
     {
@@ -7443,7 +7551,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class LockProjectTimesRequest
     {
@@ -7463,7 +7571,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteCarByUUIDRequest
     {
@@ -7482,7 +7590,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class DeleteCarByUUIDResponse
     {
@@ -7501,7 +7609,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupRequest
     {
@@ -7520,7 +7628,7 @@ namespace timrlink.net.Core.API
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class GetGroupResponse
     {
@@ -7538,13 +7646,13 @@ namespace timrlink.net.Core.API
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     public interface TimrSyncChannel : timrlink.net.Core.API.TimrSync, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0-preview1.24619.5")]
     public partial class TimrSyncClient : System.ServiceModel.ClientBase<timrlink.net.Core.API.TimrSync>, timrlink.net.Core.API.TimrSync
     {
         
@@ -7591,6 +7699,11 @@ namespace timrlink.net.Core.API
         public System.Threading.Tasks.Task<timrlink.net.Core.API.DeleteCarResponse> DeleteCarAsync(timrlink.net.Core.API.DeleteCarRequest request)
         {
             return base.Channel.DeleteCarAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskWithSubTasksByUUIDResponse> GetTaskWithSubTasksByUUIDAsync(timrlink.net.Core.API.GetTaskWithSubTasksByUUIDRequest request)
+        {
+            return base.Channel.GetTaskWithSubTasksByUUIDAsync(request);
         }
         
         public System.Threading.Tasks.Task<timrlink.net.Core.API.UpdateCarResponse> UpdateCarAsync(timrlink.net.Core.API.UpdateCarRequest request)
@@ -7848,6 +7961,11 @@ namespace timrlink.net.Core.API
             return base.Channel.RemoveTaskFromUserAsync(request);
         }
         
+        public System.Threading.Tasks.Task<timrlink.net.Core.API.GetTaskWithSubTasksResponse> GetTaskWithSubTasksAsync(timrlink.net.Core.API.GetTaskWithSubTasksRequest request)
+        {
+            return base.Channel.GetTaskWithSubTasksAsync(request);
+        }
+        
         public System.Threading.Tasks.Task<timrlink.net.Core.API.RemoveLeaderFromGroupResponse> RemoveLeaderFromGroupAsync(timrlink.net.Core.API.RemoveLeaderFromGroupRequest1 request)
         {
             return base.Channel.RemoveLeaderFromGroupAsync(request);
@@ -7898,10 +8016,12 @@ namespace timrlink.net.Core.API
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
         }
         
+        #if !NET6_0_OR_GREATER
         public virtual System.Threading.Tasks.Task CloseAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginClose(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndClose));
         }
+        #endif
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
